@@ -16,17 +16,6 @@ a {color:#00AEED;}
 sup {font-size:0.5em;color:#00AEED;}
 * {font-family:"Microsoft Yahei";font-weight:lighter;text-decoration:none;}
 </style>
-<script type="text/javascript">
-    $(function(){
-        $("span").on("click", function(){
-            var selection = window.getSelection();        
-            selection.removeAllRanges();
-            var range = document.createRange();
-            range.selectNodeContents(document.getElementById($(this).attr('id'))); //span需要设置id
-            selection.addRange(range);
-        })
-    })
-</script>
 </head>
 <body style="text-align: left;">
 <table cellspacing="0" cellpadding="0">
@@ -49,7 +38,7 @@ sup {font-size:0.5em;color:#00AEED;}
 </p>
 
 <!--p>
-查看KMS服务器当前在线状态（每小时更新）：<a href="https://ikms.eu.org" target="_blank">bid.v0v.bid</a><br><br>
+查看KMS服务器当前在线状态（每小时更新）：<a href="https://ikms.eu.org" target="_blank">ikms.eu.org</a><br><br>
 
 电脑工程师如何实时监控 ikms.eu.org 在线状态，接收短信、邮件警报：<br>
 1.注册 https://www.jiankongbao.com 或者其它类似监控系统；<br>
@@ -87,7 +76,7 @@ SW_DVD9_Win_Pro_11_22H2_64BIT_ChnSimp_Pro_Ent_EDU_N_MLF_X23-12741.ISO
 开始菜单-搜索“cmd”-找到“命令提示符”-右键“以管理员身份运行”。<br><br>
 2.执行以下命令（复制命令-右键粘贴）<br><br>
 
-<span style="color:red" id="copy01">slmgr /skms ikms.eu.org &amp;&amp; slmgr /ato</span><br><br>
+<span style="color:red" id="copy01">slmgr /skms s.ikms.eu.org &amp;&amp; slmgr /ato</span><br><br>
 
 大部分情况下 你能下载到的系统镜像都是VOL版（Business版）仅需以上一步即可<span style="font-weight:bold;">成功激活</span>。<br><br>
 
@@ -122,7 +111,7 @@ VK7JG-NPHTM-C97JM-9MPGT-3V66T<br><br>
 
 2.激活。按提示升级后打开命令提示符(管理员)逐行执行以下命令：<br>
 slmgr /ipk NPPR9-FWDCX-D2C8J-H872K-2YT43<br>
-slmgr /skms ikms.eu.org &amp;&amp; slmgr /ato<br><br>
+slmgr /skms s.ikms.eu.org &amp;&amp; slmgr /ato<br><br>
 
 同样的方法可以升级为专业版、教育版等，以及版本退回切换（政府版不可逆） 。升级密钥在文末“附1”。<br><br>
 
@@ -168,7 +157,7 @@ cd C:\Program Files\Microsoft Office\Office14<br><br>
 
 完成上一步骤后，执行以下命令。<br><br>
 
-<span style="color:red" id="copy03">cscript ospp.vbs /sethst:ikms.eu.org &amp;&amp; cscript ospp.vbs /act</span><br><br>
+<span style="color:red" id="copy03">cscript ospp.vbs /sethst:s.ikms.eu.org &amp;&amp; cscript ospp.vbs /act</span><br><br>
 
 大部分情况下 你能下载到的安装包都是VOL版 仅需以上两步即可<span style="font-weight:bold;">成功激活</span>。<br><br>
 
@@ -212,7 +201,7 @@ for /f %x in ('dir /b ..\root\Licenses16\proplusvl_mak*.xrm-ms') do cscript ospp
 cscript ospp.vbs /inpkey:XQNVK-8JYDB-WJ9W3-YJ8YR-WFG99<br><br>
 
 4.激活 Office<br>
-cscript ospp.vbs /sethst:ikms.eu.org &amp;&amp; cscript ospp.vbs /act<br><br>
+cscript ospp.vbs /sethst:s.ikms.eu.org &amp;&amp; cscript ospp.vbs /act<br><br>
 
 全新装机请直接部署VOL版，本文末有下载链接。不推荐RTL转VOL的方式装机。
 </p>
@@ -340,14 +329,14 @@ VK7JG-NPHTM-C97JM-9MPGT-3V66T<br><br>
 
 2.激活。按提示升级后打开命令提示符(管理员)逐行执行以下命令：<br>
 slmgr /ipk YYVX9-NTFWV-6MDM3-9PT4T-4M68B<br>
-slmgr /skms ikms.eu.org &amp;&amp; slmgr /ato<br><br>
+slmgr /skms s.ikms.eu.org &amp;&amp; slmgr /ato<br><br>
 
 执行以下命令查看KMS激活期限<br>
 slmgr /xpr<br><br>
 
 温馨提示：<br>
 你也可以直接使用原版 Windows10 神州网信政府版系统镜像安装系统，只需执行以下命令即可激活410年授权。<br>
-slmgr /skms ikms.eu.org &amp;&amp; slmgr /ato<br>
+slmgr /skms s.ikms.eu.org &amp;&amp; slmgr /ato<br>
 支持最新的 V2022-L 版，在下文可以找到官方原版系统镜像的下载链接。<br><br>
 
 通过"升级转换"方式激活的政府版事实上是一个混合版，兼具两者特性，且不具备原本政府版严格的安全策略，更适合普通用户使用。
@@ -377,13 +366,13 @@ https://answers.microsoft.com/zh-hans/windows/forum<br>
 #检测KMS激活服务器运行状态<br>
 下载 <a href="./files/vlmcs.exe" download="vlmcs.exe">vlmcs.exe</a> 到C盘根目录后cmd执行以下命令：<br>
 1.查看运行信息<br>
-C:\vlmcs.exe -v ikms.eu.org<br>
+C:\vlmcs.exe -v s.ikms.eu.org<br>
 2.查看可激活版本<br>
-C:\vlmcs.exe -x ikms.eu.org<br>
+C:\vlmcs.exe -x s.ikms.eu.org<br>
 3.查看帮助<br>
-C:\vlmcs.exe -h ikms.eu.org<br>
+C:\vlmcs.exe -h s.ikms.eu.org<br>
 4.Windows11/10激活测试<br>
-C:\vlmcs.exe -l 1 ikms.eu.org
+C:\vlmcs.exe -l 1 s.ikms.eu.org
 </p>
 
 <p>
@@ -407,7 +396,7 @@ cscript ospp.vbs /remhst<br>
 cscript ospp.vbs /rearm
 </p>
 
-<h4>6.批处理 BAT 一键工具脚本（解压密码：https://ikms.eu.org）</h4>
+<h4>6.批处理 BAT 一键工具脚本（解压密码：https://v0v.bid）</h4>
 
 <p>
 如果你使用命令提示符激活有困难，或者你是电脑技术员，本站同时提供了开源绿色的BAT便捷脚本。<br><br>
@@ -1203,7 +1192,7 @@ ed2k://|file|SW_DVD5_Office_Professional_Plus_2010w_SP1_64Bit_ChnSimp_CORE_MLF_X
 2.执行命令（复制命令-右键粘贴）<br><br>
 
 万能激活命令<br>
-<span style="color:red" id="copy05">slmgr /skms ikms.eu.org; slmgr /ato;</span><br><br>
+<span style="color:red" id="copy05">slmgr /skms s.ikms.eu.org; slmgr /ato;</span><br><br>
 
 万能修复命令<br>
 <span style="color:red" id="copy06">dism /online /cleanup-image /restorehealth; sfc /scannow;</span>
@@ -1215,14 +1204,14 @@ ed2k://|file|SW_DVD5_Office_Professional_Plus_2010w_SP1_64Bit_ChnSimp_CORE_MLF_X
 如果你经常帮助朋友安装系统，但每次都来网站复制粘贴命令，显然有损你“大神”的形象！下面跟我背诵这条命令：<br>
 slmgr 是 Software License Manager 的缩写，译为：软件许可证管理器，我们把命令分解为两行记忆。<br><br>
 
-slmgr /skms ikms.eu.org<br>
+slmgr /skms s.ikms.eu.org<br>
 slmgr /ato<br><br>
 
 skms中的s是 “specify” 缩写，译为：指定kms主机<br>
 ato 可以理解为是 “自动” 的缩写。<br><br>
 
 好了，现在开始背诵：<br>
-1.使用软件许可证管理器指定kms主机为ikms.eu.org，2.使用软件许可证管理器自动激活。<br>
+1.使用软件许可证管理器指定kms主机为s.ikms.eu.org，2.使用软件许可证管理器自动激活。<br>
 (参数使用斜杠/分割，两条命令使用&amp;&amp;连接。)<br><br>
 
 官方文档：
