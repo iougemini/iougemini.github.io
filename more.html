@@ -16,6 +16,17 @@ a {color:#00AEED;}
 sup {font-size:0.5em;color:#00AEED;}
 * {font-family:"Microsoft Yahei";font-weight:lighter;text-decoration:none;}
 </style>
+<script type="text/javascript">
+    $(function(){
+        $("span").on("click", function(){
+            var selection = window.getSelection();        
+            selection.removeAllRanges();
+            var range = document.createRange();
+            range.selectNodeContents(document.getElementById($(this).attr('id'))); //span需要设置id
+            selection.addRange(range);
+        })
+    })
+</script>
 </head>
 <body style="text-align: center;">
 <table cellspacing="0" cellpadding="0">
