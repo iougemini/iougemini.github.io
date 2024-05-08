@@ -1,1 +1,2 @@
-# iougemini.github.io
+# 高仿v0v的KMS服务
+欢迎大家投稿 https://github.com/iougemini/iougemini.github.io/issues/1
