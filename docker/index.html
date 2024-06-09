@@ -85,7 +85,7 @@
 </head>
 <body>
 <div class="container">
-<center><img src="https://www.anyhub.us.kg/img/logo.png" width="260em"><br><h1>DockerHub 镜像加速代理</h1></center>
+<center><img src="https://www.anyhub.us.kg/img/logo.png" width="260em" style="margin-top: -25px;"><br><h1>DockerHub 镜像加速代理</h1></center>
 <h3>设置 registry mirror</h3>
 <pre><code>
 sudo tee /etc/docker/daemon.json &lt;&lt;EOF
@@ -95,13 +95,13 @@ sudo tee /etc/docker/daemon.json &lt;&lt;EOF
 EOF</code><button class="copy-button" onclick="copyCode(this)">复制代码</button></pre>
 <pre><code>
 sudo systemctl daemon-reload && sudo systemctl restart docker</code><button class="copy-button" onclick="copyCode(this)">复制代码</button></pre>
-<h3>使用</h3>
-<h4 style="font-weight: 400;">原拉取镜像命令：</h4>
+<h3>使用docker hub proxy</h3>
+<h4 style="font-weight: 400;">将原拉取镜像命令：</h4>
 <pre><code>
-docker pull library/alpine:latest</code><button class="copy-button" onclick="copyCode(this)">复制代码</button></pre>
-<h4 style="font-weight: 400;">加速拉取镜像命令：</h4>
+docker pull _/hello-world</code><button class="copy-button" onclick="copyCode(this)">复制代码</button></pre>
+<h4 style="font-weight: 400;">替换为下面的加速拉取镜像命令：</h4>
 <pre><code>
-docker pull docker.anyhub.us.kg/library/alpine:latest</code><button class="copy-button" onclick="copyCode(this)">复制代码</button></pre>
+docker pull docker.anyhub.us.kg/_/hello-world</code><button class="copy-button" onclick="copyCode(this)">复制代码</button></pre>
 <center style="margin-top: 2rem;"><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" class="custom-button">COPYRIGHT BY-NC-SA 4.0</a> | <a href="https://ikms.eu.org" class="custom-button">KMS ACTIVATION</a> | <a href="https://docker.anyhub.us.kg" class="custom-button">DOCKER HUB PROXY</a> | <a href="https://git.niege.us.kg" class="custom-button">GITHUB PROXY</a> | <a href="https://cloudflare.com" class="custom-button">POWERED CLOUDFLARE</a> | <a href="https://linux.do/t/topic/107726" class="custom-button">SOURCE LINUX.DO</a></center>
 </div>
 <script>
