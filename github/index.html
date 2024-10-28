@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <script>
+        function toSubmit(e) {
+            e.preventDefault()
+            window.open(location.href.substr(0, location.href.lastIndexOf('/') + 1) + document.getElementsByName('q')[0].value);
+            return false
+        }
+    </script>
+    <title>GitHub 文件加速</title>
+    <link rel="shortcut icon" href="https://gcore.jsdelivr.net/gh/love2wind/love2wind.github.io/gh-proxy/fav.png">
+<style>
+    html, body {
+        width: 100%;
+        margin: 0;
+    }
+
+    html {
+        height: 100%;
+    }
+
+    body {
+        min-height: 100%;
+        padding: 20px;
+        box-sizing: border-box;
+    }
+
+    p {
+        word-break: break-all;
+    }
+
+    @media (max-width: 500px) {
+        h1 {
+            margin-top: 80px;
+        }
+    }
+
+    .flex {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .block {
+        display: block;
+        position: relative;
+    }
+
+    .url {
+        font-size: 18px;
+        padding: 10px 10px 10px 5px;
+        position: relative;
+        width: 300px;
+        border: none;
+        border-bottom: 1px solid #bfbfbf;
+    }
+
+    input:focus {
+        outline: none;
+    }
+
+    .bar {
+        content: '';
+        height: 2px;
+        width: 100%;
+        bottom: 0;
+        position: absolute;
+        background: #00bfb3;
+        transition: 0.2s ease transform;
+        -moz-transition: 0.2s ease transform;
+        -webkit-transition: 0.2s ease transform;
+        transform: scaleX(0);
+    }
+
+    .url:focus ~ .bar {
+        transform: scaleX(1);
+    }
+
+    .btn {
+        line-height: 38px;
+        background-color: #00bfb3;
+        color: #fff;
+        white-space: nowrap;
+        text-align: center;
+        font-size: 14px;
+        border: none;
+        border-radius: 2px;
+        cursor: pointer;
+        padding: 5px;
+        width: 160px;
+        margin: 30px 0;
+    }
+
+    .tips, .example {
+        color: #7b7b7b;
+        position: relative;
+        align-self: flex-start;
+        margin-left: 7.5em;
+    }
+
+    .tips > p:first-child::before {
+        position: absolute;
+        left: -3em;
+        content: 'PS：';
+        color: #7b7b7b
+    }
+
+    .example > p:first-child::before {
+        position: absolute;
+        left: -3em;
+        content: 'EG：';
+        color: #7b7b7b
+    }
+
+
+            pre {
+                background: #2d2d2d;
+                color: #f8f8f2;
+                padding: 20px;
+                border-radius: 5px;
+                overflow-x: auto;
+                position: relative;
+            }
+            pre::before {
+                content: " ";
+                display: block;
+                position: absolute;
+                top: 10px;
+                left: 10px;
+                width: 12px;
+                height: 12px;
+                background: #ff5f56;
+                border-radius: 50%;
+                box-shadow: 20px 0 0 #ffbd2e, 40px 0 0 #27c93f;
+            }
+            code {
+                font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+                font-size: 0.875em;
+            }
+            .copy-button {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                background: #007aff;
+                color: white;
+                border: none;
+                padding: 5px 10px;
+                border-radius: 5px;
+                cursor: pointer;
+                opacity: 0;
+                transition: opacity 0.3s;
+            }
+            pre:hover .copy-button {
+                opacity: 1;
+            }
+            .custom-button {
+                display: inline-block;
+                padding: 0 5px;
+                color: #919ca7;
+                text-align: center;
+                text-decoration: none;
+                font-size: 14px;
+                font-weight: 900;
+                cursor: pointer;
+            }
+            .custom-button:hover {
+                background-color: #7c858e;
+                color: #ffffff;
+            }        
+          article{opacity: 1 !important;display: block !important;}#menu li{opacity: 1;display: block;}
+</style>
+</head>
+<body class="flex">
+<img src="https://gcore.jsdelivr.net/gh/love2wind/love2wind.github.io/gh-proxy/fav.png" width="180px">
+
+<h1 style="font-size: 2em;margin-bottom: .5em;color: #9d0e06;font-weight: 900;" fr-bold-cf60c8ec="">GitHub 文件加速</h1>
+<form action="./" method="get" style="padding-bottom: 20px;display: flex;flex-wrap: nowrap;align-items: center;justify-content: space-between;" target="_blank" onsubmit="toSubmit(event)">
+    <label class="block" style="width: fit-content;">
+        <input class="block url" name="q" type="text" placeholder="键入Github文件链接" pattern="^((https|http):\/\/)?(github\.com\/.+?\/.+?\/(?:releases|archive|blob|raw|suites)|((?:raw|gist)\.(?:githubusercontent|github)\.com))\/.+$" required="">
+        <div class="bar"></div>
+    </label>
+    <input class="block btn" type="submit" value="下载">
+</form>
+    <div style="
+    display: flex;
+    flex-direction: column;
+"><div class="tips"><p>GitHub文件链接带不带协议头都可以，支持release、archive以及文件，右键复制出来的链接都是符合标准的，更多用法、clone加速请参考<a href="https://hunsh.net/archives/23/" style="
+    color: black;
+">这篇文章</a>。</p>
+        <p>release、archive使用cf加速，文件会跳转至JsDelivr</p>
+        <p>注意，不支持项目文件夹</p></div>
+    <div class="example">
+        <p>分支源码：https://github.com/hunshcn/project/archive/master.zip</p>
+        <p>release源码：https://github.com/hunshcn/project/archive/v0.1.0.tar.gz</p>
+        <p>release文件：https://github.com/hunshcn/project/releases/download/v0.1.0/example.zip</p>
+        <p>分支文件：https://github.com/hunshcn/project/blob/master/filename</p>
+    </div></div>
+<center style="margin-top: 2rem;"><p style="color: #2a7903;font-size: 14px;font-weight: 500;">本站使用Cloudflare CDN进行加速，想要获得更好的速度，可以使用<a href="https://github.com/XIU2/CloudflareSpeedTest" class="" style="text-decoration: none; color: #2a7903; font-weight: 900;" fr-bold-cf60c8ec="">优选IP</a>。</p><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" class="custom-button" fr-bold-cf60c8ec="">COPYRIGHT BY-NC-SA 4.0</a> | <a href="https://ikms.eu.org" class="custom-button" fr-bold-cf60c8ec="">KMS ACTIVATION</a> | <a href="https://docker.anyhub.us.kg" class="custom-button" fr-bold-cf60c8ec="">DOCKER HUB PROXY</a> | <a href="https://git.anyhub.us.kg" class="custom-button" fr-bold-cf60c8ec="">GITHUB PROXY</a> | <a href="https://pixiv.anyhub.us.kg" class="custom-button" fr-bold-cf60c8ec="">PIXIV IMAGES PROXY</a> | <a href="https://github.com/hunshcn/gh-proxy" class="custom-button" fr-bold-cf60c8ec="">SOURCE CODE</a> | <a href="https://cloudflare.com" class="custom-button" fr-bold-cf60c8ec="">POWERED CLOUDFLARE</a></center>
+
+
+</body>
+</html>
