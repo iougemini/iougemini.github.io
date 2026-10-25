@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,28 +8,158 @@
 <title>[IKMS]-Windows/Office全系列激活教程-KMS在线激活-KMS激活服务器-Windows11一句命令永久激活-Windows10一句命令永久激活</title>
 <link rel="shortcut icon" href="/img/ikmslogo.png">
 <link rel="bookmark" href="/img/ikmslogo.png">
-<style>
-h1 {font-size:3em;line-height:1em;}
-h4 {font-size:1.2em;font-weight:bold;}
-table {width:100%;height:100%;border:0;}
-a {color:#00AEED;}
-sup {font-size:0.5em;color:#00AEED;}
-* {font-family:"Microsoft Yahei";font-weight:lighter;text-decoration:none;}
-</style>
+<link rel="stylesheet" href="/assets/style.css">
 </head>
-<body style="text-align: left;">
-<table cellspacing="0" cellpadding="0">
-<tbody><tr>
-<td style="word-break:break-all;word-wrap:break-word">
+<body>
 
-<div style="margin-left:3%;margin-right:2%;">
+<div class="ambient" aria-hidden="true"></div>
 
-<h4>[本站永久地址]&nbsp;&nbsp;<a href="https://ikms.eu.org">https://ikms.eu.org</a></h4>
+<nav class="nav">
+  <div class="wrap">
+    <a class="brand" href="./">
+      <img src="/img/ikmslogo.png" alt="iKMS logo">
+      <span>iKMS<span class="tld">.eu.org</span></span>
+    </a>
+    <div class="nav-links">
+      <a href="./">首页</a>
+      <a href="./kms.html">详细教程</a>
+      <a href="./more.html">备用线路</a>
+      <a href="./android.html">自建线路</a>
+      <a href="./status.html">服务器状态</a>
+      <a href="./img.html">演示图例</a>
+    </div>
+    <div class="nav-actions">
+      <button class="icon-btn theme-toggle" aria-label="切换深浅色主题">
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+      </button>
+      <button class="icon-btn nav-burger" aria-label="打开菜单" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </div>
+</nav>
 
-<p>本文内容：使用KMS命令 激活 Windows 系统（教程）、激活 Office 全套（教程）<a href="#mianze">免责声明</a>&nbsp;&nbsp;<a href="./">返回首页</a></p>
+<main class="page wrap">
 
-<p>--支持 Windows Vista/7/8/8.1/10/11 &nbsp; LTSB/LTSC系列 &nbsp; 政府G版 &nbsp; 欧洲N版 &nbsp; 神州网信系列GN版 &nbsp; Windows server 2008/2008R2/2012/2012R2/2016/2019/2022</p>
-<p>--支持 Office 2010/2013/2016/2019/LTSC2021 &nbsp; Office365 &nbsp; Microsoft365</p>
+  <header class="page-head reveal">
+    <span class="eyebrow">Documentation</span>
+    <h1 class="page-title">KMS 激活详细教程</h1>
+    <p class="page-sub">Windows / Office 全系列激活步骤、特例转换、排错手册与 GVLK 密钥表。本站永久地址：<strong style="color:var(--text)">https://ikms.eu.org</strong></p>
+  </header>
+
+  <details class="toc-mobile">
+    <summary>📑 目录<span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span></summary>
+    <nav class="toc" aria-label="目录"><div class="toc-group">
+<span class="toc-group-label">快速上手</span>
+<a href="#intro" title="简介">简介</a>
+<a href="#mirror-choose" title="如何选择原版系统镜像">如何选择原版系统镜像</a>
+<a href="#windows-activate" title="1.Windows 激活方法">1.Windows 激活方法</a>
+<a href="#rtl-to-vol-win" title="[特例] Windows11/Windows10 家庭版（RTL版）升级为企业版（VOL版）并激活：">[特例] Windows11/Windows10 家庭版（RTL版）升级为企业版（VOL版）并激活：</a>
+<a href="#office-activate" title="2.Office 激活方法">2.Office 激活方法</a>
+<a href="#rtl-to-vol-office" title="[特例] Office365/Microsoft365 家庭版（RTL版）转换专业版（VOL版）并激活（以64位默认安装目录为例）：">[特例] Office365/Microsoft365 家庭版（RTL版）转换专业版（VOL版）并激活（以64位默认安装目录为例）：</a>
+</div>
+<div class="toc-group">
+<span class="toc-group-label">原理与说明</span>
+<a href="#principle" title="3.激活说明（激活原理）">3.激活说明（激活原理）</a>
+<a href="#not-support" title="不支持 KMS 激活的 Windows/Office 版本：">不支持 KMS 激活的 Windows/Office 版本：</a>
+<a href="#180days" title="为什么有人说 KMS只能激活半年（180天）到期后需要手动重新激活">为什么有人说 KMS只能激活半年（180天）到期后需要手动重新激活</a>
+<a href="#already-activated" title="已永久激活的：">已永久激活的：</a>
+<a href="#genuine" title="激活后是正版吗？如何选择激活工具">激活后是正版吗？如何选择激活工具</a>
+<a href="#ms-docs" title="微软官方文档：">微软官方文档：</a>
+</div>
+<div class="toc-group">
+<span class="toc-group-label">进阶与工具</span>
+<a href="#gov" title="4.Windows10 升级为政府版并激活410年">4.Windows10 升级为政府版并激活410年</a>
+<a href="#troubleshoot" title="5.激活失败如何排错">5.激活失败如何排错</a>
+<a href="#bat" title="6.批处理 BAT 一键工具脚本（解压密码：https://v0v.bid）">6.批处理 BAT 一键工具脚本（解压密码：https://v0v.bid）</a>
+<a href="#feedback" title="[脚本问题反馈] 点我反馈">[脚本问题反馈] 点我反馈</a>
+<a href="#share" title="7.如何分享企业内网正版KMS服务器供外网使用">7.如何分享企业内网正版KMS服务器供外网使用</a>
+<a href="#android-self" title="8.使用安卓手机自建KMS激活服务器（安卓手机 无需 Root）">8.使用安卓手机自建KMS激活服务器（安卓手机 无需 Root）</a>
+<a href="#safety" title="KMS 激活的安全性：">KMS 激活的安全性：</a>
+<a href="#history" title="KMS 激活的“黑”历史（废话连篇）：">KMS 激活的“黑”历史（废话连篇）：</a>
+</div>
+<div class="toc-group">
+<span class="toc-group-label">GVLK 密钥表</span>
+<a href="#appendix1" title="附1：Windows 的 KMS 激活密钥（Product GVLK）">附1：Windows 的 KMS 激活密钥（Product GVLK）</a>
+<a href="#appendix2" title="附2：Office 的 KMS 激活密钥（Product GVLK）">附2：Office 的 KMS 激活密钥（Product GVLK）</a>
+</div>
+<div class="toc-group">
+<span class="toc-group-label">原版镜像下载</span>
+<a href="#appendix3" title="附3：Windows原版镜像 下载渠道">附3：Windows原版镜像 下载渠道</a>
+<a href="#appendix4" title="附4：Office原版镜像 下载渠道">附4：Office原版镜像 下载渠道</a>
+</div>
+<div class="toc-group">
+<span class="toc-group-label">更多</span>
+<a href="#easter1" title="彩蛋一：Windows 万能修复命令">彩蛋一：Windows 万能修复命令</a>
+<a href="#easter2" title="彩蛋二：在 Windows PowerShell 使用命令">彩蛋二：在 Windows PowerShell 使用命令</a>
+<a href="#easter3" title="彩蛋三：如何背诵激活命令 成为“大神”">彩蛋三：如何背诵激活命令 成为“大神”</a>
+<a href="#mianze" title="免责声明">免责声明</a>
+</div>
+</nav>
+  </details>
+
+  <div class="docs">
+    <aside class="toc" aria-label="目录">
+      <p class="toc-title">目录</p>
+      <div class="toc-group">
+<span class="toc-group-label">快速上手</span>
+<a href="#intro" title="简介">简介</a>
+<a href="#mirror-choose" title="如何选择原版系统镜像">如何选择原版系统镜像</a>
+<a href="#windows-activate" title="1.Windows 激活方法">1.Windows 激活方法</a>
+<a href="#rtl-to-vol-win" title="[特例] Windows11/Windows10 家庭版（RTL版）升级为企业版（VOL版）并激活：">[特例] Windows11/Windows10 家庭版（RTL版）升级为企业版（VOL版）并激活：</a>
+<a href="#office-activate" title="2.Office 激活方法">2.Office 激活方法</a>
+<a href="#rtl-to-vol-office" title="[特例] Office365/Microsoft365 家庭版（RTL版）转换专业版（VOL版）并激活（以64位默认安装目录为例）：">[特例] Office365/Microsoft365 家庭版（RTL版）转换专业版（VOL版）并激活（以64位默认安装目录为例）：</a>
+</div>
+<div class="toc-group">
+<span class="toc-group-label">原理与说明</span>
+<a href="#principle" title="3.激活说明（激活原理）">3.激活说明（激活原理）</a>
+<a href="#not-support" title="不支持 KMS 激活的 Windows/Office 版本：">不支持 KMS 激活的 Windows/Office 版本：</a>
+<a href="#180days" title="为什么有人说 KMS只能激活半年（180天）到期后需要手动重新激活">为什么有人说 KMS只能激活半年（180天）到期后需要手动重新激活</a>
+<a href="#already-activated" title="已永久激活的：">已永久激活的：</a>
+<a href="#genuine" title="激活后是正版吗？如何选择激活工具">激活后是正版吗？如何选择激活工具</a>
+<a href="#ms-docs" title="微软官方文档：">微软官方文档：</a>
+</div>
+<div class="toc-group">
+<span class="toc-group-label">进阶与工具</span>
+<a href="#gov" title="4.Windows10 升级为政府版并激活410年">4.Windows10 升级为政府版并激活410年</a>
+<a href="#troubleshoot" title="5.激活失败如何排错">5.激活失败如何排错</a>
+<a href="#bat" title="6.批处理 BAT 一键工具脚本（解压密码：https://v0v.bid）">6.批处理 BAT 一键工具脚本（解压密码：https://v0v.bid）</a>
+<a href="#feedback" title="[脚本问题反馈] 点我反馈">[脚本问题反馈] 点我反馈</a>
+<a href="#share" title="7.如何分享企业内网正版KMS服务器供外网使用">7.如何分享企业内网正版KMS服务器供外网使用</a>
+<a href="#android-self" title="8.使用安卓手机自建KMS激活服务器（安卓手机 无需 Root）">8.使用安卓手机自建KMS激活服务器（安卓手机 无需 Root）</a>
+<a href="#safety" title="KMS 激活的安全性：">KMS 激活的安全性：</a>
+<a href="#history" title="KMS 激活的“黑”历史（废话连篇）：">KMS 激活的“黑”历史（废话连篇）：</a>
+</div>
+<div class="toc-group">
+<span class="toc-group-label">GVLK 密钥表</span>
+<a href="#appendix1" title="附1：Windows 的 KMS 激活密钥（Product GVLK）">附1：Windows 的 KMS 激活密钥（Product GVLK）</a>
+<a href="#appendix2" title="附2：Office 的 KMS 激活密钥（Product GVLK）">附2：Office 的 KMS 激活密钥（Product GVLK）</a>
+</div>
+<div class="toc-group">
+<span class="toc-group-label">原版镜像下载</span>
+<a href="#appendix3" title="附3：Windows原版镜像 下载渠道">附3：Windows原版镜像 下载渠道</a>
+<a href="#appendix4" title="附4：Office原版镜像 下载渠道">附4：Office原版镜像 下载渠道</a>
+</div>
+<div class="toc-group">
+<span class="toc-group-label">更多</span>
+<a href="#easter1" title="彩蛋一：Windows 万能修复命令">彩蛋一：Windows 万能修复命令</a>
+<a href="#easter2" title="彩蛋二：在 Windows PowerShell 使用命令">彩蛋二：在 Windows PowerShell 使用命令</a>
+<a href="#easter3" title="彩蛋三：如何背诵激活命令 成为“大神”">彩蛋三：如何背诵激活命令 成为“大神”</a>
+<a href="#mianze" title="免责声明">免责声明</a>
+</div>
+
+    </aside>
+    <article class="prose">
+<section id="intro">
+<h2><span>简介</span></h2>
+<div class="callout"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0 3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg><p>本站永久地址：<a href="https://ikms.eu.org" target="_blank" rel="noopener">https://ikms.eu.org</a>，域名可能变化，建议收藏。</p></div>
+
+
+<div class="callout"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg><p>本文内容：使用KMS命令 激活 Windows 系统（教程）、激活 Office 全套（教程）<a href="#mianze">免责声明</a>&nbsp;&nbsp;<a href="./">返回首页</a></p></div>
+
+<p><strong>✔ 支持</strong> Windows Vista/7/8/8.1/10/11 &nbsp; LTSB/LTSC系列 &nbsp; 政府G版 &nbsp; 欧洲N版 &nbsp; 神州网信系列GN版 &nbsp; Windows server 2008/2008R2/2012/2012R2/2016/2019/2022</p>
+<p><strong>✔ 支持</strong> Office 2010/2013/2016/2019/LTSC2021 &nbsp; Office365 &nbsp; Microsoft365</p>
 <p>支持KMS激活的 Windows 和 Office 版本 共202个：<a href="./files/menu.txt" download="menu.txt">点击查看</a></p>
 
 <p>
@@ -37,20 +167,16 @@ sup {font-size:0.5em;color:#00AEED;}
 优点2：一句命令激活，无需下载，无需安装，无残留。不用担心网上下载的激活软件报毒问题，自带病毒、后门、强行安装流氓插件、绑架浏览器主页、后台常驻未知服务等问题。不会修改、替换、破坏、添加、破解任何系统和非系统文件，不会诱导用户关闭杀毒软件、添加查杀白名单，不会因为系统升级或者Windows Defender升级而被查杀使激活失效。
 </p>
 
-<!--p>
-查看KMS服务器当前在线状态（每小时更新）：<a href="https://ikms.eu.org" target="_blank">ikms.eu.org</a><br><br>
 
-电脑工程师如何实时监控 ikms.eu.org 在线状态，接收短信、邮件警报：<br>
-1.注册 https://www.jiankongbao.com 或者其它类似监控系统；<br>
-2.创建监控任务-普通网站监控-监控网址：https://bid.v0v.bid<br>
-3.更多高级设置-包含匹配内容-匹配内容：Successfully<br>
-4.按照该网站提示配置并开启Email和手机短信提醒；<br>
-当 ikms.eu.org 故障时，你将及时收到警报提醒，服务恢复时收到恢复提醒。
-</p-->
 
-<p>微零微不持有、不搭建、不提供、不维护任何KMS主机以及激活服务。ikms.eu.org 通过使用DNS负载均衡技术融合了数十个由匿名热心企业（机构、个人）公益共享的KMS激活服务器，智能分摊调度，不依赖任何单独的KMS主机。保证线路的绝对稳定和长期可用。</p>
+<div class="callout"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0 3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg><p>微零微不持有、不搭建、不提供、不维护任何KMS主机以及激活服务。ikms.eu.org 通过使用DNS负载均衡技术融合了数十个由匿名热心企业（机构、个人）公益共享的KMS激活服务器，智能分摊调度，不依赖任何单独的KMS主机。保证线路的绝对稳定和长期可用。</p></div>
 
-<h4>如何选择原版系统镜像</h4>
+
+</section>
+
+<section id="mirror-choose">
+<h2><span>如何选择原版系统镜像</span></h2>
+
 
 <p>
 1.微软官方原版系统镜像(MSDN渠道)分两版，business版(即VOL版) 和 consumer版(即RTL版)。<br><br>
@@ -69,16 +195,19 @@ zh-cn_windows_11_consumer_editions_version_22h2_updated_may_2023_x64_dvd_a95c5a5
 SW_DVD9_Win_Pro_11_22H2_64BIT_ChnSimp_Pro_Ent_EDU_N_MLF_X23-12741.ISO
 </p>
 
-<h4>1.Windows 激活方法</h4>
+
+</section>
+
+<section id="windows-activate">
+<h2><span class="num">1</span><span>1.Windows 激活方法</span></h2>
+
 
 <p>
 1.打开 命令提示符 (管理员)<br><br>
 开始菜单-搜索“cmd”-找到“命令提示符”-右键“以管理员身份运行”。<br><br>
 2.执行以下命令（复制命令-右键粘贴）<br><br>
 
-<span style="color:red" id="copy01">slmgr /skms s.ikms.eu.org &amp;&amp; slmgr /ato</span><br><br>
-
-大部分情况下 你能下载到的系统镜像都是VOL版（Business版）仅需以上一步即可<span style="font-weight:bold;">成功激活</span>。<br><br>
+<div class="cmd"><span class="ps1">C:\&gt;</span><code id="copy01">slmgr /skms s.ikms.eu.org &amp;&amp; slmgr /ato</code><button class="copy-btn" data-copy="slmgr /skms s.ikms.eu.org &amp;&amp; slmgr /ato" aria-label="复制命令"><span class="copy-label">复制</span></button></div>大部分情况下 你能下载到的系统镜像都是VOL版（Business版）仅需以上一步即可<strong>成功激活</strong>。<br><br>
 
 查看系统版本（备用）<br>
 wmic os get caption<br>
@@ -92,11 +221,16 @@ slmgr<br>
 a.你无意中修改或卸载了系统自带的KMS激活密钥（比如你曾经使用了MAK密钥或网络上找到的其它密钥尝试激活失败）。<br>
 解决办法：命令提示符(管理员)执行以下命令安装对应版本的KMS密钥后重新激活（密钥在文末“附1”）<br>
 slmgr /ipk XXXXX-XXXXX-XXXXX-XXXXX-XXXXX<br>
-b.你安装的系统为RTL版，需要先转换为VOL版才能激活，方法请 <a>参照特例</a>。<br>
+b.你安装的系统为RTL版，需要先转换为VOL版才能激活，方法请 <a href="#rtl-to-vol-win">参照特例</a>。<br>
 c.更多问题请下拉本文查看“激活失败如何排错”。
 </p>
 
-<h4>[特例] Windows11/Windows10 家庭版（RTL版）升级为企业版（VOL版）并激活：</h4>
+
+</section>
+
+<section id="rtl-to-vol-win">
+<h2><span class="num">特例</span><span>[特例] Windows11/Windows10 家庭版（RTL版）升级为企业版（VOL版）并激活：</span></h2>
+
 
 <p>Windows11/10 最新零售版微软官方下载地址：https://www.microsoft.com/zh-cn/software-download/</p>
 <p>请使用“手机” 访问，按提示选择版本和语言获取iOS镜像下载链接（电脑直接访问会跳转到更新助手页面）。</p>
@@ -106,10 +240,9 @@ c.更多问题请下拉本文查看“激活失败如何排错”。
 1.升级。使用 Win+i 快捷键打开「设置」- 点击「更新和安全」- 在左侧点击「激活」选项卡。<br><br>
 点击右侧的「更改产品密钥按钮」- 输入密钥：NPPR9-FWDCX-D2C8J-H872K-2YT43<br><br>
 
-如果提示密钥错误，请先输入如下密钥升级为专业版后，再输入企业版或者其它版本密钥进行升级。<br>
-VK7JG-NPHTM-C97JM-9MPGT-3V66T<br><br>
-
-2.激活。按提示升级后打开命令提示符(管理员)逐行执行以下命令：<br>
+<div class="key-list">
+<div class="key-row"><span class="k-name">如果提示密钥错误，请先输入如下密钥升级为专业版后，再输入企业版或者其它版本密钥进行升级。</span><code class="k-val">VK7JG-NPHTM-C97JM-9MPGT-3V66T</code><button class="copy-btn" data-copy="VK7JG-NPHTM-C97JM-9MPGT-3V66T" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
+</div>2.激活。按提示升级后打开命令提示符(管理员)逐行执行以下命令：<br>
 slmgr /ipk NPPR9-FWDCX-D2C8J-H872K-2YT43<br>
 slmgr /skms s.ikms.eu.org &amp;&amp; slmgr /ato<br><br>
 
@@ -118,7 +251,12 @@ slmgr /skms s.ikms.eu.org &amp;&amp; slmgr /ato<br><br>
 全新装机请直接安装VOL版系统，本文末有下载链接。不推荐RTL转VOL的方式装机。
 </p>
 
-<h4>2.Office 激活方法</h4>
+
+</section>
+
+<section id="office-activate">
+<h2><span class="num">2</span><span>2.Office 激活方法</span></h2>
+
 
 <p>
 目前看来 LTSC2021 可能是 Office VOL版的最后一个数字版本，往后只会以 “Microsoft 365 应用企业版” 的形式出现。<br>
@@ -129,9 +267,7 @@ slmgr /skms s.ikms.eu.org &amp;&amp; slmgr /ato<br><br>
 1.命令提示符(管理员)进入Office OSPP.VBS目录<br><br>
 以 LTSC2021 64位版本为例，默认安装目录是 C:\Program Files\Microsoft Office\Office16<br>
 所以，打开命令提示符(管理员)执行以下命令进入OSPP.VBS目录<br><br>
-<span style="color:red" id="copy02">cd C:\Program Files\Microsoft Office\Office16</span><br><br>
-
-如果你安装的是其它版本 或者 Office安装在其它盘符和路径，参照下文自行修改命令。<br><br>
+<div class="cmd"><span class="ps1">C:\&gt;</span><code id="copy02">cd C:\Program Files\Microsoft Office\Office16</code><button class="copy-btn" data-copy="cd C:\Program Files\Microsoft Office\Office16" aria-label="复制命令"><span class="copy-label">复制</span></button></div>如果你安装的是其它版本 或者 Office安装在其它盘符和路径，参照下文自行修改命令。<br><br>
 Office2016、Office2019、LTSC2021、Office365/Microsoft365 默认安装目录<br>
 32位版本：<br>
 cd C:\Program Files (x86)\Microsoft Office\Office16<br>
@@ -157,9 +293,7 @@ cd C:\Program Files\Microsoft Office\Office14<br><br>
 
 完成上一步骤后，执行以下命令。<br><br>
 
-<span style="color:red" id="copy03">cscript ospp.vbs /sethst:s.ikms.eu.org &amp;&amp; cscript ospp.vbs /act</span><br><br>
-
-大部分情况下 你能下载到的安装包都是VOL版 仅需以上两步即可<span style="font-weight:bold;">成功激活</span>。<br><br>
+<div class="cmd"><span class="ps1">C:\&gt;</span><code id="copy03">cscript ospp.vbs /sethst:s.ikms.eu.org &amp;&amp; cscript ospp.vbs /act</code><button class="copy-btn" data-copy="cscript ospp.vbs /sethst:s.ikms.eu.org &amp;&amp; cscript ospp.vbs /act" aria-label="复制命令"><span class="copy-label">复制</span></button></div>大部分情况下 你能下载到的安装包都是VOL版 仅需以上两步即可<strong>成功激活</strong>。<br><br>
 
 查询Office激活详情（备用）<br>
 cscript ospp.vbs /dstatus<br>
@@ -171,12 +305,17 @@ cscript ospp.vbs<br>
 a.你无意中修改或卸载了Office自带的KMS激活密钥（比如你曾经使用了MAK密钥或网络上找到的其它密钥尝试激活失败）。<br>
 解决办法：执行以下命令安装对应版本的KMS密钥后重新激活（密钥在文末“附2”）<br>
 cscript ospp.vbs /inpkey:XXXXX-XXXXX-XXXXX-XXXXX-XXXXX<br>
-b.你安装的为RTL版Office，需要转换为VOL版才能激活，方法请 <a>参照特例</a>，或者使用一键转换脚本（<a href="#bat">跳转下文</a>）。<br>
+b.你安装的为RTL版Office，需要转换为VOL版才能激活，方法请 <a href="#rtl-to-vol-office">参照特例</a>，或者使用一键转换脚本（<a href="#bat">跳转下文</a>）。<br>
 c.Mac版的批量版Office不需要KMS激活，只需运行微软提供的 SWDVD5_Office_Mac_Serializer_*.ISO（相当于激活补丁，十几MB）安装即可激活。<br>
 d.更多问题请下拉本文查看“激活失败如何排错”。
 </p>
 
-<h4>[特例] Office365/Microsoft365 家庭版（RTL版）转换专业版（VOL版）并激活（以64位默认安装目录为例）：</h4>
+
+</section>
+
+<section id="rtl-to-vol-office">
+<h2><span class="num">特例</span><span>[特例] Office365/Microsoft365 家庭版（RTL版）转换专业版（VOL版）并激活（以64位默认安装目录为例）：</span></h2>
+
 
 <p>
 Office365/Microsoft365 最新零售版微软官方下载地址：https://www.microsoft.com/zh-cn/microsoft-365/try<br><br>
@@ -206,7 +345,12 @@ cscript ospp.vbs /sethst:s.ikms.eu.org &amp;&amp; cscript ospp.vbs /act<br><br>
 全新装机请直接部署VOL版，本文末有下载链接。不推荐RTL转VOL的方式装机。
 </p>
 
-<h4>3.激活说明（激活原理）</h4>
+
+</section>
+
+<section id="principle">
+<h2><span class="num">3</span><span>3.激活说明（激活原理）</span></h2>
+
 
 <p>
 KMS激活是微软针对大型企业（机构、政府、学校大量采购）设计的激活系统，KMS批量激活广泛用于机房服务器操作系统和大型企业内部批量激活员工电脑，限企业内网使用。目前公开的KMS激活服务器（官方称为KMS主机）封杀力度很大，为了节省大家的时间与精力，请低调使用，转载请注明：https://ikms.eu.org 。<br><br>
@@ -224,7 +368,12 @@ KMS 激活有 180 天期限，此期限称为激活有效期间隔。若要保�
 你只需要保证 410年 连接一次互联网，即可永久使用正版的Windows10系统。
 </p>
 
-<h4>不支持 KMS 激活的 Windows/Office 版本：</h4>
+
+</section>
+
+<section id="not-support">
+<h2><span>不支持 KMS 激活的 Windows/Office 版本：</span></h2>
+
 
 <p>
 Windows系统分为：MSDN版（面向开发者 很少见）、OEM版（面向笔记本品牌厂商 自带激活）、COEM版（正版光盘 激活绑定主板 很少见）、RTL版（零售正版光盘 一盘一Key一机 不绑定硬件）、VOL版（大客户版 企业政府学校机构大量采购）。其中我们常用的VOL版又分为专业版、企业版、教育版、中国政府版、欧洲版等等。Office情况类似不再复述。<br><br>
@@ -246,7 +395,12 @@ KMS激活和MAK密钥激活是所有VOL版操作系统和Office套件的2种激�
 请留意，本文末提供了常用的第三方微软Windows操作系统（Office套件）原版镜像库。可以下载到微软原版纯净镜像。
 </p>
 
-<h4>为什么有人说 KMS只能激活半年（180天）到期后需要手动重新激活</h4>
+
+</section>
+
+<section id="180days">
+<h2><span>为什么有人说 KMS只能激活半年（180天）到期后需要手动重新激活</span></h2>
+
 
 <p>
 使用“内网正版KMS激活”和“泄露出来的外网KMS激活”以及下文会提到的“非法伪造的未经授权的KMS模拟器激活”，激活成功后系统会每隔7天自动续期的，无需任何操作。也就是说你的系统会永远保持在174天以上的激活有效期，即永久激活，除非你断网180天。<br><br>
@@ -277,14 +431,24 @@ slmgr /rilc<br><br>
 和自激活类KMS激活软件一样，这类软件在传播、修改、汉化过程中，同样非常容易被恶意植入捆绑后门、病毒。
 </p>
 
-<h4>已永久激活的：</h4>
+
+</section>
+
+<section id="already-activated">
+<h2><span>已永久激活的：</span></h2>
+
 
 <p>
 已通过数字许可证或者其它方式永久激活的系统，执行本文教程中的 KMS 激活命令不会影响和改变系统激活状态。<br>
 注意：更换密钥或者切换系统版本会导致失去原先激活状态！恢复方法为“先用命令行清除密钥卸载KMS激活，回到未激活状态。然后使用激活疑难解答”。
 </p>
 
-<h4>激活后是正版吗？如何选择激活工具</h4>
+
+</section>
+
+<section id="genuine">
+<h2><span>激活后是正版吗？如何选择激活工具</span></h2>
+
 
 <p>
 正版是个法律概念，非法持有即是盗版。对于白嫖党，我们通常希望的"正版"其实是指"原版"，区别于破解版(有系统文件被破解篡改)。<br><br>
@@ -297,24 +461,34 @@ slmgr /rilc<br><br>
 3.破解软件（数字权利激活软件、自激活类KMS软件）
 </p>
 
-<h4>微软官方文档：</h4>
+
+</section>
+
+<section id="ms-docs">
+<h2><span>微软官方文档：</span></h2>
+
 
 <p>
-[Windows] https://learn.microsoft.com/zh-cn/windows/deployment/volume-activation/activate-using-key-management-service-vamt<br>
-[Windows] https://learn.microsoft.com/zh-cn/windows/deployment/volume-activation/use-the-volume-activation-management-tool-client<br>
-[Windows] https://learn.microsoft.com/zh-cn/windows/deployment/volume-activation/volume-activation-windows-10<br>
-[Windows] https://learn.microsoft.com/zh-cn/windows/deployment/volume-activation/activate-windows-10-clients-vamt<br>
-[Windows] https://learn.microsoft.com/zh-cn/windows/deployment/volume-activation/plan-for-volume-activation-client<br>
-[Windows] https://learn.microsoft.com/zh-cn/windows-server/get-started/kms-activation-planning<br>
-[Windows] https://learn.microsoft.com/zh-cn/windows-server/get-started/kms-client-activation-keys<br>
-[Office] https://learn.microsoft.com/zh-cn/deployoffice/vlactivation/plan-volume-activation-of-office<br>
-[Office 2016/2019] https://learn.microsoft.com/zh-cn/DeployOffice/vlactivation/gvlks<br>
-[Office 2013] https://learn.microsoft.com/zh-cn/previous-versions/office/dn385360(v=office.15)<br>
-[Office 2010] https://learn.microsoft.com/zh-cn/previous-versions/office/office-2010/ee624355(v=office.14)<br>
-[Windows] https://learn.microsoft.com/zh-cn/search/?terms=kms
+[Windows] <a href="https://learn.microsoft.com/zh-cn/windows/deployment/volume-activation/activate-using-key-management-service-vamt" target="_blank" rel="noopener">https://learn.microsoft.com/zh-cn/windows/deployment/volume-activation/activate-using-key-management-service-vamt</a><br>
+[Windows] <a href="https://learn.microsoft.com/zh-cn/windows/deployment/volume-activation/use-the-volume-activation-management-tool-client" target="_blank" rel="noopener">https://learn.microsoft.com/zh-cn/windows/deployment/volume-activation/use-the-volume-activation-management-tool-client</a><br>
+[Windows] <a href="https://learn.microsoft.com/zh-cn/windows/deployment/volume-activation/volume-activation-windows-10" target="_blank" rel="noopener">https://learn.microsoft.com/zh-cn/windows/deployment/volume-activation/volume-activation-windows-10</a><br>
+[Windows] <a href="https://learn.microsoft.com/zh-cn/windows/deployment/volume-activation/activate-windows-10-clients-vamt" target="_blank" rel="noopener">https://learn.microsoft.com/zh-cn/windows/deployment/volume-activation/activate-windows-10-clients-vamt</a><br>
+[Windows] <a href="https://learn.microsoft.com/zh-cn/windows/deployment/volume-activation/plan-for-volume-activation-client" target="_blank" rel="noopener">https://learn.microsoft.com/zh-cn/windows/deployment/volume-activation/plan-for-volume-activation-client</a><br>
+[Windows] <a href="https://learn.microsoft.com/zh-cn/windows-server/get-started/kms-activation-planning" target="_blank" rel="noopener">https://learn.microsoft.com/zh-cn/windows-server/get-started/kms-activation-planning</a><br>
+[Windows] <a href="https://learn.microsoft.com/zh-cn/windows-server/get-started/kms-client-activation-keys" target="_blank" rel="noopener">https://learn.microsoft.com/zh-cn/windows-server/get-started/kms-client-activation-keys</a><br>
+[Office] <a href="https://learn.microsoft.com/zh-cn/deployoffice/vlactivation/plan-volume-activation-of-office" target="_blank" rel="noopener">https://learn.microsoft.com/zh-cn/deployoffice/vlactivation/plan-volume-activation-of-office</a><br>
+[Office 2016/2019] <a href="https://learn.microsoft.com/zh-cn/DeployOffice/vlactivation/gvlks" target="_blank" rel="noopener">https://learn.microsoft.com/zh-cn/DeployOffice/vlactivation/gvlks</a><br>
+[Office 2013] <a href="https://learn.microsoft.com/zh-cn/previous-versions/office/dn385360(v=office.15)" target="_blank" rel="noopener">https://learn.microsoft.com/zh-cn/previous-versions/office/dn385360(v=office.15)</a><br>
+[Office 2010] <a href="https://learn.microsoft.com/zh-cn/previous-versions/office/office-2010/ee624355(v=office.14)" target="_blank" rel="noopener">https://learn.microsoft.com/zh-cn/previous-versions/office/office-2010/ee624355(v=office.14)</a><br>
+[Windows] <a href="https://learn.microsoft.com/zh-cn/search/?terms=kms" target="_blank" rel="noopener">https://learn.microsoft.com/zh-cn/search/?terms=kms</a>
 </p>
 
-<h4>4.Windows10 升级为政府版并激活410年</h4>
+
+</section>
+
+<section id="gov">
+<h2><span class="num">4</span><span>4.Windows10 升级为政府版并激活410年</span></h2>
+
 
 <p>
 注意：中国政府版（Windows10神州网信政府版（CMGE））更新服务器位于中国境内，该版本移除、禁用了原版Windows10中自带的办公类、个人助理类、娱乐生活类应用以及基于云的服务（如：OneDrive,Windows Defender等），内置了中国政府指定数字证书机关的根证书，开启或者关闭了大量系统安防方面的设置。<br><br>
@@ -324,10 +498,9 @@ slmgr /rilc<br><br>
 
 点击右侧的「更改产品密钥按钮」- 输入密钥：YYVX9-NTFWV-6MDM3-9PT4T-4M68B<br><br>
 
-如果提示密钥错误，请先输入如下密钥升级为专业版后，再输入中国政府版密钥进行升级<br>
-VK7JG-NPHTM-C97JM-9MPGT-3V66T<br><br>
-
-2.激活。按提示升级后打开命令提示符(管理员)逐行执行以下命令：<br>
+<div class="key-list">
+<div class="key-row"><span class="k-name">如果提示密钥错误，请先输入如下密钥升级为专业版后，再输入中国政府版密钥进行升级</span><code class="k-val">VK7JG-NPHTM-C97JM-9MPGT-3V66T</code><button class="copy-btn" data-copy="VK7JG-NPHTM-C97JM-9MPGT-3V66T" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
+</div>2.激活。按提示升级后打开命令提示符(管理员)逐行执行以下命令：<br>
 slmgr /ipk YYVX9-NTFWV-6MDM3-9PT4T-4M68B<br>
 slmgr /skms s.ikms.eu.org &amp;&amp; slmgr /ato<br><br>
 
@@ -342,7 +515,12 @@ slmgr /skms s.ikms.eu.org &amp;&amp; slmgr /ato<br>
 通过"升级转换"方式激活的政府版事实上是一个混合版，兼具两者特性，且不具备原本政府版严格的安全策略，更适合普通用户使用。
 </p>
 
-<h4>5.激活失败如何排错</h4>
+
+</section>
+
+<section id="troubleshoot">
+<h2><span class="num">5</span><span>5.激活失败如何排错</span></h2>
+
 
 <p>
 1.你的Windows/Office是否是批量VOL版本；<br>
@@ -353,8 +531,8 @@ slmgr /skms s.ikms.eu.org &amp;&amp; slmgr /ato<br>
 4.检查你的网络连接；<br>
 5.本地的解析不对或网络问题；<br>
 6.根据出错代码自己搜索出错原因；<br>
-https://learn.microsoft.com/zh-cn/windows-server/get-started/activation-error-codes<br>
-https://answers.microsoft.com/zh-hans/windows/forum<br>
+<a href="https://learn.microsoft.com/zh-cn/windows-server/get-started/activation-error-codes" target="_blank" rel="noopener">https://learn.microsoft.com/zh-cn/windows-server/get-started/activation-error-codes</a><br>
+<a href="https://answers.microsoft.com/zh-hans/windows/forum" target="_blank" rel="noopener">https://answers.microsoft.com/zh-hans/windows/forum</a><br>
 0x80070005错误一般是你没用管理员权限运行cmd；<br>
 7.部分服务器类操作系统（如 数据中心版操作系统 Windows Server 2019 Datacenter）激活前需要先开放防火墙（开启ICMP回显 即打开ping）；<br>
 命令提示符(管理员)执行命令：netsh firewall set icmpsetting 8<br>
@@ -384,7 +562,7 @@ slmgr /rearm<br>
 然后重启电脑
 </p>
 
-<div id="bat"></div>
+
 
 <p>
 #卸载 Office KMS 激活<br>
@@ -396,35 +574,52 @@ cscript ospp.vbs /remhst<br>
 cscript ospp.vbs /rearm
 </p>
 
-<h4>6.批处理 BAT 一键工具脚本（解压密码：https://v0v.bid）</h4>
 
-<p>
-如果你使用命令提示符激活有困难，或者你是电脑技术员，本站同时提供了开源绿色的BAT便捷脚本。<br><br>
+</section>
 
-#KMS激活服务器检测脚本 <a href="./files/check.zip" download="check.zip">点击下载</a><br>
-#技术员KMS便捷脚本 <a href="./files/kms.zip" download="kms.zip">点击下载</a><br>
-#便捷KMS一键激活脚本 <a href="./files/kmspro.zip" download="kmspro.zip">点击下载</a><br>
-#Office全系列RTL版转换VOL版（包括Office365/Microsoft365家庭版/个人版/学生版）<a href="./files/office.zip" download="office.zip">点击下载</a>
-</p>
+<section id="bat">
+<h2><span class="num">6</span><span>6.批处理 BAT 一键工具脚本（解压密码：https://v0v.bid）</span></h2>
 
-<h4>[脚本问题反馈]&nbsp;&nbsp;<a href="https://github.com/dylanbai8/kmspro/issues" target="_blank">点我反馈</a></h4>
 
-<h4>7.如何分享企业内网正版KMS服务器供外网使用</h4>
+<p>如果你使用命令提示符激活有困难，或者你是电脑技术员，本站同时提供了开源绿色的 BAT 便捷脚本（解压密码：https://v0v.bid）：</p>
+<div class="file-list">
+<div class="file-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg><span class="f-name">KMS激活服务器检测脚本</span><a href="./files/check.zip" download>下载文件</a></div>
+<div class="file-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg><span class="f-name">技术员KMS便捷脚本</span><a href="./files/kms.zip" download>下载文件</a></div>
+<div class="file-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg><span class="f-name">便捷KMS一键激活脚本</span><a href="./files/kmspro.zip" download>下载文件</a></div>
+<div class="file-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg><span class="f-name">Office全系列RTL版转换VOL版（包括Office365/Microsoft365家庭版/个人版/学生版）</span><a href="./files/office.zip" download>下载文件</a></div>
+</div>
+</section>
+
+<section id="feedback">
+<h2><span>[脚本问题反馈] 点我反馈</span></h2>
+
+
+
+</section>
+
+<section id="share">
+<h2><span class="num">7</span><span>7.如何分享企业内网正版KMS服务器供外网使用</span></h2>
+
 
 <p>
 步骤并不繁琐，参照以下文章，此处不再详述。<br><br>
 
-https://blog.csdn.net/gsls200808/article/details/72773249<br>
-https://blog.csdn.net/gsls200808/article/details/50364104<br>
-https://blog.csdn.net/gsls200808/article/details/50357921<br><br>
+<a href="https://blog.csdn.net/gsls200808/article/details/72773249" target="_blank" rel="noopener">https://blog.csdn.net/gsls200808/article/details/72773249</a><br>
+<a href="https://blog.csdn.net/gsls200808/article/details/50364104" target="_blank" rel="noopener">https://blog.csdn.net/gsls200808/article/details/50364104</a><br>
+<a href="https://blog.csdn.net/gsls200808/article/details/50357921" target="_blank" rel="noopener">https://blog.csdn.net/gsls200808/article/details/50357921</a><br><br>
 
 注意，此行为有可能因违反你企业与微软所签订的协议而触犯法律。
 </p>
 
-<h4>8.使用安卓手机自建KMS激活服务器（安卓手机 无需 Root）</h4>
+
+</section>
+
+<section id="android-self">
+<h2><span class="num">8</span><span>8.使用安卓手机自建KMS激活服务器（安卓手机 无需 Root）</span></h2>
+
 
 <p>
-1.下载并安装安卓版KMS激活服务器软件 <a href="./android.php" target="_blank">点击下载</a><br>
+1.下载并安装安卓版KMS激活服务器软件 <a href="./android.html" target="_blank">点击下载</a><br>
 2.确保手机与需要激活的电脑连接同一 WIFI 网络(或在同一局域网内)，启动软件<br>
 3.点击[启动服务器]，查看软件内显示的[IP地址]<br>
 4.使用如下代码即可激活你手机所在局域网内的所有Windows系统和Office套件(注意替换为自己的IP地址)<br><br>
@@ -449,13 +644,18 @@ Linux / Windows 系统自建KMS激活服务器请访问：https://github.com/dyl
 再次提示：任何使用和搭建伪造的未经授权的KMS激活服务器，都有可能违反微软相关条款或者你所在国家的相关法律。<br><br>
 
 以上所述的步骤、教程、代码、软件（安卓软件、Windows软件、以及Linux软件）来自以下文章和开源项目，文章内所涉及到的任何软件版权和责任归原作者所有。<br>
-https://github.com/Wind4/vlmcsd<br>
-https://github.com/ThunderEX/py-kms<br>
-https://forums.mydigitallife.net/members/hotbird64.333466/<br>
-https://forums.mydigitallife.net/members/pantagruel.5805/
+<a href="https://github.com/Wind4/vlmcsd" target="_blank" rel="noopener">https://github.com/Wind4/vlmcsd</a><br>
+<a href="https://github.com/ThunderEX/py-kms" target="_blank" rel="noopener">https://github.com/ThunderEX/py-kms</a><br>
+<a href="https://forums.mydigitallife.net/members/hotbird64.333466/" target="_blank" rel="noopener">https://forums.mydigitallife.net/members/hotbird64.333466/</a><br>
+<a href="https://forums.mydigitallife.net/members/pantagruel.5805/" target="_blank" rel="noopener">https://forums.mydigitallife.net/members/pantagruel.5805/</a>
 </p>
 
-<h4>KMS 激活的安全性：</h4>
+
+</section>
+
+<section id="safety">
+<h2><span>KMS 激活的安全性：</span></h2>
+
 
 <p>
 使用批量授权（KMS或MAK）激活的系统，系统更新页有可能会提示“某些设置由你的组织来管理”。这是因为批量授权本身就是针对企业的，“组织”可以集中管理企业内的电脑允许安装哪些补丁和不安装哪些补丁。在一些特殊行业，防止企业员工错误升级，导致工业软件出现兼容问题。这属正常现象，无需恐慌。一般公网共享的KMS主机不会有阻止更新，且可以通过修改注册表或策略组解除此限制。（注意，开启家庭组、使用精简版系统、错误的系统设置也可能导致更新页面出现此提示）<br><br>
@@ -477,11 +677,16 @@ KMS服务是微软针对大型企业设计的激活系统，因为当一个公�
 你可以试想一下，KMS服务原本是微软为大型企业和机构设计的，如果企业电脑管理员（你的老板？校长？）可以远程控制所有员工的电脑？盗取文件？格式化系统？那岂不是太荒唐。<br><br>
 
 批量激活管理工具 (VAMT) 技术参考：<br>
-https://learn.microsoft.com/zh-cn/windows/deployment/volume-activation/volume-activation-management-tool<br>
+<a href="https://learn.microsoft.com/zh-cn/windows/deployment/volume-activation/volume-activation-management-tool" target="_blank" rel="noopener">https://learn.microsoft.com/zh-cn/windows/deployment/volume-activation/volume-activation-management-tool</a><br>
 这是微软官方KMS管理工具vamt的技术文档，所有权限都写在这里。有能力的朋友可以自行考证。KMS模拟器的源代码开源地址在下文，此处不再复述。
 </p>
 
-<h4>KMS 激活的“黑”历史（废话连篇）：</h4>
+
+</section>
+
+<section id="history">
+<h2><span>KMS 激活的“黑”历史（废话连篇）：</span></h2>
+
 
 <p>
 微软从 WINXP 时代开始推行激活政策，本质上就是验证你的 CD-KEY 是不是正版的 KEY。但是某些组织，例如学校和大型公司，会一次购买几千或者几万份产品授权，这种授权被称为“批量授权”。如果每一份授权都要有对应的 CD-KEY，显然难以管理。针对这种批量授权的客户，微软一般会推出专用的“大客户版本”。这种版本只要使用特定的序列号安装，就完全不需要激活，泄露出去，也就成为网上那些“免激活”的系统 ISO。<br><br>
@@ -499,548 +704,509 @@ https://learn.microsoft.com/zh-cn/windows/deployment/volume-activation/volume-ac
 提示：本机自激活安装类KMS激活软件，容易在系统升级中被查杀失效，且在软件传播过程中极易被捆绑植入后门、病毒，不推荐尝试。<br><br>
 
 Windows Loader<br>
-https://forums.mydigitallife.net/threads/windows-loader-download.58464/<br><br>
+<a href="https://forums.mydigitallife.net/threads/windows-loader-download.58464/" target="_blank" rel="noopener">https://forums.mydigitallife.net/threads/windows-loader-download.58464/</a><br><br>
 
 KMS_VL_ALL<br>
-https://forums.mydigitallife.net/threads/kms_vl_all-online-offline-kms-activator.63471/<br><br>
+<a href="https://forums.mydigitallife.net/threads/kms_vl_all-online-offline-kms-activator.63471/" target="_blank" rel="noopener">https://forums.mydigitallife.net/threads/kms_vl_all-online-offline-kms-activator.63471/</a><br><br>
 
 KMSpico<br>
-https://forums.mydigitallife.net/threads/kmspico-official-thread.65739/<br><br>
+<a href="https://forums.mydigitallife.net/threads/kmspico-official-thread.65739/" target="_blank" rel="noopener">https://forums.mydigitallife.net/threads/kmspico-official-thread.65739/</a><br><br>
 
 vlmcsd和py-kms<br>
-https://forums.mydigitallife.net/threads/emulated-kms-servers-on-non-windows-platforms.50234/<br><br>
+<a href="https://forums.mydigitallife.net/threads/emulated-kms-servers-on-non-windows-platforms.50234/" target="_blank" rel="noopener">https://forums.mydigitallife.net/threads/emulated-kms-servers-on-non-windows-platforms.50234/</a><br><br>
 
 Microsoft Toolkit<br>
-https://forums.mydigitallife.net/threads/microsoft-toolkit-official-kms-solution-for-microsoft-products.28669/<br><br>
+<a href="https://forums.mydigitallife.net/threads/microsoft-toolkit-official-kms-solution-for-microsoft-products.28669/" target="_blank" rel="noopener">https://forums.mydigitallife.net/threads/microsoft-toolkit-official-kms-solution-for-microsoft-products.28669/</a><br><br>
 
 KMSAuto<br>
-http://forum.ru-board.com/topic.cgi?amp&amp;forum;=2&amp;topic;=5328<br><br>
+<a href="http://forum.ru-board.com/topic.cgi?amp&amp;forum;=2&amp;topic;=5328" target="_blank" rel="noopener">http://forum.ru-board.com/topic.cgi?amp&amp;forum;=2&amp;topic;=5328</a><br><br>
 
 HEU_KMS<br>
-http://sphrbeu2012.blog.163.com/<br>
-http://www.heu8.com/
+<a href="http://sphrbeu2012.blog.163.com/" target="_blank" rel="noopener">http://sphrbeu2012.blog.163.com/</a><br>
+<a href="http://www.heu8.com/" target="_blank" rel="noopener">http://www.heu8.com/</a>
 </p>
 
-<p><br></p>
-<h4><strong>附1：Windows 的 KMS 激活密钥（Product GVLK）</strong></h4>
-https://learn.microsoft.com/zh-cn/windows-server/get-started/kms-client-activation-keys<br>
 
-<span style="color:red"><h4><strong>Windows Server 2022（LTSC 版本）</strong></h4></span>
 
-Windows Server 2022 Datacenter<br>
-WX4NM-KYWYW-QJJR4-XV3QB-6VM33<br><br>
+</section>
 
-Windows Server 2022 Standard<br>
-VDYBN-27WPP-V4HQT-9VMD4-VMK7H<br><br>
+<section id="appendix1">
+<h2><span class="num n-teal">附1</span><span>附1：Windows 的 KMS 激活密钥（Product GVLK）</span></h2>
 
-<span style="color:red"><h4><strong>Windows Server 2019（LTSC 版本）</strong></h4></span>
+<a href="https://learn.microsoft.com/zh-cn/windows-server/get-started/kms-client-activation-keys" target="_blank" rel="noopener">https://learn.microsoft.com/zh-cn/windows-server/get-started/kms-client-activation-keys</a><br>
 
-Windows Server 2019 Datacenter<br>
-WMDGN-G9PQG-XVVXX-R3X43-63DFG<br><br>
 
-Windows Server 2019 Standard<br>
-N69G4-B89J2-4G8F4-WWYCC-J464C<br><br>
+</section>
 
-Windows Server 2019 Essentials<br>
-WVDHN-86M7X-466P6-VHXV7-YY726<br><br>
+<h3>Windows Server 2022（LTSC 版本）</h3>
 
-<span style="color:red"><h4><strong>Windows Server 2016（LTSC 版本）</strong></h4></span>
 
-Windows Server 2016 Datacenter<br>
-CB7KF-BWN84-R7R2Y-793K2-8XDDG<br><br>
+<div class="key-list">
+<div class="key-row"><span class="k-name">Windows Server 2022 Datacenter</span><code class="k-val">WX4NM-KYWYW-QJJR4-XV3QB-6VM33</code><button class="copy-btn" data-copy="WX4NM-KYWYW-QJJR4-XV3QB-6VM33" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-Windows Server 2016 Standard<br>
-WC2BQ-8NRM3-FDDYY-2BFGV-KHKQY<br><br>
+<div class="key-row"><span class="k-name">Windows Server 2022 Standard</span><code class="k-val">VDYBN-27WPP-V4HQT-9VMD4-VMK7H</code><button class="copy-btn" data-copy="VDYBN-27WPP-V4HQT-9VMD4-VMK7H" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
+</div>
 
-Windows Server 2016 Essentials<br>
-JCKRF-N37P4-C2D82-9YXRT-4M63B<br><br>
+<h3>Windows Server 2019（LTSC 版本）</h3>
 
-<span style="color:red"><h4><strong>Windows Server 版本 20H2、2004、1909、1903 和 1809</strong></h4></span>
 
-Windows Server Datacenter<br>
-6NMRW-2C8FM-D24W7-TQWMY-CWH2D<br><br>
+<div class="key-list">
+<div class="key-row"><span class="k-name">Windows Server 2019 Datacenter</span><code class="k-val">WMDGN-G9PQG-XVVXX-R3X43-63DFG</code><button class="copy-btn" data-copy="WMDGN-G9PQG-XVVXX-R3X43-63DFG" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-Windows Server Standard<br>
-N2KJX-J94YW-TQVFB-DG9YT-724CC<br><br>
+<div class="key-row"><span class="k-name">Windows Server 2019 Standard</span><code class="k-val">N69G4-B89J2-4G8F4-WWYCC-J464C</code><button class="copy-btn" data-copy="N69G4-B89J2-4G8F4-WWYCC-J464C" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-<span style="color:red"><h4><strong>Windows Server 版本 1803</strong></h4></span>
+<div class="key-row"><span class="k-name">Windows Server 2019 Essentials</span><code class="k-val">WVDHN-86M7X-466P6-VHXV7-YY726</code><button class="copy-btn" data-copy="WVDHN-86M7X-466P6-VHXV7-YY726" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
+</div>
 
-Windows Server Datacenter<br>
-2HXDN-KRXHB-GPYC7-YCKFJ-7FVDG<br><br>
+<h3>Windows Server 2016（LTSC 版本）</h3>
 
-Windows Server Standard<br>
-PTXN8-JFHJM-4WC78-MPCBR-9W4KR<br><br>
 
-<span style="color:red"><h4><strong>Windows Server 版本 1709</strong></h4></span>
+<div class="key-list">
+<div class="key-row"><span class="k-name">Windows Server 2016 Datacenter</span><code class="k-val">CB7KF-BWN84-R7R2Y-793K2-8XDDG</code><button class="copy-btn" data-copy="CB7KF-BWN84-R7R2Y-793K2-8XDDG" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-Windows Server Datacenter<br>
-6Y6KB-N82V8-D8CQV-23MJW-BWTG6<br><br>
+<div class="key-row"><span class="k-name">Windows Server 2016 Standard</span><code class="k-val">WC2BQ-8NRM3-FDDYY-2BFGV-KHKQY</code><button class="copy-btn" data-copy="WC2BQ-8NRM3-FDDYY-2BFGV-KHKQY" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-Windows Server Standard<br>
-DPCNP-XQFKJ-BJF7R-FRC8D-GF6G4<br><br>
+<div class="key-row"><span class="k-name">Windows Server 2016 Essentials</span><code class="k-val">JCKRF-N37P4-C2D82-9YXRT-4M63B</code><button class="copy-btn" data-copy="JCKRF-N37P4-C2D82-9YXRT-4M63B" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
+</div>
 
-<span style="color:red"><h4><strong>Windows 10 / Windows 11</strong></h4></span>
+<h3>Windows Server 版本 20H2、2004、1909、1903 和 1809</h3>
 
-Windows 10/11 专业版<br>
-W269N-WFGWX-YVC9B-4J6C9-T83GX<br><br>
 
-Windows 10/11 专业版 N<br>
-MH37W-N47XK-V7XM9-C7227-GCQG9<br><br>
+<div class="key-list">
+<div class="key-row"><span class="k-name">Windows Server Datacenter</span><code class="k-val">6NMRW-2C8FM-D24W7-TQWMY-CWH2D</code><button class="copy-btn" data-copy="6NMRW-2C8FM-D24W7-TQWMY-CWH2D" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-Windows 10/11 专业工作站版<br>
-NRG8B-VKK3Q-CXVCJ-9G2XF-6Q84J<br><br>
+<div class="key-row"><span class="k-name">Windows Server Standard</span><code class="k-val">N2KJX-J94YW-TQVFB-DG9YT-724CC</code><button class="copy-btn" data-copy="N2KJX-J94YW-TQVFB-DG9YT-724CC" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
+</div>
 
-Windows 10/11 专业工作站版 N<br>
-9FNHH-K3HBT-3W4TD-6383H-6XYWF<br><br>
+<h3>Windows Server 版本 1803</h3>
 
-Windows 10/11 专业教育版<br>
-6TP4R-GNPTD-KYYHQ-7B7DP-J447Y<br><br>
 
-Windows 10/11 专业教育版 N<br>
-YVWGF-BXNMC-HTQYQ-CPQ99-66QFC<br><br>
+<div class="key-list">
+<div class="key-row"><span class="k-name">Windows Server Datacenter</span><code class="k-val">2HXDN-KRXHB-GPYC7-YCKFJ-7FVDG</code><button class="copy-btn" data-copy="2HXDN-KRXHB-GPYC7-YCKFJ-7FVDG" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-Windows 10/11 教育版<br>
-NW6C2-QMPVW-D7KKK-3GKT6-VCFB2<br><br>
+<div class="key-row"><span class="k-name">Windows Server Standard</span><code class="k-val">PTXN8-JFHJM-4WC78-MPCBR-9W4KR</code><button class="copy-btn" data-copy="PTXN8-JFHJM-4WC78-MPCBR-9W4KR" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
+</div>
 
-Windows 10/11 教育版 N<br>
-2WH4N-8QGBV-H22JP-CT43Q-MDWWJ<br><br>
+<h3>Windows Server 版本 1709</h3>
 
-Windows 10/11 企业版<br>
-NPPR9-FWDCX-D2C8J-H872K-2YT43<br><br>
 
-Windows 10/11 企业版 N<br>
-DPH2V-TTNVB-4X9Q3-TJR4H-KHJW4<br><br>
+<div class="key-list">
+<div class="key-row"><span class="k-name">Windows Server Datacenter</span><code class="k-val">6Y6KB-N82V8-D8CQV-23MJW-BWTG6</code><button class="copy-btn" data-copy="6Y6KB-N82V8-D8CQV-23MJW-BWTG6" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-Windows 10/11 企业版 G<br>
-YYVX9-NTFWV-6MDM3-9PT4T-4M68B<br><br>
+<div class="key-row"><span class="k-name">Windows Server Standard</span><code class="k-val">DPCNP-XQFKJ-BJF7R-FRC8D-GF6G4</code><button class="copy-btn" data-copy="DPCNP-XQFKJ-BJF7R-FRC8D-GF6G4" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
+</div>
 
-Windows 10/11 企业版 G N<br>
-44RPN-FTY23-9VTTB-MP9BX-T84FV<br><br>
+<h3>Windows 10 / Windows 11</h3>
 
-<span style="color:red"><h4><strong>Windows 10 LTSC 2019/2021</strong></h4></span>
 
-Windows 10 企业版 LTSC 2019/2021<br>
-M7XTQ-FN8P6-TTKYV-9D4CC-J462D<br><br>
+<div class="key-list">
+<div class="key-row"><span class="k-name">Windows 10/11 专业版</span><code class="k-val">W269N-WFGWX-YVC9B-4J6C9-T83GX</code><button class="copy-btn" data-copy="W269N-WFGWX-YVC9B-4J6C9-T83GX" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-Windows 10 企业版 N LTSC 2019/2021<br>
-92NFX-8DJQP-P6BBQ-THF9C-7CG2H<br><br>
+<div class="key-row"><span class="k-name">Windows 10/11 专业版 N</span><code class="k-val">MH37W-N47XK-V7XM9-C7227-GCQG9</code><button class="copy-btn" data-copy="MH37W-N47XK-V7XM9-C7227-GCQG9" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-<span style="color:red"><h4><strong>Windows 10 LTSB 2016</strong></h4></span>
+<div class="key-row"><span class="k-name">Windows 10/11 专业工作站版</span><code class="k-val">NRG8B-VKK3Q-CXVCJ-9G2XF-6Q84J</code><button class="copy-btn" data-copy="NRG8B-VKK3Q-CXVCJ-9G2XF-6Q84J" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-Windows 10 企业版 LTSB 2016<br>
-DCPHK-NFMTC-H88MJ-PFHPY-QJ4BJ<br><br>
+<div class="key-row"><span class="k-name">Windows 10/11 专业工作站版 N</span><code class="k-val">9FNHH-K3HBT-3W4TD-6383H-6XYWF</code><button class="copy-btn" data-copy="9FNHH-K3HBT-3W4TD-6383H-6XYWF" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-Windows 10 企业版 N LTSB 2016<br>
-QFFDN-GRT3P-VKWWX-X7T3R-8B639<br><br>
+<div class="key-row"><span class="k-name">Windows 10/11 专业教育版</span><code class="k-val">6TP4R-GNPTD-KYYHQ-7B7DP-J447Y</code><button class="copy-btn" data-copy="6TP4R-GNPTD-KYYHQ-7B7DP-J447Y" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-<span style="color:red"><h4><strong>Windows 10 LTSB 2015</strong></h4></span>
+<div class="key-row"><span class="k-name">Windows 10/11 专业教育版 N</span><code class="k-val">YVWGF-BXNMC-HTQYQ-CPQ99-66QFC</code><button class="copy-btn" data-copy="YVWGF-BXNMC-HTQYQ-CPQ99-66QFC" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-Windows 10 企业版 2015 LTSB<br>
-WNMTR-4C88C-JK8YV-HQ7T2-76DF9<br><br>
+<div class="key-row"><span class="k-name">Windows 10/11 教育版</span><code class="k-val">NW6C2-QMPVW-D7KKK-3GKT6-VCFB2</code><button class="copy-btn" data-copy="NW6C2-QMPVW-D7KKK-3GKT6-VCFB2" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-Windows 10 企业版 2015 LTSB N<br>
-2F77B-TNFGY-69QQF-B8YKP-D69TJ<br><br>
+<div class="key-row"><span class="k-name">Windows 10/11 教育版 N</span><code class="k-val">2WH4N-8QGBV-H22JP-CT43Q-MDWWJ</code><button class="copy-btn" data-copy="2WH4N-8QGBV-H22JP-CT43Q-MDWWJ" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-<span style="color:red"><h4><strong>Windows Server 2012 R2</strong></h4></span>
+<div class="key-row"><span class="k-name">Windows 10/11 企业版</span><code class="k-val">NPPR9-FWDCX-D2C8J-H872K-2YT43</code><button class="copy-btn" data-copy="NPPR9-FWDCX-D2C8J-H872K-2YT43" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-Windows Server 2012 R2 Server Standard<br>
-D2N9P-3P6X9-2R39C-7RTCD-MDVJX<br><br>
+<div class="key-row"><span class="k-name">Windows 10/11 企业版 N</span><code class="k-val">DPH2V-TTNVB-4X9Q3-TJR4H-KHJW4</code><button class="copy-btn" data-copy="DPH2V-TTNVB-4X9Q3-TJR4H-KHJW4" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-Windows Server 2012 R2 Datacenter<br>
-W3GGN-FT8W3-Y4M27-J84CP-Q3VJ9<br><br>
+<div class="key-row"><span class="k-name">Windows 10/11 企业版 G</span><code class="k-val">YYVX9-NTFWV-6MDM3-9PT4T-4M68B</code><button class="copy-btn" data-copy="YYVX9-NTFWV-6MDM3-9PT4T-4M68B" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-Windows Server 2012 R2 Essentials<br>
-KNC87-3J2TX-XB4WP-VCPJV-M4FWM<br><br>
+<div class="key-row"><span class="k-name">Windows 10/11 企业版 G N</span><code class="k-val">44RPN-FTY23-9VTTB-MP9BX-T84FV</code><button class="copy-btn" data-copy="44RPN-FTY23-9VTTB-MP9BX-T84FV" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
+</div>
 
-<span style="color:red"><h4><strong>Windows Server 2012</strong></h4></span>
+<h3>Windows 10 LTSC 2019/2021</h3>
 
-Windows Server 2012<br>
-BN3D2-R7TKB-3YPBD-8DRP2-27GG4<br><br>
 
-Windows Server 2012 N<br>
-8N2M2-HWPGY-7PGT9-HGDD8-GVGGY<br><br>
+<div class="key-list">
+<div class="key-row"><span class="k-name">Windows 10 企业版 LTSC 2019/2021</span><code class="k-val">M7XTQ-FN8P6-TTKYV-9D4CC-J462D</code><button class="copy-btn" data-copy="M7XTQ-FN8P6-TTKYV-9D4CC-J462D" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-Windows Server 2012 单语言版<br>
-2WN2H-YGCQR-KFX6K-CD6TF-84YXQ<br><br>
+<div class="key-row"><span class="k-name">Windows 10 企业版 N LTSC 2019/2021</span><code class="k-val">92NFX-8DJQP-P6BBQ-THF9C-7CG2H</code><button class="copy-btn" data-copy="92NFX-8DJQP-P6BBQ-THF9C-7CG2H" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
+</div>
 
-Windows Server 2012 特定国家/地区版<br>
-4K36P-JN4VD-GDC6V-KDT89-DYFKP<br><br>
+<h3>Windows 10 LTSB 2016</h3>
 
-Windows Server 2012 Server 标准版<br>
-XC9B7-NBPP2-83J2H-RHMBY-92BT4<br><br>
 
-Windows Server 2012 MultiPoint 标准版<br>
-HM7DN-YVMH3-46JC3-XYTG7-CYQJJ<br><br>
+<div class="key-list">
+<div class="key-row"><span class="k-name">Windows 10 企业版 LTSB 2016</span><code class="k-val">DCPHK-NFMTC-H88MJ-PFHPY-QJ4BJ</code><button class="copy-btn" data-copy="DCPHK-NFMTC-H88MJ-PFHPY-QJ4BJ" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-Windows Server 2012 MultiPoint 高级版<br>
-XNH6W-2V9GX-RGJ4K-Y8X6F-QGJ2G<br><br>
+<div class="key-row"><span class="k-name">Windows 10 企业版 N LTSB 2016</span><code class="k-val">QFFDN-GRT3P-VKWWX-X7T3R-8B639</code><button class="copy-btn" data-copy="QFFDN-GRT3P-VKWWX-X7T3R-8B639" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
+</div>
 
-Windows Server 2012 Datacenter<br>
-48HP8-DN98B-MYWDG-T2DCC-8W83P<br><br>
+<h3>Windows 10 LTSB 2015</h3>
 
-<span style="color:red"><h4><strong>Windows Server 2008 R2</strong></h4></span>
 
-Windows Server 2008 R2 Web 版<br>
-6TPJF-RBVHG-WBW2R-86QPH-6RTM4<br><br>
+<div class="key-list">
+<div class="key-row"><span class="k-name">Windows 10 企业版 2015 LTSB</span><code class="k-val">WNMTR-4C88C-JK8YV-HQ7T2-76DF9</code><button class="copy-btn" data-copy="WNMTR-4C88C-JK8YV-HQ7T2-76DF9" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-Windows Server 2008 R2 HPC 版<br>
-TT8MH-CG224-D3D7Q-498W2-9QCTX<br><br>
+<div class="key-row"><span class="k-name">Windows 10 企业版 2015 LTSB N</span><code class="k-val">2F77B-TNFGY-69QQF-B8YKP-D69TJ</code><button class="copy-btn" data-copy="2F77B-TNFGY-69QQF-B8YKP-D69TJ" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
+</div>
 
-Windows Server 2008 R2 标准版<br>
-YC6KT-GKW9T-YTKYR-T4X34-R7VHC<br><br>
+<h3>Windows Server 2012 R2</h3>
 
-Windows Server 2008 R2 企业版<br>
-489J6-VHDMP-X63PK-3K798-CPX3Y<br><br>
 
-Windows Server 2008 R2 数据中心版<br>
-74YFP-3QFB3-KQT8W-PMXWJ-7M648<br><br>
+<div class="key-list">
+<div class="key-row"><span class="k-name">Windows Server 2012 R2 Server Standard</span><code class="k-val">D2N9P-3P6X9-2R39C-7RTCD-MDVJX</code><button class="copy-btn" data-copy="D2N9P-3P6X9-2R39C-7RTCD-MDVJX" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-面向基于 Itanium 系统的 Windows Server 2008 R2<br>
-GT63C-RJFQ3-4GMB6-BRFB9-CB83V<br><br>
+<div class="key-row"><span class="k-name">Windows Server 2012 R2 Datacenter</span><code class="k-val">W3GGN-FT8W3-Y4M27-J84CP-Q3VJ9</code><button class="copy-btn" data-copy="W3GGN-FT8W3-Y4M27-J84CP-Q3VJ9" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-<span style="color:red"><h4><strong>Windows Server 2008</strong></h4></span>
+<div class="key-row"><span class="k-name">Windows Server 2012 R2 Essentials</span><code class="k-val">KNC87-3J2TX-XB4WP-VCPJV-M4FWM</code><button class="copy-btn" data-copy="KNC87-3J2TX-XB4WP-VCPJV-M4FWM" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
+</div>
 
-Windows Web Server 2008<br>
-WYR28-R7TFJ-3X2YQ-YCY4H-M249D<br><br>
+<h3>Windows Server 2012</h3>
 
-Windows Server 2008 标准版<br>
-TM24T-X9RMF-VWXK6-X8JC9-BFGM2<br><br>
 
-不带 Hyper-V 的 Windows Server 2008 标准版<br>
-W7VD6-7JFBR-RX26B-YKQ3Y-6FFFJ<br><br>
+<div class="key-list">
+<div class="key-row"><span class="k-name">Windows Server 2012</span><code class="k-val">BN3D2-R7TKB-3YPBD-8DRP2-27GG4</code><button class="copy-btn" data-copy="BN3D2-R7TKB-3YPBD-8DRP2-27GG4" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-Windows Server 2008 企业版<br>
-YQGMW-MPWTJ-34KDK-48M3W-X4Q6V<br><br>
+<div class="key-row"><span class="k-name">Windows Server 2012 N</span><code class="k-val">8N2M2-HWPGY-7PGT9-HGDD8-GVGGY</code><button class="copy-btn" data-copy="8N2M2-HWPGY-7PGT9-HGDD8-GVGGY" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-不带 Hyper-V 的 Windows Server 2008 企业版<br>
-39BXF-X8Q23-P2WWT-38T2F-G3FPG<br><br>
+<div class="key-row"><span class="k-name">Windows Server 2012 单语言版</span><code class="k-val">2WN2H-YGCQR-KFX6K-CD6TF-84YXQ</code><button class="copy-btn" data-copy="2WN2H-YGCQR-KFX6K-CD6TF-84YXQ" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-Windows Server 2008 HPC<br>
-RCTX3-KWVHP-BR6TB-RB6DM-6X7HP<br><br>
+<div class="key-row"><span class="k-name">Windows Server 2012 特定国家/地区版</span><code class="k-val">4K36P-JN4VD-GDC6V-KDT89-DYFKP</code><button class="copy-btn" data-copy="4K36P-JN4VD-GDC6V-KDT89-DYFKP" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-Windows Server 2008 Datacenter<br>
-7M67G-PC374-GR742-YH8V4-TCBY3<br><br>
+<div class="key-row"><span class="k-name">Windows Server 2012 Server 标准版</span><code class="k-val">XC9B7-NBPP2-83J2H-RHMBY-92BT4</code><button class="copy-btn" data-copy="XC9B7-NBPP2-83J2H-RHMBY-92BT4" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-不带 Hyper-V 的 Windows Server 2008 数据中心版<br>
-22XQ2-VRXRG-P8D42-K34TD-G3QQC<br><br>
+<div class="key-row"><span class="k-name">Windows Server 2012 MultiPoint 标准版</span><code class="k-val">HM7DN-YVMH3-46JC3-XYTG7-CYQJJ</code><button class="copy-btn" data-copy="HM7DN-YVMH3-46JC3-XYTG7-CYQJJ" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-面向基于 Itanium 系统的 Windows Server 2008<br>
-4DWFP-JF3DJ-B7DTH-78FJB-PDRHK<br><br>
+<div class="key-row"><span class="k-name">Windows Server 2012 MultiPoint 高级版</span><code class="k-val">XNH6W-2V9GX-RGJ4K-Y8X6F-QGJ2G</code><button class="copy-btn" data-copy="XNH6W-2V9GX-RGJ4K-Y8X6F-QGJ2G" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-<span style="color:red"><h4><strong>Windows 8.1</strong></h4></span>
+<div class="key-row"><span class="k-name">Windows Server 2012 Datacenter</span><code class="k-val">48HP8-DN98B-MYWDG-T2DCC-8W83P</code><button class="copy-btn" data-copy="48HP8-DN98B-MYWDG-T2DCC-8W83P" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
+</div>
 
-Windows 8.1 专业版<br>
-GCRJD-8NW9H-F2CDX-CCM8D-9D6T9<br><br>
+<h3>Windows Server 2008 R2</h3>
 
-Windows 8.1 专业版 N<br>
-HMCNV-VVBFX-7HMBH-CTY9B-B4FXY<br><br>
 
-Windows 8.1 企业版<br>
-MHF9N-XY6XB-WVXMC-BTDCT-MKKG7<br><br>
+<div class="key-list">
+<div class="key-row"><span class="k-name">Windows Server 2008 R2 Web 版</span><code class="k-val">6TPJF-RBVHG-WBW2R-86QPH-6RTM4</code><button class="copy-btn" data-copy="6TPJF-RBVHG-WBW2R-86QPH-6RTM4" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-Windows 8.1 企业版 N<br>
-TT4HM-HN7YT-62K67-RGRQJ-JFFXW<br><br>
+<div class="key-row"><span class="k-name">Windows Server 2008 R2 HPC 版</span><code class="k-val">TT8MH-CG224-D3D7Q-498W2-9QCTX</code><button class="copy-btn" data-copy="TT8MH-CG224-D3D7Q-498W2-9QCTX" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-<span style="color:red"><h4><strong>Windows 8</strong></h4></span>
+<div class="key-row"><span class="k-name">Windows Server 2008 R2 标准版</span><code class="k-val">YC6KT-GKW9T-YTKYR-T4X34-R7VHC</code><button class="copy-btn" data-copy="YC6KT-GKW9T-YTKYR-T4X34-R7VHC" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-Windows 8 专业版<br>
-NG4HW-VH26C-733KW-K6F98-J8CK4<br><br>
+<div class="key-row"><span class="k-name">Windows Server 2008 R2 企业版</span><code class="k-val">489J6-VHDMP-X63PK-3K798-CPX3Y</code><button class="copy-btn" data-copy="489J6-VHDMP-X63PK-3K798-CPX3Y" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-Windows 8 专业版 N<br>
-XCVCF-2NXM9-723PB-MHCB7-2RYQQ<br><br>
+<div class="key-row"><span class="k-name">Windows Server 2008 R2 数据中心版</span><code class="k-val">74YFP-3QFB3-KQT8W-PMXWJ-7M648</code><button class="copy-btn" data-copy="74YFP-3QFB3-KQT8W-PMXWJ-7M648" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-Windows 8 企业版<br>
-32JNW-9KQ84-P47T8-D8GGY-CWCK7<br><br>
+<div class="key-row"><span class="k-name">面向基于 Itanium 系统的 Windows Server 2008 R2</span><code class="k-val">GT63C-RJFQ3-4GMB6-BRFB9-CB83V</code><button class="copy-btn" data-copy="GT63C-RJFQ3-4GMB6-BRFB9-CB83V" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
+</div>
 
-Windows 8 企业版 N<br>
-JMNMF-RHW7P-DMY6X-RF3DR-X2BQT<br><br>
+<h3>Windows Server 2008</h3>
 
-<span style="color:red"><h4><strong>Windows 7</strong></h4></span>
 
-Windows 7 专业版<br>
-FJ82H-XT6CR-J8D7P-XQJJ2-GPDD4<br><br>
+<div class="key-list">
+<div class="key-row"><span class="k-name">Windows Web Server 2008</span><code class="k-val">WYR28-R7TFJ-3X2YQ-YCY4H-M249D</code><button class="copy-btn" data-copy="WYR28-R7TFJ-3X2YQ-YCY4H-M249D" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-Windows 7 专业版 N<br>
-MRPKT-YTG23-K7D7T-X2JMM-QY7MG<br><br>
+<div class="key-row"><span class="k-name">Windows Server 2008 标准版</span><code class="k-val">TM24T-X9RMF-VWXK6-X8JC9-BFGM2</code><button class="copy-btn" data-copy="TM24T-X9RMF-VWXK6-X8JC9-BFGM2" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-Windows 7 专业版 E<br>
-W82YF-2Q76Y-63HXB-FGJG9-GF7QX<br><br>
+<div class="key-row"><span class="k-name">不带 Hyper-V 的 Windows Server 2008 标准版</span><code class="k-val">W7VD6-7JFBR-RX26B-YKQ3Y-6FFFJ</code><button class="copy-btn" data-copy="W7VD6-7JFBR-RX26B-YKQ3Y-6FFFJ" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-Windows 7 企业版<br>
-33PXH-7Y6KF-2VJC9-XBBR8-HVTHH<br><br>
+<div class="key-row"><span class="k-name">Windows Server 2008 企业版</span><code class="k-val">YQGMW-MPWTJ-34KDK-48M3W-X4Q6V</code><button class="copy-btn" data-copy="YQGMW-MPWTJ-34KDK-48M3W-X4Q6V" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-Windows 7 企业版 N<br>
-YDRBP-3D83W-TY26F-D46B2-XCKRJ<br><br>
+<div class="key-row"><span class="k-name">不带 Hyper-V 的 Windows Server 2008 企业版</span><code class="k-val">39BXF-X8Q23-P2WWT-38T2F-G3FPG</code><button class="copy-btn" data-copy="39BXF-X8Q23-P2WWT-38T2F-G3FPG" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-Windows 7 企业版 E<br>
-C29WB-22CC8-VJ326-GHFJW-H9DH4<br><br>
+<div class="key-row"><span class="k-name">Windows Server 2008 HPC</span><code class="k-val">RCTX3-KWVHP-BR6TB-RB6DM-6X7HP</code><button class="copy-btn" data-copy="RCTX3-KWVHP-BR6TB-RB6DM-6X7HP" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-<h4><strong>附2：Office 的 KMS 激活密钥（Product GVLK）</strong></h4>
-https://learn.microsoft.com/zh-cn/DeployOffice/vlactivation/gvlks<br>
+<div class="key-row"><span class="k-name">Windows Server 2008 Datacenter</span><code class="k-val">7M67G-PC374-GR742-YH8V4-TCBY3</code><button class="copy-btn" data-copy="7M67G-PC374-GR742-YH8V4-TCBY3" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-<span style="color:red"><b><h4><strong>Office LTSC 2021 的 Product GVLK</strong></h4></b></span>
+<div class="key-row"><span class="k-name">不带 Hyper-V 的 Windows Server 2008 数据中心版</span><code class="k-val">22XQ2-VRXRG-P8D42-K34TD-G3QQC</code><button class="copy-btn" data-copy="22XQ2-VRXRG-P8D42-K34TD-G3QQC" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-Office LTSC 专业增强版 2021<br>
-FXYTK-NJJ8C-GB6DW-3DYQT-6F7TH<br><br>
+<div class="key-row"><span class="k-name">面向基于 Itanium 系统的 Windows Server 2008</span><code class="k-val">4DWFP-JF3DJ-B7DTH-78FJB-PDRHK</code><button class="copy-btn" data-copy="4DWFP-JF3DJ-B7DTH-78FJB-PDRHK" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
+</div>
 
-Office LTSC 标准版 2021<br>
-KDX7X-BNVR8-TXXGX-4Q7Y8-78VT3<br><br>
+<h3>Windows 8.1</h3>
 
-Project Professional 2021<br>
-FTNWT-C6WBT-8HMGF-K9PRX-QV9H8<br><br>
 
-Project Standard 2021<br>
-J2JDC-NJCYY-9RGQ4-YXWMH-T3D4T<br><br>
+<div class="key-list">
+<div class="key-row"><span class="k-name">Windows 8.1 专业版</span><code class="k-val">GCRJD-8NW9H-F2CDX-CCM8D-9D6T9</code><button class="copy-btn" data-copy="GCRJD-8NW9H-F2CDX-CCM8D-9D6T9" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-Visio LTSC Professional 2021<br>
-KNH8D-FGHT4-T8RK3-CTDYJ-K2HT4<br><br>
+<div class="key-row"><span class="k-name">Windows 8.1 专业版 N</span><code class="k-val">HMCNV-VVBFX-7HMBH-CTY9B-B4FXY</code><button class="copy-btn" data-copy="HMCNV-VVBFX-7HMBH-CTY9B-B4FXY" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-Visio LTSC Standard 2021<br>
-MJVNY-BYWPY-CWV6J-2RKRT-4M8QG<br><br>
+<div class="key-row"><span class="k-name">Windows 8.1 企业版</span><code class="k-val">MHF9N-XY6XB-WVXMC-BTDCT-MKKG7</code><button class="copy-btn" data-copy="MHF9N-XY6XB-WVXMC-BTDCT-MKKG7" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
+
+<div class="key-row"><span class="k-name">Windows 8.1 企业版 N</span><code class="k-val">TT4HM-HN7YT-62K67-RGRQJ-JFFXW</code><button class="copy-btn" data-copy="TT4HM-HN7YT-62K67-RGRQJ-JFFXW" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
+</div>
+
+<h3>Windows 8</h3>
+
+
+<div class="key-list">
+<div class="key-row"><span class="k-name">Windows 8 专业版</span><code class="k-val">NG4HW-VH26C-733KW-K6F98-J8CK4</code><button class="copy-btn" data-copy="NG4HW-VH26C-733KW-K6F98-J8CK4" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
+
+<div class="key-row"><span class="k-name">Windows 8 专业版 N</span><code class="k-val">XCVCF-2NXM9-723PB-MHCB7-2RYQQ</code><button class="copy-btn" data-copy="XCVCF-2NXM9-723PB-MHCB7-2RYQQ" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
+
+<div class="key-row"><span class="k-name">Windows 8 企业版</span><code class="k-val">32JNW-9KQ84-P47T8-D8GGY-CWCK7</code><button class="copy-btn" data-copy="32JNW-9KQ84-P47T8-D8GGY-CWCK7" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
+
+<div class="key-row"><span class="k-name">Windows 8 企业版 N</span><code class="k-val">JMNMF-RHW7P-DMY6X-RF3DR-X2BQT</code><button class="copy-btn" data-copy="JMNMF-RHW7P-DMY6X-RF3DR-X2BQT" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
+</div>
+
+<h3>Windows 7</h3>
+
+
+<div class="key-list">
+<div class="key-row"><span class="k-name">Windows 7 专业版</span><code class="k-val">FJ82H-XT6CR-J8D7P-XQJJ2-GPDD4</code><button class="copy-btn" data-copy="FJ82H-XT6CR-J8D7P-XQJJ2-GPDD4" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
+
+<div class="key-row"><span class="k-name">Windows 7 专业版 N</span><code class="k-val">MRPKT-YTG23-K7D7T-X2JMM-QY7MG</code><button class="copy-btn" data-copy="MRPKT-YTG23-K7D7T-X2JMM-QY7MG" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
+
+<div class="key-row"><span class="k-name">Windows 7 专业版 E</span><code class="k-val">W82YF-2Q76Y-63HXB-FGJG9-GF7QX</code><button class="copy-btn" data-copy="W82YF-2Q76Y-63HXB-FGJG9-GF7QX" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
+
+<div class="key-row"><span class="k-name">Windows 7 企业版</span><code class="k-val">33PXH-7Y6KF-2VJC9-XBBR8-HVTHH</code><button class="copy-btn" data-copy="33PXH-7Y6KF-2VJC9-XBBR8-HVTHH" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
+
+<div class="key-row"><span class="k-name">Windows 7 企业版 N</span><code class="k-val">YDRBP-3D83W-TY26F-D46B2-XCKRJ</code><button class="copy-btn" data-copy="YDRBP-3D83W-TY26F-D46B2-XCKRJ" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
+
+<div class="key-row"><span class="k-name">Windows 7 企业版 E</span><code class="k-val">C29WB-22CC8-VJ326-GHFJW-H9DH4</code><button class="copy-btn" data-copy="C29WB-22CC8-VJ326-GHFJW-H9DH4" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
+</div>
+
+<section id="appendix2">
+<h2><span class="num n-teal">附2</span><span>附2：Office 的 KMS 激活密钥（Product GVLK）</span></h2>
+
+<a href="https://learn.microsoft.com/zh-cn/DeployOffice/vlactivation/gvlks" target="_blank" rel="noopener">https://learn.microsoft.com/zh-cn/DeployOffice/vlactivation/gvlks</a><br>
+
+
+</section>
+
+<h3>Office LTSC 2021 的 Product GVLK</h3>
+
+
+<div class="key-list">
+<div class="key-row"><span class="k-name">Office LTSC 专业增强版 2021</span><code class="k-val">FXYTK-NJJ8C-GB6DW-3DYQT-6F7TH</code><button class="copy-btn" data-copy="FXYTK-NJJ8C-GB6DW-3DYQT-6F7TH" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
+
+<div class="key-row"><span class="k-name">Office LTSC 标准版 2021</span><code class="k-val">KDX7X-BNVR8-TXXGX-4Q7Y8-78VT3</code><button class="copy-btn" data-copy="KDX7X-BNVR8-TXXGX-4Q7Y8-78VT3" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
+
+<div class="key-row"><span class="k-name">Project Professional 2021</span><code class="k-val">FTNWT-C6WBT-8HMGF-K9PRX-QV9H8</code><button class="copy-btn" data-copy="FTNWT-C6WBT-8HMGF-K9PRX-QV9H8" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
+
+<div class="key-row"><span class="k-name">Project Standard 2021</span><code class="k-val">J2JDC-NJCYY-9RGQ4-YXWMH-T3D4T</code><button class="copy-btn" data-copy="J2JDC-NJCYY-9RGQ4-YXWMH-T3D4T" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
+
+<div class="key-row"><span class="k-name">Visio LTSC Professional 2021</span><code class="k-val">KNH8D-FGHT4-T8RK3-CTDYJ-K2HT4</code><button class="copy-btn" data-copy="KNH8D-FGHT4-T8RK3-CTDYJ-K2HT4" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
+
+<div class="key-row"><span class="k-name">Visio LTSC Standard 2021</span><code class="k-val">MJVNY-BYWPY-CWV6J-2RKRT-4M8QG</code><button class="copy-btn" data-copy="MJVNY-BYWPY-CWV6J-2RKRT-4M8QG" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 	
-Access LTSC 2021<br>
-WM8YG-YNGDD-4JHDC-PG3F4-FC4T4<br><br>
+<div class="key-row"><span class="k-name">Access LTSC 2021</span><code class="k-val">WM8YG-YNGDD-4JHDC-PG3F4-FC4T4</code><button class="copy-btn" data-copy="WM8YG-YNGDD-4JHDC-PG3F4-FC4T4" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-Excel LTSC 2021<br>
-NWG3X-87C9K-TC7YY-BC2G7-G6RVC<br><br>
+<div class="key-row"><span class="k-name">Excel LTSC 2021</span><code class="k-val">NWG3X-87C9K-TC7YY-BC2G7-G6RVC</code><button class="copy-btn" data-copy="NWG3X-87C9K-TC7YY-BC2G7-G6RVC" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-Outlook LTSC 2021<br>
-C9FM6-3N72F-HFJXB-TM3V9-T86R9<br><br>
+<div class="key-row"><span class="k-name">Outlook LTSC 2021</span><code class="k-val">C9FM6-3N72F-HFJXB-TM3V9-T86R9</code><button class="copy-btn" data-copy="C9FM6-3N72F-HFJXB-TM3V9-T86R9" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-PowerPoint LTSC 2021<br>
-TY7XF-NFRBR-KJ44C-G83KF-GX27K<br><br>
+<div class="key-row"><span class="k-name">PowerPoint LTSC 2021</span><code class="k-val">TY7XF-NFRBR-KJ44C-G83KF-GX27K</code><button class="copy-btn" data-copy="TY7XF-NFRBR-KJ44C-G83KF-GX27K" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-Publisher LTSC 2021<br>
-2MW9D-N4BXM-9VBPG-Q7W6M-KFBGQ<br><br>
+<div class="key-row"><span class="k-name">Publisher LTSC 2021</span><code class="k-val">2MW9D-N4BXM-9VBPG-Q7W6M-KFBGQ</code><button class="copy-btn" data-copy="2MW9D-N4BXM-9VBPG-Q7W6M-KFBGQ" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-Skype for Business LTSC 2021<br>
-HWCXN-K3WBT-WJBKY-R8BD9-XK29P<br><br>
+<div class="key-row"><span class="k-name">Skype for Business LTSC 2021</span><code class="k-val">HWCXN-K3WBT-WJBKY-R8BD9-XK29P</code><button class="copy-btn" data-copy="HWCXN-K3WBT-WJBKY-R8BD9-XK29P" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-Word LTSC 2021<br>
-TN8H9-M34D3-Y64V9-TR72V-X79KV<br><br>
+<div class="key-row"><span class="k-name">Word LTSC 2021</span><code class="k-val">TN8H9-M34D3-Y64V9-TR72V-X79KV</code><button class="copy-btn" data-copy="TN8H9-M34D3-Y64V9-TR72V-X79KV" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
+</div>
 
-<span style="color:red"><b><h4><strong>Office 2019 的 Product GVLK</strong></h4></b></span>
+<h3>Office 2019 的 Product GVLK</h3>
 
-<h4><strong>Office套件</strong></h4>
 
-Office 专业增强版 2019<br>
-NMMKJ-6RK4F-KMJVX-8D9MJ-6MWKP<br><br>
 
-Office 标准版 2019<br>
-6NWWJ-YQWMR-QKGCB-6TMB3-9D9HK<br><br>
 
-<h4><strong>Office独立产品</strong></h4>
+<h3>Office套件</h3>
 
-Project 专业版 2019<br>
-B4NPR-3FKK7-T2MBV-FRQ4W-PKD2B<br><br>
 
-Project 标准版 2019<br>
-C4F7P-NCP8C-6CQPT-MQHV9-JXD2M<br><br>
+<div class="key-list">
+<div class="key-row"><span class="k-name">Office 专业增强版 2019</span><code class="k-val">NMMKJ-6RK4F-KMJVX-8D9MJ-6MWKP</code><button class="copy-btn" data-copy="NMMKJ-6RK4F-KMJVX-8D9MJ-6MWKP" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-Visio 专业版 2019<br>
-9BGNQ-K37YR-RQHF2-38RQ3-7VCBB<br><br>
+<div class="key-row"><span class="k-name">Office 标准版 2019</span><code class="k-val">6NWWJ-YQWMR-QKGCB-6TMB3-9D9HK</code><button class="copy-btn" data-copy="6NWWJ-YQWMR-QKGCB-6TMB3-9D9HK" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
+</div>
 
-Visio 标准版 2019<br>
-7TQNQ-K3YQQ-3PFH7-CCPPM-X4VQ2<br><br>
+<h3>Office独立产品</h3>
 
-Access 2019<br>
-9N9PT-27V4Y-VJ2PD-YXFMF-YTFQT<br><br>
 
-Excel 2019<br>
-TMJWT-YYNMB-3BKTF-644FC-RVXBD<br><br>
+<div class="key-list">
+<div class="key-row"><span class="k-name">Project 专业版 2019</span><code class="k-val">B4NPR-3FKK7-T2MBV-FRQ4W-PKD2B</code><button class="copy-btn" data-copy="B4NPR-3FKK7-T2MBV-FRQ4W-PKD2B" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-Outlook 2019<br>
-7HD7K-N4PVK-BHBCQ-YWQRW-XW4VK<br><br>
+<div class="key-row"><span class="k-name">Project 标准版 2019</span><code class="k-val">C4F7P-NCP8C-6CQPT-MQHV9-JXD2M</code><button class="copy-btn" data-copy="C4F7P-NCP8C-6CQPT-MQHV9-JXD2M" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-PowerPoint 2019<br>
-RRNCX-C64HY-W2MM7-MCH9G-TJHMQ<br><br>
+<div class="key-row"><span class="k-name">Visio 专业版 2019</span><code class="k-val">9BGNQ-K37YR-RQHF2-38RQ3-7VCBB</code><button class="copy-btn" data-copy="9BGNQ-K37YR-RQHF2-38RQ3-7VCBB" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-Publisher 2019<br>
-G2KWX-3NW6P-PY93R-JXK2T-C9Y9V<br><br>
+<div class="key-row"><span class="k-name">Visio 标准版 2019</span><code class="k-val">7TQNQ-K3YQQ-3PFH7-CCPPM-X4VQ2</code><button class="copy-btn" data-copy="7TQNQ-K3YQQ-3PFH7-CCPPM-X4VQ2" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-Skype for Business 2019<br>
-NCJ33-JHBBY-HTK98-MYCV8-HMKHJ<br><br>
+<div class="key-row"><span class="k-name">Access 2019</span><code class="k-val">9N9PT-27V4Y-VJ2PD-YXFMF-YTFQT</code><button class="copy-btn" data-copy="9N9PT-27V4Y-VJ2PD-YXFMF-YTFQT" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-Word 2019<br>
-PBX3G-NWMT6-Q7XBW-PYJGG-WXD33<br><br>
+<div class="key-row"><span class="k-name">Excel 2019</span><code class="k-val">TMJWT-YYNMB-3BKTF-644FC-RVXBD</code><button class="copy-btn" data-copy="TMJWT-YYNMB-3BKTF-644FC-RVXBD" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-<span style="color:red"><b><h4><strong>Office 2016 的 Product GVLK</strong></h4></b></span>
+<div class="key-row"><span class="k-name">Outlook 2019</span><code class="k-val">7HD7K-N4PVK-BHBCQ-YWQRW-XW4VK</code><button class="copy-btn" data-copy="7HD7K-N4PVK-BHBCQ-YWQRW-XW4VK" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-<h4><strong>Office套件</strong></h4>
+<div class="key-row"><span class="k-name">PowerPoint 2019</span><code class="k-val">RRNCX-C64HY-W2MM7-MCH9G-TJHMQ</code><button class="copy-btn" data-copy="RRNCX-C64HY-W2MM7-MCH9G-TJHMQ" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-Office 专业增强版 2016（Office365/Microsoft365）<br>
-XQNVK-8JYDB-WJ9W3-YJ8YR-WFG99<br><br>
+<div class="key-row"><span class="k-name">Publisher 2019</span><code class="k-val">G2KWX-3NW6P-PY93R-JXK2T-C9Y9V</code><button class="copy-btn" data-copy="G2KWX-3NW6P-PY93R-JXK2T-C9Y9V" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-Office Standard 2016<br>
-JNRGM-WHDWX-FJJG3-K47QV-DRTFM<br><br>
+<div class="key-row"><span class="k-name">Skype for Business 2019</span><code class="k-val">NCJ33-JHBBY-HTK98-MYCV8-HMKHJ</code><button class="copy-btn" data-copy="NCJ33-JHBBY-HTK98-MYCV8-HMKHJ" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-<h4><strong>Office独立产品</strong></h4>
+<div class="key-row"><span class="k-name">Word 2019</span><code class="k-val">PBX3G-NWMT6-Q7XBW-PYJGG-WXD33</code><button class="copy-btn" data-copy="PBX3G-NWMT6-Q7XBW-PYJGG-WXD33" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
+</div>
 
-Project Professional 2016<br>
-YG9NW-3K39V-2T3HJ-93F3Q-G83KT<br><br>
+<h3>Office 2016 的 Product GVLK</h3>
 
-Project Standard 2016<br>
-GNFHQ-F6YQM-KQDGJ-327XX-KQBVC<br><br>
 
-Visio Professional 2016<br>
-PD3PC-RHNGV-FXJ29-8JK7D-RJRJK<br><br>
 
-Visio Standard 2016<br>
-7WHWN-4T7MP-G96JF-G33KR-W8GF4<br><br>
 
-Access 2016<br>
-GNH9Y-D2J4T-FJHGG-QRVH7-QPFDW<br><br>
+<h3>Office套件</h3>
 
-Excel 2016<br>
-9C2PK-NWTVB-JMPW8-BFT28-7FTBF<br><br>
 
-OneNote 2016<br>
-DR92N-9HTF2-97XKM-XW2WJ-XW3J6<br><br>
+<div class="key-list">
+<div class="key-row"><span class="k-name">Office 专业增强版 2016（Office365/Microsoft365）</span><code class="k-val">XQNVK-8JYDB-WJ9W3-YJ8YR-WFG99</code><button class="copy-btn" data-copy="XQNVK-8JYDB-WJ9W3-YJ8YR-WFG99" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-Outlook 2016<br>
-R69KK-NTPKF-7M3Q4-QYBHW-6MT9B<br><br>
+<div class="key-row"><span class="k-name">Office Standard 2016</span><code class="k-val">JNRGM-WHDWX-FJJG3-K47QV-DRTFM</code><button class="copy-btn" data-copy="JNRGM-WHDWX-FJJG3-K47QV-DRTFM" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
+</div>
 
-PowerPoint 2016<br>
-J7MQP-HNJ4Y-WJ7YM-PFYGF-BY6C6<br><br>
+<h3>Office独立产品</h3>
 
-Publisher 2016<br>
-F47MM-N3XJP-TQXJ9-BP99D-8837K<br><br>
 
-Skype for Business 2016<br>
-869NQ-FJ69K-466HW-QYCP2-DDBV6<br><br>
+<div class="key-list">
+<div class="key-row"><span class="k-name">Project Professional 2016</span><code class="k-val">YG9NW-3K39V-2T3HJ-93F3Q-G83KT</code><button class="copy-btn" data-copy="YG9NW-3K39V-2T3HJ-93F3Q-G83KT" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-Word 2016<br>
-WXY84-JN2Q9-RBCCQ-3Q3J3-3PFJ6<br><br>
+<div class="key-row"><span class="k-name">Project Standard 2016</span><code class="k-val">GNFHQ-F6YQM-KQDGJ-327XX-KQBVC</code><button class="copy-btn" data-copy="GNFHQ-F6YQM-KQDGJ-327XX-KQBVC" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-<span style="color:red"><b><h4><strong>Office 2013 的 Product GVLK</strong></h4></b></span>
+<div class="key-row"><span class="k-name">Visio Professional 2016</span><code class="k-val">PD3PC-RHNGV-FXJ29-8JK7D-RJRJK</code><button class="copy-btn" data-copy="PD3PC-RHNGV-FXJ29-8JK7D-RJRJK" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-<h4><strong>Office套件</strong></h4>
+<div class="key-row"><span class="k-name">Visio Standard 2016</span><code class="k-val">7WHWN-4T7MP-G96JF-G33KR-W8GF4</code><button class="copy-btn" data-copy="7WHWN-4T7MP-G96JF-G33KR-W8GF4" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-Office 2013 Professional Plus<br>
-YC7DK-G2NP3-2QQC3-J6H88-GVGXT<br><br>
+<div class="key-row"><span class="k-name">Access 2016</span><code class="k-val">GNH9Y-D2J4T-FJHGG-QRVH7-QPFDW</code><button class="copy-btn" data-copy="GNH9Y-D2J4T-FJHGG-QRVH7-QPFDW" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-Office 2013 Standard<br>
-KBKQT-2NMXY-JJWGP-M62JB-92CD4<br><br>
+<div class="key-row"><span class="k-name">Excel 2016</span><code class="k-val">9C2PK-NWTVB-JMPW8-BFT28-7FTBF</code><button class="copy-btn" data-copy="9C2PK-NWTVB-JMPW8-BFT28-7FTBF" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-<h4><strong>Office独立产品</strong></h4>
+<div class="key-row"><span class="k-name">OneNote 2016</span><code class="k-val">DR92N-9HTF2-97XKM-XW2WJ-XW3J6</code><button class="copy-btn" data-copy="DR92N-9HTF2-97XKM-XW2WJ-XW3J6" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-Project 2013 Professional<br>
-FN8TT-7WMH6-2D4X9-M337T-2342K<br><br>
+<div class="key-row"><span class="k-name">Outlook 2016</span><code class="k-val">R69KK-NTPKF-7M3Q4-QYBHW-6MT9B</code><button class="copy-btn" data-copy="R69KK-NTPKF-7M3Q4-QYBHW-6MT9B" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-Project 2013 Standard<br>
-6NTH3-CW976-3G3Y2-JK3TX-8QHTT<br><br>
+<div class="key-row"><span class="k-name">PowerPoint 2016</span><code class="k-val">J7MQP-HNJ4Y-WJ7YM-PFYGF-BY6C6</code><button class="copy-btn" data-copy="J7MQP-HNJ4Y-WJ7YM-PFYGF-BY6C6" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-Visio 2013 Professional<br>
-C2FG9-N6J68-H8BTJ-BW3QX-RM3B3<br><br>
+<div class="key-row"><span class="k-name">Publisher 2016</span><code class="k-val">F47MM-N3XJP-TQXJ9-BP99D-8837K</code><button class="copy-btn" data-copy="F47MM-N3XJP-TQXJ9-BP99D-8837K" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-Visio 2013 Standard<br>
-J484Y-4NKBF-W2HMG-DBMJC-PGWR7<br><br>
+<div class="key-row"><span class="k-name">Skype for Business 2016</span><code class="k-val">869NQ-FJ69K-466HW-QYCP2-DDBV6</code><button class="copy-btn" data-copy="869NQ-FJ69K-466HW-QYCP2-DDBV6" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-Access 2013<br>
-NG2JY-H4JBT-HQXYP-78QH9-4JM2D<br><br>
+<div class="key-row"><span class="k-name">Word 2016</span><code class="k-val">WXY84-JN2Q9-RBCCQ-3Q3J3-3PFJ6</code><button class="copy-btn" data-copy="WXY84-JN2Q9-RBCCQ-3Q3J3-3PFJ6" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
+</div>
 
-Excel 2013<br>
-VGPNG-Y7HQW-9RHP7-TKPV3-BG7GB<br><br>
+<h3>Office 2013 的 Product GVLK</h3>
 
-InfoPath 2013<br>
-DKT8B-N7VXH-D963P-Q4PHY-F8894<br><br>
 
-Lync 2013<br>
-2MG3G-3BNTT-3MFW9-KDQW3-TCK7R<br><br>
 
-OneNote 2013<br>
-TGN6P-8MMBC-37P2F-XHXXK-P34VW<br><br>
 
-Outlook 2013<br>
-QPN8Q-BJBTJ-334K3-93TGY-2PMBT<br><br>
+<h3>Office套件</h3>
 
-PowerPoint 2013<br>
-4NT99-8RJFH-Q2VDH-KYG2C-4RD4F<br><br>
 
-Publisher 2013<br>
-PN2WF-29XG2-T9HJ7-JQPJR-FCXK4<br><br>
+<div class="key-list">
+<div class="key-row"><span class="k-name">Office 2013 Professional Plus</span><code class="k-val">YC7DK-G2NP3-2QQC3-J6H88-GVGXT</code><button class="copy-btn" data-copy="YC7DK-G2NP3-2QQC3-J6H88-GVGXT" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-Word 2013<br>
-6Q7VD-NX8JD-WJ2VH-88V73-4GBJ7<br><br>
+<div class="key-row"><span class="k-name">Office 2013 Standard</span><code class="k-val">KBKQT-2NMXY-JJWGP-M62JB-92CD4</code><button class="copy-btn" data-copy="KBKQT-2NMXY-JJWGP-M62JB-92CD4" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
+</div>
 
-<span style="color:red"><b><h4><strong>Office 2010 的 Product GVLK</strong></h4></b></span>
+<h3>Office独立产品</h3>
 
-<h4><strong>Office套件</strong></h4>
 
-Office Professional Plus 2010<br>
-VYBBJ-TRJPB-QFQRF-QFT4D-H3GVB<br><br>
+<div class="key-list">
+<div class="key-row"><span class="k-name">Project 2013 Professional</span><code class="k-val">FN8TT-7WMH6-2D4X9-M337T-2342K</code><button class="copy-btn" data-copy="FN8TT-7WMH6-2D4X9-M337T-2342K" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-Office Standard 2010<br>
-V7QKV-4XVVR-XYV4D-F7DFM-8R6BM<br><br>
+<div class="key-row"><span class="k-name">Project 2013 Standard</span><code class="k-val">6NTH3-CW976-3G3Y2-JK3TX-8QHTT</code><button class="copy-btn" data-copy="6NTH3-CW976-3G3Y2-JK3TX-8QHTT" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-Office Home and Business 2010<br>
-D6QFG-VBYP2-XQHM7-J97RH-VVRCK<br><br>
+<div class="key-row"><span class="k-name">Visio 2013 Professional</span><code class="k-val">C2FG9-N6J68-H8BTJ-BW3QX-RM3B3</code><button class="copy-btn" data-copy="C2FG9-N6J68-H8BTJ-BW3QX-RM3B3" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-<h4><strong>Office独立产品</strong></h4>
+<div class="key-row"><span class="k-name">Visio 2013 Standard</span><code class="k-val">J484Y-4NKBF-W2HMG-DBMJC-PGWR7</code><button class="copy-btn" data-copy="J484Y-4NKBF-W2HMG-DBMJC-PGWR7" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-Access 2010<br>
-V7Y44-9T38C-R2VJK-666HK-T7DDX<br><br>
+<div class="key-row"><span class="k-name">Access 2013</span><code class="k-val">NG2JY-H4JBT-HQXYP-78QH9-4JM2D</code><button class="copy-btn" data-copy="NG2JY-H4JBT-HQXYP-78QH9-4JM2D" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-Excel 2010<br>
-H62QG-HXVKF-PP4HP-66KMR-CW9BM<br><br>
+<div class="key-row"><span class="k-name">Excel 2013</span><code class="k-val">VGPNG-Y7HQW-9RHP7-TKPV3-BG7GB</code><button class="copy-btn" data-copy="VGPNG-Y7HQW-9RHP7-TKPV3-BG7GB" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-SharePoint Workspace 2010<br>
-QYYW6-QP4CB-MBV6G-HYMCJ-4T3J4<br><br>
+<div class="key-row"><span class="k-name">InfoPath 2013</span><code class="k-val">DKT8B-N7VXH-D963P-Q4PHY-F8894</code><button class="copy-btn" data-copy="DKT8B-N7VXH-D963P-Q4PHY-F8894" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-InfoPath 2010<br>
-K96W8-67RPQ-62T9Y-J8FQJ-BT37T<br><br>
+<div class="key-row"><span class="k-name">Lync 2013</span><code class="k-val">2MG3G-3BNTT-3MFW9-KDQW3-TCK7R</code><button class="copy-btn" data-copy="2MG3G-3BNTT-3MFW9-KDQW3-TCK7R" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-OneNote 2010<br>
-Q4Y4M-RHWJM-PY37F-MTKWH-D3XHX<br><br>
+<div class="key-row"><span class="k-name">OneNote 2013</span><code class="k-val">TGN6P-8MMBC-37P2F-XHXXK-P34VW</code><button class="copy-btn" data-copy="TGN6P-8MMBC-37P2F-XHXXK-P34VW" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-Outlook 2010<br>
-7YDC2-CWM8M-RRTJC-8MDVC-X3DWQ<br><br>
+<div class="key-row"><span class="k-name">Outlook 2013</span><code class="k-val">QPN8Q-BJBTJ-334K3-93TGY-2PMBT</code><button class="copy-btn" data-copy="QPN8Q-BJBTJ-334K3-93TGY-2PMBT" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-PowerPoint 2010<br>
-RC8FX-88JRY-3PF7C-X8P67-P4VTT<br><br>
+<div class="key-row"><span class="k-name">PowerPoint 2013</span><code class="k-val">4NT99-8RJFH-Q2VDH-KYG2C-4RD4F</code><button class="copy-btn" data-copy="4NT99-8RJFH-Q2VDH-KYG2C-4RD4F" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-Project Professional 2010<br>
-YGX6F-PGV49-PGW3J-9BTGG-VHKC6<br><br>
+<div class="key-row"><span class="k-name">Publisher 2013</span><code class="k-val">PN2WF-29XG2-T9HJ7-JQPJR-FCXK4</code><button class="copy-btn" data-copy="PN2WF-29XG2-T9HJ7-JQPJR-FCXK4" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
 
-Project Standard 2010<br>
-4HP3K-88W3F-W2K3D-6677X-F9PGB<br><br>
+<div class="key-row"><span class="k-name">Word 2013</span><code class="k-val">6Q7VD-NX8JD-WJ2VH-88V73-4GBJ7</code><button class="copy-btn" data-copy="6Q7VD-NX8JD-WJ2VH-88V73-4GBJ7" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
+</div>
 
-Publisher 2010<br>
-BFK7F-9MYHM-V68C7-DRQ66-83YTP<br><br>
+<h3>Office 2010 的 Product GVLK</h3>
 
-Word 2010<br>
-HVHB3-C6FV7-KQX9W-YQG79-CRY7T<br><br>
 
-Visio Premium 2010<br>
-D9DWC-HPYVV-JGF4P-BTWQB-WX8BJ<br><br>
 
-Visio Professional 2010<br>
-7MCW8-VRQVK-G677T-PDJCM-Q8TCP<br><br>
 
-Visio Standard 2010<br>
-767HD-QGMWX-8QTDB-9G3R2-KHFGJ<br><br>
+<h3>Office套件</h3>
 
-<h4><strong>附3：Windows原版镜像 下载渠道</strong></h4>
+
+<div class="key-list">
+<div class="key-row"><span class="k-name">Office Professional Plus 2010</span><code class="k-val">VYBBJ-TRJPB-QFQRF-QFT4D-H3GVB</code><button class="copy-btn" data-copy="VYBBJ-TRJPB-QFQRF-QFT4D-H3GVB" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
+
+<div class="key-row"><span class="k-name">Office Standard 2010</span><code class="k-val">V7QKV-4XVVR-XYV4D-F7DFM-8R6BM</code><button class="copy-btn" data-copy="V7QKV-4XVVR-XYV4D-F7DFM-8R6BM" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
+
+<div class="key-row"><span class="k-name">Office Home and Business 2010</span><code class="k-val">D6QFG-VBYP2-XQHM7-J97RH-VVRCK</code><button class="copy-btn" data-copy="D6QFG-VBYP2-XQHM7-J97RH-VVRCK" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
+</div>
+
+<h3>Office独立产品</h3>
+
+
+<div class="key-list">
+<div class="key-row"><span class="k-name">Access 2010</span><code class="k-val">V7Y44-9T38C-R2VJK-666HK-T7DDX</code><button class="copy-btn" data-copy="V7Y44-9T38C-R2VJK-666HK-T7DDX" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
+
+<div class="key-row"><span class="k-name">Excel 2010</span><code class="k-val">H62QG-HXVKF-PP4HP-66KMR-CW9BM</code><button class="copy-btn" data-copy="H62QG-HXVKF-PP4HP-66KMR-CW9BM" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
+
+<div class="key-row"><span class="k-name">SharePoint Workspace 2010</span><code class="k-val">QYYW6-QP4CB-MBV6G-HYMCJ-4T3J4</code><button class="copy-btn" data-copy="QYYW6-QP4CB-MBV6G-HYMCJ-4T3J4" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
+
+<div class="key-row"><span class="k-name">InfoPath 2010</span><code class="k-val">K96W8-67RPQ-62T9Y-J8FQJ-BT37T</code><button class="copy-btn" data-copy="K96W8-67RPQ-62T9Y-J8FQJ-BT37T" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
+
+<div class="key-row"><span class="k-name">OneNote 2010</span><code class="k-val">Q4Y4M-RHWJM-PY37F-MTKWH-D3XHX</code><button class="copy-btn" data-copy="Q4Y4M-RHWJM-PY37F-MTKWH-D3XHX" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
+
+<div class="key-row"><span class="k-name">Outlook 2010</span><code class="k-val">7YDC2-CWM8M-RRTJC-8MDVC-X3DWQ</code><button class="copy-btn" data-copy="7YDC2-CWM8M-RRTJC-8MDVC-X3DWQ" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
+
+<div class="key-row"><span class="k-name">PowerPoint 2010</span><code class="k-val">RC8FX-88JRY-3PF7C-X8P67-P4VTT</code><button class="copy-btn" data-copy="RC8FX-88JRY-3PF7C-X8P67-P4VTT" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
+
+<div class="key-row"><span class="k-name">Project Professional 2010</span><code class="k-val">YGX6F-PGV49-PGW3J-9BTGG-VHKC6</code><button class="copy-btn" data-copy="YGX6F-PGV49-PGW3J-9BTGG-VHKC6" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
+
+<div class="key-row"><span class="k-name">Project Standard 2010</span><code class="k-val">4HP3K-88W3F-W2K3D-6677X-F9PGB</code><button class="copy-btn" data-copy="4HP3K-88W3F-W2K3D-6677X-F9PGB" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
+
+<div class="key-row"><span class="k-name">Publisher 2010</span><code class="k-val">BFK7F-9MYHM-V68C7-DRQ66-83YTP</code><button class="copy-btn" data-copy="BFK7F-9MYHM-V68C7-DRQ66-83YTP" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
+
+<div class="key-row"><span class="k-name">Word 2010</span><code class="k-val">HVHB3-C6FV7-KQX9W-YQG79-CRY7T</code><button class="copy-btn" data-copy="HVHB3-C6FV7-KQX9W-YQG79-CRY7T" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
+
+<div class="key-row"><span class="k-name">Visio Premium 2010</span><code class="k-val">D9DWC-HPYVV-JGF4P-BTWQB-WX8BJ</code><button class="copy-btn" data-copy="D9DWC-HPYVV-JGF4P-BTWQB-WX8BJ" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
+
+<div class="key-row"><span class="k-name">Visio Professional 2010</span><code class="k-val">7MCW8-VRQVK-G677T-PDJCM-Q8TCP</code><button class="copy-btn" data-copy="7MCW8-VRQVK-G677T-PDJCM-Q8TCP" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
+
+<div class="key-row"><span class="k-name">Visio Standard 2010</span><code class="k-val">767HD-QGMWX-8QTDB-9G3R2-KHFGJ</code><button class="copy-btn" data-copy="767HD-QGMWX-8QTDB-9G3R2-KHFGJ" aria-label="复制密钥"><span class="copy-label">复制</span></button></div>
+</div>
+
+<section id="appendix3">
+<h2><span class="num n-slate">附3</span><span>附3：Windows原版镜像 下载渠道</span></h2>
+
 
 <p>
 1&gt;.微软官方 预览版（需要注册Windows预览体验计划成员）<br>
-https://www.microsoft.com/en-us/software-download/windowsinsiderpreviewiso<br><br>
+<a href="https://www.microsoft.com/en-us/software-download/windowsinsiderpreviewiso" target="_blank" rel="noopener">https://www.microsoft.com/en-us/software-download/windowsinsiderpreviewiso</a><br><br>
 
 2&gt;.微软官方 零售版（需要使用移动设备访问）<br>
-https://www.microsoft.com/zh-cn/software-download/<br><br>
+<a href="https://www.microsoft.com/zh-cn/software-download/" target="_blank" rel="noopener">https://www.microsoft.com/zh-cn/software-download/</a><br><br>
 
 3&gt;.非官方 第三方镜像库<br>
 [国产精品]https://next.itellyou.cn<br>
-https://tb.rg-adguard.net/public.php?lang=zh-CN<br>
-https://uup.rg-adguard.net<br>
-https://files.rg-adguard.net/version/f0bd8307-d897-ef77-dbd6-216fefbe94c5<br>
-https://www.heidoc.net/joomla/technology-science/microsoft/67-microsoft-windows-and-office-iso-download-tool<br><br>
+<a href="https://tb.rg-adguard.net/public.php?lang=zh-CN" target="_blank" rel="noopener">https://tb.rg-adguard.net/public.php?lang=zh-CN</a><br>
+<a href="https://uup.rg-adguard.net" target="_blank" rel="noopener">https://uup.rg-adguard.net</a><br>
+<a href="https://files.rg-adguard.net/version/f0bd8307-d897-ef77-dbd6-216fefbe94c5" target="_blank" rel="noopener">https://files.rg-adguard.net/version/f0bd8307-d897-ef77-dbd6-216fefbe94c5</a><br>
+<a href="https://www.heidoc.net/joomla/technology-science/microsoft/67-microsoft-windows-and-office-iso-download-tool" target="_blank" rel="noopener">https://www.heidoc.net/joomla/technology-science/microsoft/67-microsoft-windows-and-office-iso-download-tool</a><br><br>
 
 4&gt;.微软官方 批量版<br>
 购买MSDN订阅：<br>
-https://visualstudio.microsoft.com/zh-hans/msdn-platforms/<br>
+<a href="https://visualstudio.microsoft.com/zh-hans/msdn-platforms/" target="_blank" rel="noopener">https://visualstudio.microsoft.com/zh-hans/msdn-platforms/</a><br>
 购买VLSC批量许可：<br>
-https://www.microsoft.com/licensing/servicecenter/default.aspx
+<a href="https://www.microsoft.com/licensing/servicecenter/default.aspx" target="_blank" rel="noopener">https://www.microsoft.com/licensing/servicecenter/default.aspx</a>
 </p>
 
 <p>
@@ -1072,7 +1238,7 @@ ed2k://|file|cn_windows_10_enterprise_2016_ltsb_x64_dvd_9060409.iso|3821895680|F
 
 Windows10 神州网信政府版（版本 V2022-L 发布时间 2022-01-28）<br>
 
-https://download.cmgos.com/oem/login SN:0602000000001<br><br>
+<a href="https://download.cmgos.com/oem/login" target="_blank" rel="noopener">https://download.cmgos.com/oem/login</a> SN:0602000000001<br><br>
 
 Windows10 神州网信政府版（版本 V2020-L 发布时间 2020-01-10）<br>
 
@@ -1087,25 +1253,30 @@ Windows7 原版镜像 企业版<br>
 ed2k://|file|cn_windows_7_enterprise_with_sp1_x64_dvd_u_677685.iso|3265574912|E9DB2607EA3B3540F3FE2E388F8C53C4|/
 </p>
 
-<h4><strong>附4：Office原版镜像 下载渠道</strong></h4>
+
+</section>
+
+<section id="appendix4">
+<h2><span class="num n-slate">附4</span><span>附4：Office原版镜像 下载渠道</span></h2>
+
 
 <p>
 1&gt;.微软官方 批量版（Office部署工具）<br>
-https://config.office.com/deploymentsettings<br>
-https://learn.microsoft.com/zh-cn/deployoffice/overview-office-deployment-tool<br>
+<a href="https://config.office.com/deploymentsettings" target="_blank" rel="noopener">https://config.office.com/deploymentsettings</a><br>
+<a href="https://learn.microsoft.com/zh-cn/deployoffice/overview-office-deployment-tool" target="_blank" rel="noopener">https://learn.microsoft.com/zh-cn/deployoffice/overview-office-deployment-tool</a><br>
 [补丁库]https://www.catalog.update.microsoft.com<br><br>
 
 2&gt;.微软官方 零售版<br>
-https://www.microsoft.com/zh-cn/microsoft-365/try<br><br>
+<a href="https://www.microsoft.com/zh-cn/microsoft-365/try" target="_blank" rel="noopener">https://www.microsoft.com/zh-cn/microsoft-365/try</a><br><br>
 
 3&gt;.非官方 Office Tool Plus 部署工具<br>
 [国产精品]https://otp.landian.vip/zh-cn/<br><br>
 
 4&gt;.非官方 第三方镜像库<br>
-https://msdn.itellyou.cn<br>
+<a href="https://msdn.itellyou.cn" target="_blank" rel="noopener">https://msdn.itellyou.cn</a><br>
 [微软直链]https://tb.rg-adguard.net/public.php?lang=zh-CN<br>
-https://files.rg-adguard.net/version/5f2ad9c6-e111-76e8-06d1-56d44c136bae<br>
-https://www.heidoc.net/joomla/technology-science/microsoft/67-microsoft-windows-and-office-iso-download-tool
+<a href="https://files.rg-adguard.net/version/5f2ad9c6-e111-76e8-06d1-56d44c136bae" target="_blank" rel="noopener">https://files.rg-adguard.net/version/5f2ad9c6-e111-76e8-06d1-56d44c136bae</a><br>
+<a href="https://www.heidoc.net/joomla/technology-science/microsoft/67-microsoft-windows-and-office-iso-download-tool" target="_blank" rel="noopener">https://www.heidoc.net/joomla/technology-science/microsoft/67-microsoft-windows-and-office-iso-download-tool</a>
 </p>
 
 <p>
@@ -1113,18 +1284,18 @@ https://www.heidoc.net/joomla/technology-science/microsoft/67-microsoft-windows-
 
 Office 365 商业版(零售版)<br>
 
-http://officecdn.microsoft.com/db/492350F6-3A01-4F97-B9C0-C7C6DDF67D60/media/zh-cn/O365BusinessRetail.img<br>
-http://officecdn.microsoft.com/pr/492350F6-3A01-4F97-B9C0-C7C6DDF67D60/media/zh-cn/O365BusinessRetail.img<br><br>
+<a href="http://officecdn.microsoft.com/db/492350F6-3A01-4F97-B9C0-C7C6DDF67D60/media/zh-cn/O365BusinessRetail.img" target="_blank" rel="noopener">http://officecdn.microsoft.com/db/492350F6-3A01-4F97-B9C0-C7C6DDF67D60/media/zh-cn/O365BusinessRetail.img</a><br>
+<a href="http://officecdn.microsoft.com/pr/492350F6-3A01-4F97-B9C0-C7C6DDF67D60/media/zh-cn/O365BusinessRetail.img" target="_blank" rel="noopener">http://officecdn.microsoft.com/pr/492350F6-3A01-4F97-B9C0-C7C6DDF67D60/media/zh-cn/O365BusinessRetail.img</a><br><br>
 
 Office2021 专业增强版(零售版)<br>
 
-http://officecdn.microsoft.com/db/492350F6-3A01-4F97-B9C0-C7C6DDF67D60/media/zh-cn/ProPlus2021Retail.img<br>
-http://officecdn.microsoft.com/pr/492350f6-3a01-4f97-b9c0-c7c6ddf67d60/media/zh-cn/ProPlus2021Retail.img<br><br>
+<a href="http://officecdn.microsoft.com/db/492350F6-3A01-4F97-B9C0-C7C6DDF67D60/media/zh-cn/ProPlus2021Retail.img" target="_blank" rel="noopener">http://officecdn.microsoft.com/db/492350F6-3A01-4F97-B9C0-C7C6DDF67D60/media/zh-cn/ProPlus2021Retail.img</a><br>
+<a href="http://officecdn.microsoft.com/pr/492350f6-3a01-4f97-b9c0-c7c6ddf67d60/media/zh-cn/ProPlus2021Retail.img" target="_blank" rel="noopener">http://officecdn.microsoft.com/pr/492350f6-3a01-4f97-b9c0-c7c6ddf67d60/media/zh-cn/ProPlus2021Retail.img</a><br><br>
 
 Office2019 专业增强版(零售版)<br>
 
-http://officecdn.microsoft.com/db/492350f6-3a01-4f97-b9c0-c7c6ddf67d60/media/zh-cn/ProPlus2019Retail.img<br>
-http://officecdn.microsoft.com/pr/492350f6-3a01-4f97-b9c0-c7c6ddf67d60/media/zh-cn/ProPlus2019Retail.img<br><br>
+<a href="http://officecdn.microsoft.com/db/492350f6-3a01-4f97-b9c0-c7c6ddf67d60/media/zh-cn/ProPlus2019Retail.img" target="_blank" rel="noopener">http://officecdn.microsoft.com/db/492350f6-3a01-4f97-b9c0-c7c6ddf67d60/media/zh-cn/ProPlus2019Retail.img</a><br>
+<a href="http://officecdn.microsoft.com/pr/492350f6-3a01-4f97-b9c0-c7c6ddf67d60/media/zh-cn/ProPlus2019Retail.img" target="_blank" rel="noopener">http://officecdn.microsoft.com/pr/492350f6-3a01-4f97-b9c0-c7c6ddf67d60/media/zh-cn/ProPlus2019Retail.img</a><br><br>
 
 Office2019 原版镜像<br>
 
@@ -1143,8 +1314,71 @@ Office2010 原版镜像<br>
 ed2k://|file|SW_DVD5_Office_Professional_Plus_2010w_SP1_64Bit_ChnSimp_CORE_MLF_X17-76742.iso|1612515328|032320121E0EE36D8F0C32EC89CA0AB9|/
 </p>
 
-<div id="mianze"></div>
 
+
+
+</section>
+
+<section id="easter1">
+<h2><span>彩蛋一：Windows 万能修复命令</span></h2>
+
+
+<p>
+1.打开 命令提示符 (管理员)<br><br>
+开始菜单-搜索“cmd”-找到“命令提示符”-右键“以管理员身份运行”。<br><br>
+2.执行以下命令（复制命令-右键粘贴）<br><br>
+
+<div class="cmd"><span class="ps1">C:\&gt;</span><code id="copy04">dism /online /cleanup-image /restorehealth &amp;&amp; sfc /scannow</code><button class="copy-btn" data-copy="dism /online /cleanup-image /restorehealth &amp;&amp; sfc /scannow" aria-label="复制命令"><span class="copy-label">复制</span></button></div>该命令会检查你的系统文件完整性以及是否与官方版本一致，并在联网的状态下还原官方源文件进行修复（执行时间很长，半小时以上，耐心等待即可）。
+</p>
+
+
+</section>
+
+<section id="easter2">
+<h2><span>彩蛋二：在 Windows PowerShell 使用命令</span></h2>
+
+
+<p>
+如果在cmd执行命令报错，可以尝试使用PowerShell。<br><br>
+1.打开 PowerShell (管理员)<br><br>
+开始菜单-搜索“Power”-找到“Windows PowerShell”-右键“以管理员身份运行”。<br><br>
+2.执行命令（复制命令-右键粘贴）<br><br>
+
+万能激活命令<br>
+<div class="cmd"><span class="ps1">C:\&gt;</span><code id="copy05">slmgr /skms s.ikms.eu.org; slmgr /ato;</code><button class="copy-btn" data-copy="slmgr /skms s.ikms.eu.org; slmgr /ato;" aria-label="复制命令"><span class="copy-label">复制</span></button></div>万能修复命令<br>
+<div class="cmd"><span class="ps1">C:\&gt;</span><code id="copy06">dism /online /cleanup-image /restorehealth; sfc /scannow;</code><button class="copy-btn" data-copy="dism /online /cleanup-image /restorehealth; sfc /scannow;" aria-label="复制命令"><span class="copy-label">复制</span></button></div>
+</p>
+
+
+</section>
+
+<section id="easter3">
+<h2><span>彩蛋三：如何背诵激活命令 成为“大神”</span></h2>
+
+
+<p>
+如果你经常帮助朋友安装系统，但每次都来网站复制粘贴命令，显然有损你“大神”的形象！下面跟我背诵这条命令：<br>
+slmgr 是 Software License Manager 的缩写，译为：软件许可证管理器，我们把命令分解为两行记忆。<br><br>
+
+slmgr /skms s.ikms.eu.org<br>
+slmgr /ato<br><br>
+
+skms中的s是 “specify” 缩写，译为：指定kms主机<br>
+ato 可以理解为是 “自动” 的缩写。<br><br>
+
+好了，现在开始背诵：<br>
+1.使用软件许可证管理器指定kms主机为s.ikms.eu.org，2.使用软件许可证管理器自动激活。<br>
+(参数使用斜杠/分割，两条命令使用&amp;&amp;连接。)<br><br>
+
+官方文档：
+<a href="https://learn.microsoft.com/zh-cn/windows-server/get-started/activation-slmgr-vbs-options" target="_blank" rel="noopener">https://learn.microsoft.com/zh-cn/windows-server/get-started/activation-slmgr-vbs-options</a>
+</p>
+
+
+</section>
+
+<section id="mianze">
+<h2><span>免责声明</span></h2>
 <p>
 
 免责声明<a href="https://github.com/dylanbai8/kmspro/issues" target="_blank">（联系我们）</a>：<br><br>
@@ -1171,58 +1405,34 @@ ed2k://|file|SW_DVD5_Office_Professional_Plus_2010w_SP1_64Bit_ChnSimp_CORE_MLF_X
 请您务必支持正版，Office套件 微软官方购买链接：https://www.microsoft.com/zh-cn/microsoft-365/buy/compare-all-microsoft-365-products
 </p>
 
-<h4>彩蛋一：Windows 万能修复命令</h4>
 
-<p>
-1.打开 命令提示符 (管理员)<br><br>
-开始菜单-搜索“cmd”-找到“命令提示符”-右键“以管理员身份运行”。<br><br>
-2.执行以下命令（复制命令-右键粘贴）<br><br>
+</section>
 
-<span style="color:red" id="copy04">dism /online /cleanup-image /restorehealth &amp;&amp; sfc /scannow</span><br><br>
 
-该命令会检查你的系统文件完整性以及是否与官方版本一致，并在联网的状态下还原官方源文件进行修复（执行时间很长，半小时以上，耐心等待即可）。
-</p>
+    </article>
+  </div>
 
-<h4>彩蛋二：在 Windows PowerShell 使用命令</h4>
+</main>
 
-<p>
-如果在cmd执行命令报错，可以尝试使用PowerShell。<br><br>
-1.打开 PowerShell (管理员)<br><br>
-开始菜单-搜索“Power”-找到“Windows PowerShell”-右键“以管理员身份运行”。<br><br>
-2.执行命令（复制命令-右键粘贴）<br><br>
+<footer class="footer">
+  <div class="wrap">
+    <div class="f-brand"><img src="/img/ikmslogo.png" alt="">iKMS · 公益 KMS 激活</div>
+    <div class="f-links">
+      <a href="./kms.html">详细教程</a>
+      <a href="./img.html">演示图例</a>
+      <a href="./more.html">备用线路</a>
+      <a href="./android.html">自建线路</a>
+      <a href="#mianze">免责声明</a>
+      <a href="https://github.com/dylanbai8/kmspro/issues" target="_blank">问题反馈</a>
+    </div>
+    <div class="f-note">本站为纯公益型技术学习交流网站，不持有、不搭建、不提供、不维护任何 KMS 主机及激活服务。永久地址：https://ikms.eu.org</div>
+  </div>
+</footer>
 
-万能激活命令<br>
-<span style="color:red" id="copy05">slmgr /skms s.ikms.eu.org; slmgr /ato;</span><br><br>
+<div class="toast" role="status"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>已复制到剪贴板</div>
+<button class="to-top" aria-label="返回顶部"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg></button>
 
-万能修复命令<br>
-<span style="color:red" id="copy06">dism /online /cleanup-image /restorehealth; sfc /scannow;</span>
-</p>
-
-<h4>彩蛋三：如何背诵激活命令 成为“大神”</h4>
-
-<p>
-如果你经常帮助朋友安装系统，但每次都来网站复制粘贴命令，显然有损你“大神”的形象！下面跟我背诵这条命令：<br>
-slmgr 是 Software License Manager 的缩写，译为：软件许可证管理器，我们把命令分解为两行记忆。<br><br>
-
-slmgr /skms s.ikms.eu.org<br>
-slmgr /ato<br><br>
-
-skms中的s是 “specify” 缩写，译为：指定kms主机<br>
-ato 可以理解为是 “自动” 的缩写。<br><br>
-
-好了，现在开始背诵：<br>
-1.使用软件许可证管理器指定kms主机为s.ikms.eu.org，2.使用软件许可证管理器自动激活。<br>
-(参数使用斜杠/分割，两条命令使用&amp;&amp;连接。)<br><br>
-
-官方文档：
-https://learn.microsoft.com/zh-cn/windows-server/get-started/activation-slmgr-vbs-options
-</p>
-
-</div>
-
-</td>
-</tr>
-</tbody></table>
+<script src="/assets/main.js"></script>
 <script defer src="https://um.nie.ge/niegeumami" data-website-id="5eb46560-0399-4c74-8669-4239364c832c"></script>
 </body>
 </html>

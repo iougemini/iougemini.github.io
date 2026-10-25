@@ -1,0 +1,177 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" font-family="system-ui,-apple-system,'Segoe UI','PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif">
+  <title>Windows 11 一句命令激活操作演示</title>
+  <defs>
+    <linearGradient id="wp" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0b1e4b"/><stop offset=".55" stop-color="#14459e"/><stop offset="1" stop-color="#2f7ce0"/>
+    </linearGradient>
+    <radialGradient id="glow1" cx=".5" cy=".5" r=".5">
+      <stop offset="0" stop-color="#7dd3fc" stop-opacity=".5"/><stop offset="1" stop-color="#7dd3fc" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glow2" cx=".5" cy=".5" r=".5">
+      <stop offset="0" stop-color="#c4b5fd" stop-opacity=".38"/><stop offset="1" stop-color="#c4b5fd" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="edgeG" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#37c6f4"/><stop offset="1" stop-color="#1b7fd4"/>
+    </linearGradient>
+    <linearGradient id="badge" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fdba74"/><stop offset="1" stop-color="#fb7185"/>
+    </linearGradient>
+    <filter id="shadow" x="-40%" y="-40%" width="180%" height="180%">
+      <feDropShadow dx="0" dy="16" stdDeviation="18" flood-color="#020617" flood-opacity=".42"/>
+    </filter>
+    <filter id="soft" x="-40%" y="-40%" width="180%" height="180%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#020617" flood-opacity=".32"/>
+    </filter>
+    <marker id="arrW" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0L10,5L0,10z" fill="#ffffff" opacity=".75"/>
+    </marker>
+  </defs>
+
+  <!-- wallpaper -->
+  <rect width="1200" height="800" fill="url(#wp)"/>
+  <circle cx="880" cy="200" r="320" fill="url(#glow1)"/>
+  <circle cx="1080" cy="430" r="250" fill="url(#glow2)"/>
+  <circle cx="160" cy="650" r="280" fill="url(#glow2)" opacity=".7"/>
+  <g transform="translate(880,210)">
+    <ellipse rx="150" ry="58" transform="rotate(20)" fill="#ffffff" opacity=".10"/>
+    <ellipse rx="150" ry="58" transform="rotate(80)" fill="#bae6fd" opacity=".13"/>
+    <ellipse rx="150" ry="58" transform="rotate(140)" fill="#ffffff" opacity=".08"/>
+    <ellipse rx="150" ry="58" transform="rotate(200)" fill="#93c5fd" opacity=".12"/>
+    <ellipse rx="150" ry="58" transform="rotate(260)" fill="#ffffff" opacity=".10"/>
+    <circle r="26" fill="#ffffff" opacity=".26"/>
+  </g>
+
+  <!-- brand pill -->
+  <g filter="url(#soft)"><rect x="24" y="24" width="220" height="42" rx="21" fill="#0b1120" opacity=".6"/></g>
+  <circle cx="49" cy="45" r="11" fill="url(#badge)"/>
+  <text x="68" y="50" font-size="14" font-weight="600" fill="#ffffff">iKMS · ikms.eu.org</text>
+
+  <!-- step labels -->
+  <g font-size="13" font-weight="600" fill="#ffffff" paint-order="stroke" stroke="rgba(11,30,75,.65)" stroke-width="4">
+    <text x="164" y="88">搜索 cmd，右键「以管理员身份运行」</text>
+    <text x="524" y="136">在命令提示符中执行一句命令</text>
+    <text x="634" y="508">等待弹出激活成功提示</text>
+  </g>
+  <circle cx="140" cy="82" r="16" fill="url(#badge)"/>
+  <text x="140" y="87" text-anchor="middle" font-size="15" font-weight="700" fill="#ffffff">1</text>
+  <circle cx="500" cy="130" r="16" fill="url(#badge)"/>
+  <text x="500" y="135" text-anchor="middle" font-size="15" font-weight="700" fill="#ffffff">2</text>
+  <circle cx="610" cy="502" r="16" fill="url(#badge)"/>
+  <text x="610" y="507" text-anchor="middle" font-size="15" font-weight="700" fill="#ffffff">3</text>
+
+  <!-- ① search panel -->
+  <g filter="url(#soft)">
+    <rect x="120" y="104" width="360" height="372" rx="12" fill="#f9f9fb" stroke="#e2e5ea"/>
+  </g>
+  <rect x="140" y="124" width="320" height="42" rx="8" fill="#ffffff" stroke="#d3d7de"/>
+  <circle cx="162" cy="144" r="6.5" fill="none" stroke="#6b7280" stroke-width="1.8"/>
+  <line x1="167" y1="149" x2="172" y2="154" stroke="#6b7280" stroke-width="1.8" stroke-linecap="round"/>
+  <text x="182" y="151" font-size="14" fill="#1a1a1a">cmd</text>
+  <rect x="213" y="136" width="1.5" height="17" fill="#1a6fc4"/>
+  <text x="140" y="196" font-size="12" fill="#6b7280">最佳匹配</text>
+  <g filter="url(#soft)">
+    <rect x="140" y="208" width="320" height="72" rx="8" fill="#ffffff" stroke="#e2e5ea"/>
+  </g>
+  <rect x="156" y="222" width="44" height="44" rx="8" fill="#1f1f1f"/>
+  <text x="178" y="250" text-anchor="middle" font-size="13" font-weight="700" fill="#4ade80" font-family="Consolas,monospace">&gt;_</text>
+  <text x="216" y="243" font-size="14" font-weight="600" fill="#1a1a1a">命令提示符</text>
+  <text x="216" y="263" font-size="12" fill="#6b7280">应用</text>
+  <g filter="url(#soft)">
+    <rect x="140" y="296" width="320" height="150" rx="8" fill="#ffffff" stroke="#e2e5ea"/>
+  </g>
+  <rect x="148" y="304" width="304" height="40" rx="6" fill="#ffffff"/>
+  <rect x="160" y="316" width="16" height="14" rx="2" fill="none" stroke="#6b7280" stroke-width="1.6"/>
+  <line x1="160" y1="320" x2="176" y2="320" stroke="#6b7280" stroke-width="1.6"/>
+  <text x="188" y="330" font-size="13" fill="#1a1a1a">打开</text>
+  <rect x="148" y="350" width="304" height="40" rx="6" fill="#e8f1fd" stroke="#9ec3ef"/>
+  <path d="M164,362 l7,-3 7,3 v6 c0,4.4 -3,7 -7,8.6 -4,-1.6 -7,-4.2 -7,-8.6 z" fill="#f4b840"/>
+  <path d="M167.5,366 l2.6,2.8 4.4,-5" fill="none" stroke="#1f2937" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="188" y="376" font-size="13" font-weight="600" fill="#1a1a1a">以管理员身份运行</text>
+  <rect x="148" y="396" width="304" height="40" rx="6" fill="#ffffff"/>
+  <path d="M160,404 h11 l4,4 v14 h-15 z" fill="none" stroke="#6b7280" stroke-width="1.6" stroke-linejoin="round"/>
+  <text x="188" y="422" font-size="13" fill="#1a1a1a">打开文件位置</text>
+
+  <!-- ② admin command prompt -->
+  <g filter="url(#shadow)">
+    <rect x="490" y="150" width="580" height="390" rx="10" fill="#0c0c0c" stroke="#3a3a3a"/>
+  </g>
+  <path d="M490,160 a10,10 0 0 1 10,-10 h560 a10,10 0 0 1 10,10 v28 h-580 z" fill="#1f1f1f"/>
+  <path d="M520,166 l5,-2.2 5,2.2 v4.4 c0,3.2 -2.2,5 -5,6.2 -2.8,-1.2 -5,-3 -5,-6.2 z" fill="#f4b840"/>
+  <text x="780" y="174" text-anchor="middle" font-size="13" fill="#e5e5e5">管理员: 命令提示符</text>
+  <line x1="1000" y1="169" x2="1012" y2="169" stroke="#e5e5e5" stroke-width="1.4"/>
+  <rect x="1028" y="163" width="11" height="11" fill="none" stroke="#e5e5e5" stroke-width="1.4"/>
+  <path d="M1052,163 l12,12 m0,-12 l-12,12" stroke="#e5e5e5" stroke-width="1.4" stroke-linecap="round"/>
+  <g font-family="Consolas,'Cascadia Mono',monospace" font-size="15" fill="#d4d4d4">
+    <text x="514" y="224">Microsoft Windows [版本 10.0.26100.2894]</text>
+    <text x="514" y="252">(c) Microsoft Corporation。保留所有权利。</text>
+    <text x="514" y="298">C:\WINDOWS\system32&gt;</text>
+    <text x="697" y="298" fill="#e8eefb">slmgr /skms s.ikms.eu.org &amp;&amp; slmgr /ato</text>
+    <text x="514" y="336">C:\WINDOWS\system32&gt;</text>
+  </g>
+  <rect x="690" y="280" width="372" height="25" rx="5" fill="rgba(52,211,153,.08)" stroke="#34d399" stroke-width="1.6"/>
+  <rect x="700" y="322" width="9" height="17" fill="#d4d4d4"/>
+
+  <!-- connector ② → ③ -->
+  <path d="M874,310 V512" fill="none" stroke="#ffffff" stroke-opacity=".65" stroke-width="1.5" stroke-dasharray="5 5" marker-end="url(#arrW)"/>
+
+  <!-- ③ success dialog -->
+  <g filter="url(#shadow)">
+    <rect x="610" y="520" width="400" height="168" rx="12" fill="#f9f9fb" stroke="#d9dde3"/>
+  </g>
+  <text x="634" y="549" font-size="13" fill="#444444">Windows Script Host</text>
+  <path d="M980,538 l11,11 m0,-11 l-11,11" stroke="#8a8f98" stroke-width="1.5" stroke-linecap="round"/>
+  <circle cx="654" cy="608" r="26" fill="#dcfce7" stroke="#34d399" stroke-width="2"/>
+  <path d="M642,608 l8,9 l16,-18" fill="none" stroke="#16a34a" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="694" y="600" font-size="15" font-weight="600" fill="#1a1a1a">成功地激活了产品。</text>
+  <text x="694" y="622" font-size="11.5" fill="#6b7280">Windows(R) 专业版 · 每隔 7 天自动续期</text>
+  <rect x="906" y="646" width="84" height="30" rx="5" fill="#0067c0"/>
+  <text x="948" y="666" text-anchor="middle" font-size="13" fill="#ffffff">确定</text>
+
+  <!-- taskbar -->
+  <rect x="0" y="744" width="1200" height="56" fill="#f3f7fb" opacity=".88"/>
+  <rect x="0" y="744" width="1200" height="1" fill="#ffffff" opacity=".6"/>
+  <!-- start -->
+  <g transform="translate(462,772)" fill="#0f6cbd">
+    <rect x="-10" y="-10" width="9" height="9" rx="1.5"/><rect x="1" y="-10" width="9" height="9" rx="1.5"/>
+    <rect x="-10" y="1" width="9" height="9" rx="1.5"/><rect x="1" y="1" width="9" height="9" rx="1.5"/>
+  </g>
+  <!-- search -->
+  <g transform="translate(508,772)" stroke="#374151" stroke-width="1.8" fill="none" stroke-linecap="round">
+    <circle cx="-1" cy="-1" r="7"/><line x1="4" y1="4" x2="9" y2="9"/>
+  </g>
+  <!-- task view -->
+  <g transform="translate(554,772)" stroke="#374151" stroke-width="1.7" fill="none">
+    <rect x="-10" y="-8" width="13" height="16" rx="2"/><path d="M6,-6 v12 M9,-4 v8"/>
+  </g>
+  <!-- explorer folder -->
+  <g transform="translate(600,772)">
+    <path d="M-11,-7 h8 l3,3 h11 v12 h-22 z" fill="#f8c84f"/>
+    <path d="M-11,-2 h22 v10 h-22 z" fill="#4cc2e6"/>
+  </g>
+  <!-- edge -->
+  <g transform="translate(646,772)">
+    <circle r="10" fill="url(#edgeG)"/>
+    <path d="M-6,3 a7.5,7.5 0 0 1 13,-4.5" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" opacity=".9"/>
+  </g>
+  <!-- terminal -->
+  <g transform="translate(692,772)">
+    <rect x="-10" y="-8" width="20" height="16" rx="3" fill="#1f1f1f" stroke="#4b5563" stroke-width="1"/>
+    <path d="M-6,-3 l4,3.5 -4,3.5" fill="none" stroke="#4ade80" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="0" y1="4" x2="5" y2="4" stroke="#4ade80" stroke-width="1.6" stroke-linecap="round"/>
+  </g>
+  <!-- store -->
+  <g transform="translate(738,772)" stroke="#0f6cbd" stroke-width="1.7" fill="none">
+    <path d="M-8,-4 h16 l-1.5,13 h-13 z" fill="rgba(15,108,189,.14)"/>
+    <path d="M-4.5,-4 v-2 a4.5,4.5 0 0 1 9,0 v2"/>
+  </g>
+  <!-- tray -->
+  <g transform="translate(1090,772)" stroke="#1b1b1b" stroke-width="1.6" fill="none" stroke-linecap="round">
+    <path d="M-7,1 a9,9 0 0 1 14,0 M-4,4.5 a5,5 0 0 1 8,0"/><circle cx="0" cy="8" r="1.3" fill="#1b1b1b" stroke="none"/>
+  </g>
+  <g transform="translate(1116,772)" fill="#1b1b1b">
+    <path d="M-6,-3 h3 l4,-3.5 v13 l-4,-3.5 h-3 z"/>
+    <path d="M3,-3.5 a6,6 0 0 1 0,7" fill="none" stroke="#1b1b1b" stroke-width="1.5" stroke-linecap="round"/>
+  </g>
+  <text x="1152" y="769" text-anchor="middle" font-size="11" fill="#1b1b1b">14:30</text>
+  <text x="1152" y="784" text-anchor="middle" font-size="10" fill="#1b1b1b">2026/10/25</text>
+</svg>

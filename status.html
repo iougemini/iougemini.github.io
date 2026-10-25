@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,46 +8,142 @@
 <title>[IKMS]-Windows/Office全系列激活教程-KMS在线激活-KMS激活服务器-Windows11一句命令永久激活-Windows10一句命令永久激活</title>
 <link rel="shortcut icon" href="/img/ikmslogo.png">
 <link rel="bookmark" href="/img/ikmslogo.png">
-<style>
-h1 {font-size:3em;line-height:1em;}
-h4 {font-size:1.2em;font-weight:bold;}
-table {width:100%;height:100%;border:0;}
-a {color:#00AEED;}
-sup {font-size:0.5em;color:#00AEED;}
-* {font-family:"Microsoft Yahei";font-weight:lighter;text-decoration:none;}
-</style>
-<script type="text/javascript">
-    $(function(){
-        $("span").on("click", function(){
-            var selection = window.getSelection();        
-            selection.removeAllRanges();
-            var range = document.createRange();
-            range.selectNodeContents(document.getElementById($(this).attr('id'))); //span需要设置id
-            selection.addRange(range);
-        })
-    })
-</script>
+<link rel="stylesheet" href="/assets/style.css">
 </head>
-<body style="text-align: center;margin-top:6em;">
-<table cellspacing="0" cellpadding="0">
-<tbody>
-<tr>
-<td>
-<h1 style="font-weight:bold;">KMS服务器状态监控</h1>
-<br>
-<h2 style="font-size:1.6em;">主KMS服务器：s.ikms.eu.org </h2>
-<p style="font-size:0.9em;color: #444444;"><a target="_blank" href="https://stats.uptimerobot.com/AqTKhps7wS"><img src="https://img.shields.io/badge/UptimeRobot-up.ikms.eu.org-05a70c?style=for-the-badge&logo=statuspal"></a><br><a target="_blank" href="https://uptime.ikms.eu.org"><img src="https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/iougemini/ikms-uptime/refs/heads/master/api/kms/uptime.json&style=for-the-badge&logo=statuspal"></a><br>点击图标查看全部KMS服务器运行状态</p>
-<p style="font-size:0.9em;color: #444444;"><a target="_blank" href="https://t.me/ikmsuptime"><img src="https://img.shields.io/badge/Telegram-ikmsuptime-1ca0f1?style=for-the-badge&logo=telegram"></a><br>加入IKMS服务器监控Telegram频道</p>
-<p style="font-size:0.9em;color: #444444;"><a target="_blank" href="http://rss.uptimerobot.com/u2545766-f946e514d5384ec8b1cf9fcfcc945be7"><img src="https://img.shields.io/badge/RSS-ikmsrss-orange?style=for-the-badge&logo=rss"></a><br>点击订阅IKMS服务器运行状态RSS</p>
-	
-<div style="line-height:2.5em;">
-<p>
-<a href="./kms.html">详细教程</a>&nbsp;&nbsp;<a href="./img.html">演示图例</a>&nbsp;&nbsp;<a href="./more.html">备用线路</a>&nbsp;&nbsp;<a href="./android.html">自建线路</a>&nbsp;&nbsp;<a href="./">返回首页</a></p>
-</div>
-</td>
-</tr>
-</tbody>
-</table>
+<body>
+
+<div class="ambient" aria-hidden="true"></div>
+
+<nav class="nav">
+  <div class="wrap">
+    <a class="brand" href="./">
+      <img src="/img/ikmslogo.png" alt="iKMS logo">
+      <span>iKMS<span class="tld">.eu.org</span></span>
+    </a>
+    <div class="nav-links">
+      <a href="./">首页</a>
+      <a href="./kms.html">详细教程</a>
+      <a href="./more.html">备用线路</a>
+      <a href="./android.html">自建线路</a>
+      <a href="./status.html">服务器状态</a>
+      <a href="./img.html">演示图例</a>
+    </div>
+    <div class="nav-actions">
+      <button class="icon-btn theme-toggle" aria-label="切换深浅色主题">
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+      </button>
+      <button class="icon-btn nav-burger" aria-label="打开菜单" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<main class="page wrap">
+
+  <header class="page-head status-hero reveal">
+    <span class="eyebrow" style="justify-content:center">Monitoring</span>
+    <h1 class="page-title">KMS 服务器状态监控</h1>
+    <p class="page-sub" style="margin-inline:auto">主 KMS 服务器：<strong style="font-family:var(--font-mono);color:var(--accent)">s.ikms.eu.org</strong>，点击下方图标查看全部 KMS 服务器运行状态。</p>
+  </header>
+
+  <div class="status-cards">
+    <div class="status-card reveal">
+      <div class="s-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+      </div>
+      <div class="s-body">
+        <h3>实时运行状态</h3>
+        <p>每小时更新的全部 KMS 服务器在线状态看板</p>
+        <p class="badge-note">
+          <span class="badge-img-wrap"><a target="_blank" href="https://stats.uptimerobot.com/AqTKhps7wS"><img src="https://img.shields.io/badge/UptimeRobot-up.ikms.eu.org-05a70c?style=for-the-badge&logo=statuspal" alt="UptimeRobot"></a></span>
+          &nbsp;<span class="badge-img-wrap"><a target="_blank" href="https://uptime.ikms.eu.org"><img src="https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/iougemini/ikms-uptime/refs/heads/master/api/kms/uptime.json&style=for-the-badge&logo=statuspal" alt="uptime.ikms.eu.org"></a></span>
+        </p>
+      </div>
+      <span class="s-badge"><a class="btn btn-ghost" style="padding:9px 16px;font-size:0.86rem" target="_blank" href="https://uptime.ikms.eu.org">查看看板</a></span>
+    </div>
+
+    <div class="status-card reveal reveal-d1">
+      <div class="s-icon" style="background:rgba(96,165,250,0.1);border-color:rgba(96,165,250,0.3)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+      </div>
+      <div class="s-body">
+        <h3>Telegram 监控频道</h3>
+        <p>服务器故障与恢复的第一时间推送</p>
+        <p class="badge-note">
+          <span class="badge-img-wrap"><a target="_blank" href="https://t.me/ikmsuptime"><img src="https://img.shields.io/badge/Telegram-ikmsuptime-1ca0f1?style=for-the-badge&logo=telegram" alt="Telegram"></a></span>
+        </p>
+      </div>
+      <span class="s-badge"><a class="btn btn-ghost" style="padding:9px 16px;font-size:0.86rem" target="_blank" href="https://t.me/ikmsuptime">加入频道</a></span>
+    </div>
+
+    <div class="status-card reveal reveal-d2">
+      <div class="s-icon" style="background:rgba(251,146,60,0.1);border-color:rgba(251,146,60,0.3)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11a9 9 0 0 1 9 9M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>
+      </div>
+      <div class="s-body">
+        <h3>RSS 订阅</h3>
+        <p>通过 RSS 阅读器订阅服务器状态更新</p>
+        <p class="badge-note">
+          <span class="badge-img-wrap"><a target="_blank" href="http://rss.uptimerobot.com/u2545766-f946e514d5384ec8b1cf9fcfcc945be7"><img src="https://img.shields.io/badge/RSS-ikmsrss-orange?style=for-the-badge&logo=rss" alt="RSS"></a></span>
+        </p>
+      </div>
+      <span class="s-badge"><a class="btn btn-ghost" style="padding:9px 16px;font-size:0.86rem" target="_blank" href="http://rss.uptimerobot.com/u2545766-f946e514d5384ec8b1cf9fcfcc945be7">订阅 RSS</a></span>
+    </div>
+  </div>
+
+  <section class="section" style="max-width:1080px;margin-inline:auto">
+    <div class="section-head reveal">
+      <h2>实时状态看板</h2>
+      <p>内嵌 uptime.ikms.eu.org 监控看板，展示全部 KMS 服务器的实时在线状态</p>
+    </div>
+    <div class="shot reveal" style="padding:0;position:relative">
+      <div style="position:absolute;inset:0;display:grid;place-items:center;color:var(--text-3);font-size:0.9rem">正在加载状态看板…（若长时间空白，请用下方链接新窗口打开）</div>
+      <iframe src="https://uptime.ikms.eu.org/" title="KMS 服务器实时状态看板（uptime.ikms.eu.org）" loading="lazy" style="display:block;position:relative;width:100%;height:min(80vh,760px);border:0;background:transparent"></iframe>
+    </div>
+    <p class="reveal" style="text-align:center;color:var(--text-3);font-size:0.85rem;margin-top:12px">
+      如内嵌页面加载异常，可<a href="https://uptime.ikms.eu.org" target="_blank">新窗口打开看板</a>或访问 <a href="https://stats.uptimerobot.com/AqTKhps7wS" target="_blank">UptimeRobot 状态页</a>
+    </p>
+  </section>
+
+  <section class="section" style="max-width:1080px;margin-inline:auto">
+    <div class="panel reveal">
+      <div class="panel-head">
+        <div class="icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#fb923c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+        <h3>工程师实时告警</h3>
+      </div>
+      <p style="margin:0 0 10px;color:var(--text-2);font-size:0.92rem">如需接收短信、邮件警报，可用监控宝等类似监控系统：</p>
+      <ol style="margin:0;padding-left:20px;color:var(--text-2);font-size:0.92rem;line-height:2">
+        <li>注册 jiankongbao.com 或其它类似监控系统；</li>
+        <li>创建监控任务 → 普通网站监控 → 监控网址 <code style="font-family:var(--font-mono);color:var(--accent)">https://ikms.eu.org</code>；</li>
+        <li>更多高级设置 → 包含匹配内容 → 填入 <code style="font-family:var(--font-mono);color:var(--accent)">Successfully</code>；</li>
+        <li>按提示配置并开启 Email 和手机短信提醒，故障时将及时收到警报，恢复时收到恢复提醒。</li>
+      </ol>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="f-brand"><img src="/img/ikmslogo.png" alt="">iKMS · 公益 KMS 激活</div>
+    <div class="f-links">
+      <a href="./kms.html">详细教程</a>
+      <a href="./img.html">演示图例</a>
+      <a href="./more.html">备用线路</a>
+      <a href="./android.html">自建线路</a>
+      <a href="./kms.html#mianze">免责声明</a>
+      <a href="./">返回首页</a>
+    </div>
+    <div class="f-note">本站为纯公益型技术学习交流网站，不持有、不搭建、不提供、不维护任何 KMS 主机及激活服务。永久地址：https://ikms.eu.org</div>
+  </div>
+</footer>
+
+<div class="toast" role="status"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>已复制到剪贴板</div>
+<button class="to-top" aria-label="返回顶部"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg></button>
+
+<script src="/assets/main.js"></script>
 <script defer src="https://um.nie.ge/niegeumami" data-website-id="5eb46560-0399-4c74-8669-4239364c832c"></script>
 </body>
 </html>
