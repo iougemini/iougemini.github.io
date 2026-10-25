@@ -1,6 +1,6 @@
 /* 处理 issue 投稿：解析服务器地址 → vlmcs 验证 → 通过则加入候选池 → 生成回复内容 */
 import fs from 'node:fs';
-import { loadData, saveData, normalizeHost, checkHost } from './kms-lib.mjs';
+import { loadData, saveData, normalizeHost, deepCheck } from './kms-lib.mjs';
 
 const ISSUE_NUMBER = process.env.ISSUE_NUMBER || '?';
 const body = process.env.ISSUE_BODY || '';
@@ -38,14 +38,23 @@ if (dup) {
 }
 
 console.log(`[check] ${host}:${port} ...`);
-const r = await checkHost(VLMCS_BIN, host, port);
+const r = await deepCheck(VLMCS_BIN, host, port);
+
+function ipTable() {
+  return (r.results || []).map(x =>
+    '| ' + x.ip + ' | ' + x.latency_ms + ' ms | ' + (x.ok ? '✅ 通过' : '❌ 失败') + ' |').join('\n');
+}
 
 if (r.ok) {
   data.candidates.push({
     host, port,
     state: 'ok',
     latency_ms: Math.round(r.latency_ms / 5) * 5,
-    ip: null,
+    ip: r.ips_ok[0],
+    ips_ok: r.ips_ok,
+    ips_total: r.ips_total,
+    ip_lat: Object.fromEntries(r.results.filter(x => x.ok).map(x => [x.ip, x.latency_ms])),
+    partial: r.ips_ok.length < r.ips_total,
     last_checked: new Date().toISOString().slice(0, 10),
     consecutive_fail: 0,
     source: `issue #${ISSUE_NUMBER}`,
@@ -54,18 +63,15 @@ if (r.ok) {
   saveData(data);
   reply(`✅ 感谢投稿！服务器 \`${host}:${port}\` 验证通过：
 
-| 项目 | 结果 |
-| --- | --- |
-| TCP 连接延迟 | ${r.latency_ms} ms |
-| KMS 协议验证 | 通过（vlmcs 握手成功） |
+| IP | 延迟 | KMS 协议验证 |
+| --- | --- | --- |
+${ipTable()}
 
-已加入**候选池**，巡检机器人（每 30 分钟）会持续监测它。当某条备用线路连续失效时，将自动由候选池中延迟最低的服务器顶替上线，并同步到 [备用线路](https://ikms.eu.org#more) 页面与主线路负载均衡。`);
+已加入**候选池**（${r.ips_ok.length}/${r.ips_total} 个 IP 通过验证），巡检机器人（每 30 分钟）会持续监测。当某条备用线路连续失效时，将自动由候选池中延迟最低的服务器顶替上线，其通过验证的 IP 也会参与主线路 [s.ikms.eu.org](https://ikms.eu.org) 的负载均衡。`);
 } else {
   reply(`❌ 投稿的服务器 \`${host}:${port}\` 验证未通过：
 
-\`\`\`
-${r.reason}
-\`\`\`
+${r.reason || ''}
 
 常见原因：服务器未开机 / 1688 端口未放行 / 并非 KMS 服务。修正后欢迎重新提交。`);
 }

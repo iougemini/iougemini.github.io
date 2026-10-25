@@ -79,6 +79,35 @@ export async function checkHost(vlmcsBin, host, port = KMS_DEFAULT_PORT) {
   return { ok: true, latency_ms: Math.round(latency), output: v.output };
 }
 
+/* ---------- 深度检测：多 IP 主机逐 IP 验证 ----------
+   公益线路常见"一个域名轮询多个服务器"的情况，其中可能混入失效/配置错误的 IP。
+   逐 IP 做 TCP + vlmcs 验证，返回通过验证的 IP 清单（按延迟升序）。 */
+export async function deepCheck(vlmcsBin, host, port = KMS_DEFAULT_PORT, maxIps = 6) {
+  let ips = [];
+  try { ips = (await dns.resolve4(host)).slice(0, maxIps); }
+  catch { return { ok: false, ips_ok: [], ips_total: 0, latency_ms: null, reason: '域名无法解析' }; }
+  if (!ips.length) return { ok: false, ips_ok: [], ips_total: 0, latency_ms: null, reason: '域名没有 A 记录' };
+
+  const results = await mapLimit(ips, 3, async ip => {
+    const latency = await tcpLatency(ip, port);
+    if (latency == null) return { ip, ok: false, latency_ms: null, fail: 'TCP 连接失败' };
+    const v = await vlmcsCheck(vlmcsBin, ip, port);
+    return { ip, ok: v.ok, latency_ms: Math.round(latency), fail: v.ok ? undefined : v.output.slice(-120) };
+  });
+  const good = results.filter(r => r.ok).sort((a, b) => a.latency_ms - b.latency_ms);
+  const reason = good.length ? undefined
+    : '全部 ' + ips.length + ' 个 IP 均未通过 KMS 协议验证：' +
+      results.filter(r => !r.ok).map(r => r.ip + '(' + (r.fail || '').replace(/\s+/g, ' ').slice(-80) + ')').join('；').slice(0, 400);
+  return {
+    ok: good.length > 0,
+    ips_ok: good.map(g => g.ip),
+    ips_total: ips.length,
+    latency_ms: good.length ? good[0].latency_ms : null,
+    results,
+    reason,
+  };
+}
+
 /* ---------- DNS 解析 ---------- */
 export async function resolveIp(host) {
   try { return (await dns.resolve4(host))[0] || null; }

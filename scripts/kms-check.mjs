@@ -3,7 +3,7 @@
    2. 连续失效达阈值的线路自动由最优候选池顶替
    3. 结果写入 data/servers.json，精确延迟写入 data/.last-run.json（供 DNS 负载均衡用，不提交） */
 import fs from 'node:fs';
-import { loadData, saveData, checkHost, resolveIp, mapLimit, LAST_RUN_FILE, DATA_FILE } from './kms-lib.mjs';
+import { loadData, saveData, deepCheck, mapLimit, LAST_RUN_FILE, DATA_FILE } from './kms-lib.mjs';
 
 const REPLACE_AFTER = 3;        // 连续失败 N 次判定为失效
 const PARALLEL = 6;
@@ -20,20 +20,26 @@ const targets = [
 ];
 
 await mapLimit(targets, PARALLEL, async t => {
-  const r = await checkHost(VLMCS_BIN, t.host, t.port);
+  const r = await deepCheck(VLMCS_BIN, t.host, t.port);
   const e = t.ref;
   e.last_checked = now;
   if (r.ok) {
     e.state = 'ok';
     e.consecutive_fail = 0;
     e.error = undefined;
-    e.ip = await resolveIp(t.host);
+    e.ip = r.ips_ok[0];                              // 最快的通过验证 IP
+    e.ips_ok = r.ips_ok;                             // 全部通过验证的 IP（供 DNS 负载均衡）
+    e.ips_total = r.ips_total;
+    e.ip_lat = Object.fromEntries(r.results.filter(x => x.ok).map(x => [x.ip, x.latency_ms]));
+    e.partial = r.ips_ok.length < r.ips_total;       // 存在未通过验证的 IP
     const rounded = Math.round(r.latency_ms / 5) * 5;   // 5ms 粒度，抑制抖动提交
     if (e.latency_ms == null || Math.abs(rounded - e.latency_ms) >= LATENCY_JITTER) e.latency_ms = rounded;
   } else {
     e.state = 'down';
     e.consecutive_fail = (e.consecutive_fail || 0) + 1;
-    e.error = r.reason.slice(0, 200);
+    e.ips_ok = [];
+    e.ips_total = r.ips_total;
+    e.error = (r.reason || '').slice(0, 250);
     if (e.consecutive_fail >= REPLACE_AFTER) e.latency_ms = null;
   }
 });
@@ -92,8 +98,16 @@ fs.writeFileSync(HIST_FILE, JSON.stringify(hist, null, 2) + '\n');
 fs.writeFileSync(LAST_RUN_FILE, JSON.stringify({
   at: new Date().toISOString(),
   latency: Object.fromEntries([
-    ...data.lines.map(l => [l.host, { latency_ms: l.latency_ms, state: l.state, ip: l.ip }]),
-    ...data.candidates.map(c => [c.host, { latency_ms: c.latency_ms, state: c.state, ip: c.ip }]),
+    ...data.lines.map(l => [l.host, {
+      ips_ok: l.ips_ok || (l.ip ? [l.ip] : []),
+      lat: l.ip_lat || Object.fromEntries((l.ips_ok || [l.ip].filter(Boolean)).map(ip => [ip, l.latency_ms])),
+      state: l.state,
+    }]),
+    ...data.candidates.map(c => [c.host, {
+      ips_ok: c.ips_ok || (c.ip ? [c.ip] : []),
+      lat: c.ip_lat || Object.fromEntries((c.ips_ok || [c.ip].filter(Boolean)).map(ip => [ip, c.latency_ms])),
+      state: c.state,
+    }]),
   ]),
 }, null, 2));
 console.log(`[done] ${DATA_FILE} / ${LAST_RUN_FILE} 已更新`);

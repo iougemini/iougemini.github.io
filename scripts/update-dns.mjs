@@ -23,18 +23,19 @@ const data = loadData();
 let precise = {};
 try { precise = JSON.parse(fs.readFileSync(LAST_RUN_FILE, 'utf8')).latency || {}; } catch {}
 
-/* 汇总所有在线服务器 → 解析 IP → 按延迟排序（同一 IP 多域名时去重，保留最低延迟） */
+/* 汇总所有在线服务器 → 逐 IP 汇总（只取通过 vlmcs 验证的 IP）→ 按延迟排序（同 IP 多域名去重） */
 const hosts = [...new Set([...data.lines, ...data.candidates].filter(e => e.state === 'ok').map(e => e.host))];
 const pairs = [];
 for (const host of hosts) {
   const info = precise[host] || {};
-  let ip = info.ip || null;
-  if (!ip) { try { ip = (await dns.resolve4(host))[0] || null; } catch {} }
-  if (!ip) continue;
-  const latency = info.latency_ms ?? 1e9;
-  const old = pairs.find(p => p.ip === ip);
-  if (old) { if (latency < old.latency) { old.latency = latency; old.host = host; } }
-  else pairs.push({ ip, host, latency });
+  const ipsOk = info.ips_ok || (info.ip ? [info.ip] : []);
+  if (!ipsOk.length) continue;
+  for (const ip of ipsOk) {
+    const latency = (info.lat && info.lat[ip]) ?? info.latency_ms ?? 1e9;
+    const old = pairs.find(p => p.ip === ip);
+    if (old) { if (latency < old.latency) { old.latency = latency; old.host = host; } }
+    else pairs.push({ ip, host, latency });
+  }
 }
 pairs.sort((a, b) => a.latency - b.latency);
 const desired = pairs.slice(0, COUNT).map(p => p.ip);

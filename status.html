@@ -251,10 +251,11 @@
     el('lines-status').innerHTML = lines.map(function (l) {
       var c = CHIP[l.state] || CHIP.unknown;
       var lat = l.latency_ms != null ? l.latency_ms + ' ms' : (l.state === 'down' ? '不可达' : '—');
-      return '<div class="stat-line">' +
+      var partial = l.partial && l.ips_total ? ' · IP ' + (l.ips_ok || []).length + '/' + l.ips_total : '';
+      return '<div class="stat-line"' + (l.error ? ' title="' + esc(l.error) + '"' : '') + '>' +
         '<span class="st-dot ' + (l.state || 'unknown') + '"></span>' +
         '<span class="st-name">' + esc(l.host) + '</span>' +
-        '<span class="st-lat" style="color:' + c[1] + '">' + c[0] + ' · ' + lat + '</span>' +
+        '<span class="st-lat" style="color:' + c[1] + '">' + c[0] + ' · ' + lat + partial + '</span>' +
         '<span class="st-bar">' + dayBar(l.id, histDays) + '</span>' +
         '<span class="st-up">' + uptimePct(l.id, histDays) + '</span>' +
         '</div>';
