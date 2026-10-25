@@ -73,6 +73,21 @@ const okLines = data.lines.filter(l => l.state === 'ok').length;
 console.log(`[done] 线路 ${okLines}/${data.lines.length} 在线，候选池 ${data.candidates.length} 台`);
 saveData(data);
 
+/* 30 天可用性历史：每天每条线路记录 ok/down/flap（只有状态翻转或跨天才产生提交） */
+const HIST_FILE = 'data/history.json';
+let hist = { days: {} };
+try { hist = JSON.parse(fs.readFileSync(HIST_FILE, 'utf8')); } catch {}
+const day = (hist.days[now] = hist.days[now] || {});
+for (const l of data.lines) {
+  const cur = day[l.id];
+  if (cur === 'flap') day[l.id] = 'flap';
+  else if (cur && cur !== l.state) day[l.id] = 'flap';
+  else day[l.id] = l.state;
+}
+const keys = Object.keys(hist.days).sort();
+while (keys.length > 60) delete hist.days[keys.shift()];
+fs.writeFileSync(HIST_FILE, JSON.stringify(hist, null, 2) + '\n');
+
 /* 精确延迟快照供 update-dns.mjs 使用（加入 .gitignore，不入库） */
 fs.writeFileSync(LAST_RUN_FILE, JSON.stringify({
   at: new Date().toISOString(),

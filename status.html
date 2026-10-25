@@ -45,68 +45,100 @@
   <header class="page-head status-hero reveal">
     <span class="eyebrow" style="justify-content:center">Monitoring</span>
     <h1 class="page-title">KMS 服务器状态监控</h1>
-    <p class="page-sub" style="margin-inline:auto">主 KMS 服务器：<strong style="font-family:var(--font-mono);color:var(--accent)">s.ikms.eu.org</strong>，点击下方图标查看全部 KMS 服务器运行状态。</p>
+    <p class="page-sub" style="margin-inline:auto">数据由巡检机器人每 30 分钟实测生成（vlmcs 协议验证 + 延迟测量），非被动探测。</p>
   </header>
 
-  <div class="status-cards">
-    <div class="status-card reveal">
-      <div class="s-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-      </div>
-      <div class="s-body">
-        <h3>实时运行状态</h3>
-        <p>每小时更新的全部 KMS 服务器在线状态看板</p>
-        <p class="badge-note">
-          <span class="badge-img-wrap"><a target="_blank" href="https://stats.uptimerobot.com/AqTKhps7wS"><img src="https://img.shields.io/badge/UptimeRobot-up.ikms.eu.org-05a70c?style=for-the-badge&logo=statuspal" alt="UptimeRobot"></a></span>
-          &nbsp;<span class="badge-img-wrap"><a target="_blank" href="https://uptime.ikms.eu.org"><img src="https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/iougemini/ikms-uptime/refs/heads/master/api/kms/uptime.json&style=for-the-badge&logo=statuspal" alt="uptime.ikms.eu.org"></a></span>
-        </p>
-      </div>
-      <span class="s-badge"><a class="btn btn-ghost" style="padding:9px 16px;font-size:0.86rem" target="_blank" href="https://uptime.ikms.eu.org">查看看板</a></span>
-    </div>
-
-    <div class="status-card reveal reveal-d1">
-      <div class="s-icon" style="background:rgba(96,165,250,0.1);border-color:rgba(96,165,250,0.3)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-      </div>
-      <div class="s-body">
-        <h3>Telegram 监控频道</h3>
-        <p>服务器故障与恢复的第一时间推送</p>
-        <p class="badge-note">
-          <span class="badge-img-wrap"><a target="_blank" href="https://t.me/ikmsuptime"><img src="https://img.shields.io/badge/Telegram-ikmsuptime-1ca0f1?style=for-the-badge&logo=telegram" alt="Telegram"></a></span>
-        </p>
-      </div>
-      <span class="s-badge"><a class="btn btn-ghost" style="padding:9px 16px;font-size:0.86rem" target="_blank" href="https://t.me/ikmsuptime">加入频道</a></span>
-    </div>
-
-    <div class="status-card reveal reveal-d2">
-      <div class="s-icon" style="background:rgba(251,146,60,0.1);border-color:rgba(251,146,60,0.3)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11a9 9 0 0 1 9 9M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>
-      </div>
-      <div class="s-body">
-        <h3>RSS 订阅</h3>
-        <p>通过 RSS 阅读器订阅服务器状态更新</p>
-        <p class="badge-note">
-          <span class="badge-img-wrap"><a target="_blank" href="http://rss.uptimerobot.com/u2545766-f946e514d5384ec8b1cf9fcfcc945be7"><img src="https://img.shields.io/badge/RSS-ikmsrss-orange?style=for-the-badge&logo=rss" alt="RSS"></a></span>
-        </p>
-      </div>
-      <span class="s-badge"><a class="btn btn-ghost" style="padding:9px 16px;font-size:0.86rem" target="_blank" href="http://rss.uptimerobot.com/u2545766-f946e514d5384ec8b1cf9fcfcc945be7">订阅 RSS</a></span>
-    </div>
+  <!-- 概览 -->
+  <div class="ov-strip reveal" id="ov-strip">
+    <div class="ov-cell"><div class="ov-num" id="ov-lines">-<span class="dim">/-</span></div><div class="ov-label">备用线路在线</div></div>
+    <div class="ov-cell"><div class="ov-num" id="ov-lat">-<span class="dim"> ms</span></div><div class="ov-label">最快线路延迟</div></div>
+    <div class="ov-cell"><div class="ov-num" id="ov-main">-<span class="dim"> 条</span></div><div class="ov-label">主线路负载均衡记录</div></div>
+    <div class="ov-cell"><div class="ov-num" id="ov-time">-<span class="dim"></span></div><div class="ov-label">巡检更新时间</div></div>
   </div>
 
+  <!-- 主线路 -->
   <section class="section" style="max-width:1080px;margin-inline:auto">
     <div class="section-head reveal">
-      <h2>实时状态看板</h2>
-      <p>内嵌 uptime.ikms.eu.org 监控看板，展示全部 KMS 服务器的实时在线状态</p>
+      <h2>主线路 <code style="font-family:var(--font-mono);font-size:0.85em;color:var(--accent)">s.ikms.eu.org</code></h2>
+      <p>DNS 负载均衡：自动指向当前延迟最低的 5 条在线线路，每 30 分钟动态调优</p>
     </div>
-    <div class="shot reveal" style="padding:0;position:relative">
-      <div style="position:absolute;inset:0;display:grid;place-items:center;color:var(--text-3);font-size:0.9rem">正在加载状态看板…（若长时间空白，请用下方链接新窗口打开）</div>
-      <iframe src="https://uptime.ikms.eu.org/" title="KMS 服务器实时状态看板（uptime.ikms.eu.org）" loading="lazy" style="display:block;position:relative;width:100%;height:min(80vh,760px);border:0;background:transparent"></iframe>
+    <div class="panel reveal" id="main-panel">
+      <div style="color:var(--text-3);font-size:0.9rem">加载中…</div>
     </div>
-    <p class="reveal" style="text-align:center;color:var(--text-3);font-size:0.85rem;margin-top:12px">
-      如内嵌页面加载异常，可<a href="https://uptime.ikms.eu.org" target="_blank">新窗口打开看板</a>或访问 <a href="https://stats.uptimerobot.com/AqTKhps7wS" target="_blank">UptimeRobot 状态页</a>
-    </p>
   </section>
 
+  <!-- 备用线路状态 -->
+  <section class="section" style="max-width:1080px;margin-inline:auto">
+    <div class="section-head reveal">
+      <h2>备用线路状态</h2>
+      <p>右侧色条为近 30 天逐日可用性（绿=正常 / 红=失效 / 黄=当日波动）</p>
+    </div>
+    <div id="lines-status" class="reveal">
+      <div class="stat-line"><span style="color:var(--text-3);font-size:0.9rem">加载中…</span></div>
+    </div>
+  </section>
+
+  <!-- 候选池 -->
+  <section class="section" id="cand-section" style="max-width:1080px;margin-inline:auto;display:none">
+    <div class="section-head reveal">
+      <h2>投稿候选池</h2>
+      <p>通过验证的投稿服务器，持续监测中，失效线路将由它们自动顶替</p>
+    </div>
+    <div id="cand-list" class="reveal"></div>
+  </section>
+
+  <!-- 订阅与外部监控 -->
+  <section class="section" style="max-width:1080px;margin-inline:auto">
+    <div class="section-head reveal">
+      <h2>订阅与外部监控</h2>
+      <p>第三方渠道的独立监控与告警订阅</p>
+    </div>
+    <div class="status-cards">
+      <div class="status-card reveal">
+        <div class="s-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+        </div>
+        <div class="s-body">
+          <h3>Telegram 监控频道</h3>
+          <p>服务器故障与恢复的第一时间推送</p>
+          <p class="badge-note">
+            <span class="badge-img-wrap"><a target="_blank" href="https://t.me/ikmsuptime"><img src="https://img.shields.io/badge/Telegram-ikmsuptime-1ca0f1?style=for-the-badge&logo=telegram" alt="Telegram"></a></span>
+          </p>
+        </div>
+        <span class="s-badge"><a class="btn btn-ghost" style="padding:9px 16px;font-size:0.86rem" target="_blank" href="https://t.me/ikmsuptime">加入频道</a></span>
+      </div>
+
+      <div class="status-card reveal reveal-d1">
+        <div class="s-icon" style="background:rgba(251,146,60,0.1);border-color:rgba(251,146,60,0.3)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11a9 9 0 0 1 9 9M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>
+        </div>
+        <div class="s-body">
+          <h3>RSS 订阅</h3>
+          <p>通过 RSS 阅读器订阅服务器状态更新</p>
+          <p class="badge-note">
+            <span class="badge-img-wrap"><a target="_blank" href="http://rss.uptimerobot.com/u2545766-f946e514d5384ec8b1cf9fcfcc945be7"><img src="https://img.shields.io/badge/RSS-ikmsrss-orange?style=for-the-badge&logo=rss" alt="RSS"></a></span>
+          </p>
+        </div>
+        <span class="s-badge"><a class="btn btn-ghost" style="padding:9px 16px;font-size:0.86rem" target="_blank" href="http://rss.uptimerobot.com/u2545766-f946e514d5384ec8b1cf9fcfcc945be7">订阅 RSS</a></span>
+      </div>
+
+      <div class="status-card reveal reveal-d2">
+        <div class="s-icon" style="background:rgba(96,165,250,0.1);border-color:rgba(96,165,250,0.3)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+        </div>
+        <div class="s-body">
+          <h3>UptimeRobot 独立监控</h3>
+          <p>第三方拨测历史与事件报告（与本页巡检相互独立）</p>
+          <p class="badge-note">
+            <span class="badge-img-wrap"><a target="_blank" href="https://uptime.ikms.eu.org"><img src="https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/iougemini/ikms-uptime/refs/heads/master/api/kms/uptime.json&style=for-the-badge&logo=statuspal" alt="uptime.ikms.eu.org"></a></span>
+          </p>
+        </div>
+        <span class="s-badge"><a class="btn btn-ghost" style="padding:9px 16px;font-size:0.86rem" target="_blank" href="https://uptime.ikms.eu.org">查看看板</a></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 工程师告警 -->
   <section class="section" style="max-width:1080px;margin-inline:auto">
     <div class="panel reveal">
       <div class="panel-head">
@@ -143,6 +175,119 @@
 <div class="toast" role="status"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>已复制到剪贴板</div>
 <button class="to-top" aria-label="返回顶部"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg></button>
 
+<script>
+(function () {
+  var CHIP = {
+    ok: ['在线', 'var(--ok)'],
+    down: ['已失效', 'var(--danger)'],
+    unknown: ['待检测', 'var(--text-3)']
+  };
+  function el(id) { return document.getElementById(id); }
+  function esc(x) { return String(x).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+
+  function dayBar(lineId, histDays) {
+    var dates = Object.keys(histDays).sort();
+    var out = '';
+    var cells = [];
+    if (dates.length) {
+      // 取从最早记录到今天的最近 30 天
+      var start = new Date(dates[0]);
+      var today = new Date();
+      var total = Math.min(30, Math.round((today - start) / 86400000) + 1);
+      for (var i = total - 1; i >= 0; i--) {
+        var d = new Date(today - i * 86400000);
+        var key = d.toISOString().slice(0, 10);
+        cells.push({ date: key, state: histDays[key] ? histDays[key][lineId] : null });
+      }
+    }
+    for (var j = 0; j < cells.length; j++) {
+      var c = cells[j];
+      var cls = c.state === 'ok' ? 'ok' : c.state === 'down' ? 'down' : c.state === 'flap' ? 'flap' : '';
+      out += '<i class="' + cls + '" title="' + c.date + '：' + (c.state ? CHIP[c.state] ? CHIP[c.state][0] : c.state : '无数据') + '"></i>';
+    }
+    return out;
+  }
+
+  function uptimePct(lineId, histDays) {
+    var ok = 0, total = 0;
+    for (var date in histDays) {
+      var s = histDays[date][lineId];
+      if (!s) continue;
+      total++;
+      if (s === 'ok') ok++;
+    }
+    return total ? Math.round((ok / total) * 100) + '%' : '—';
+  }
+
+  function render(data, hist) {
+    var histDays = (hist && hist.days) || {};
+    var lines = data.lines || [];
+
+    // 概览
+    var ok = lines.filter(function (l) { return l.state === 'ok'; });
+    var fastest = ok.slice().sort(function (a, b) { return (a.latency_ms || 1e9) - (b.latency_ms || 1e9); })[0];
+    el('ov-lines').innerHTML = ok.length + '<span class="dim">/' + lines.length + '</span>';
+    el('ov-lat').innerHTML = (fastest && fastest.latency_ms != null ? fastest.latency_ms : '-') + '<span class="dim"> ms</span>';
+    var cur = (data.main && data.main.current) || [];
+    el('ov-main').innerHTML = cur.length + '<span class="dim"> 条</span>';
+    el('ov-time').innerHTML = '<span class="dim"></span>' + esc(data.updated_at || '-');
+
+    // 主线路
+    var mp = el('main-panel');
+    if (cur.length) {
+      mp.innerHTML = '<div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:12px">' +
+        '<span class="main-ip-chip"><span style="color:var(--ok)">●</span> ' + cur.length + ' 条 A 记录在线 · 更新于 ' + esc((data.main.current_updated || '').replace('T', ' ').slice(0, 16)) + '</span>' +
+        '<span style="color:var(--text-3);font-size:0.85rem">客户端解析到任意一条均可激活</span></div>' +
+        '<div style="display:flex;flex-wrap:wrap;gap:10px">' +
+        cur.map(function (c) {
+          return '<span class="main-ip-chip">' + esc(c.ip) + '<span class="lat">' + esc(c.host) + (c.latency_ms != null ? ' · ' + c.latency_ms + 'ms' : '') + '</span></span>';
+        }).join('') +
+        '</div>';
+    } else {
+      mp.innerHTML = '<div style="color:var(--text-3);font-size:0.9rem">DNS 负载均衡尚未写入记录（配置 CLOUDFLARE_API_TOKEN 后自动启用），当前主线路由原有解析提供服务。</div>';
+    }
+
+    // 备用线路
+    el('lines-status').innerHTML = lines.map(function (l) {
+      var c = CHIP[l.state] || CHIP.unknown;
+      var lat = l.latency_ms != null ? l.latency_ms + ' ms' : (l.state === 'down' ? '不可达' : '—');
+      return '<div class="stat-line">' +
+        '<span class="st-dot ' + (l.state || 'unknown') + '"></span>' +
+        '<span class="st-name">' + esc(l.host) + '</span>' +
+        '<span class="st-lat" style="color:' + c[1] + '">' + c[0] + ' · ' + lat + '</span>' +
+        '<span class="st-bar">' + dayBar(l.id, histDays) + '</span>' +
+        '<span class="st-up">' + uptimePct(l.id, histDays) + '</span>' +
+        '</div>';
+    }).join('');
+
+    // 候选池
+    var cands = data.candidates || [];
+    if (cands.length) {
+      el('cand-section').style.display = '';
+      el('cand-list').innerHTML = cands.map(function (c) {
+        var c2 = CHIP[c.state] || CHIP.unknown;
+        return '<div class="stat-line">' +
+          '<span class="st-dot ' + (c.state || 'unknown') + '"></span>' +
+          '<span class="st-name">' + esc(c.host) + ':' + (c.port || 1688) + '</span>' +
+          '<span class="st-lat" style="color:' + c2[1] + '">' + c2[0] + (c.latency_ms != null ? ' · ' + c.latency_ms + ' ms' : '') + '</span>' +
+          '<span class="st-up" style="min-width:auto">' + esc(c.source || '') + '</span>' +
+          '</div>';
+      }).join('');
+    }
+  }
+
+  function load() {
+    return Promise.all([
+      fetch('data/servers.json', { cache: 'no-cache' }).then(function (r) { if (!r.ok) throw 0; return r.json(); }),
+      fetch('data/history.json', { cache: 'no-cache' }).then(function (r) { return r.ok ? r.json() : { days: {} }; }).catch(function () { return { days: {} }; })
+    ]);
+  }
+  load().then(function (rs) { render(rs[0], rs[1]); }).catch(function () {
+    el('lines-status').innerHTML = '<div class="stat-line"><span style="color:var(--text-3);font-size:0.9rem">状态数据加载失败，请刷新重试。</span></div>';
+  });
+  setInterval(function () { load().then(function (rs) { render(rs[0], rs[1]); }).catch(function () {}); }, 300000);
+})();
+</script>
 <script src="/assets/main.js"></script>
 <script defer src="https://um.nie.ge/niegeumami" data-website-id="5eb46560-0399-4c74-8669-4239364c832c"></script>
 </body>

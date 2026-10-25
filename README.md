@@ -16,7 +16,8 @@ issue 投稿 ──vlmcs 真实验证──▶ 候选池（data/servers.json）
   3. 主线路 s.ikms.eu.org 负载均衡：按延迟择优 5 台写入 DNS A 记录
 ```
 
-- `data/servers.json`：线路与候选池的唯一数据源，`more.html` 页面动态渲染
+- `data/servers.json`：线路与候选池的唯一数据源，`more.html` / `status.html` 页面动态渲染
+- `data/history.json`：逐日可用性历史（由巡检自动维护，状态翻转或跨天才产生提交）
 - `.github/workflows/kms-health.yml`：每 30 分钟巡检，状态变更自动提交
 - `.github/workflows/kms-issue.yml`：issue 投稿自动验证、收录并回复结果
 - `scripts/update-dns.mjs`：主线路负载均衡（Cloudflare DNS API）

@@ -87,3 +87,16 @@ for (const rec of existing) {
   }
 }
 console.log(`[dns] 完成：${MAIN_HOST} 现指向 ${desired.join(', ')}`);
+
+/* 把当前择优结果写回 servers.json，供状态页展示 */
+if (!dry) {
+  const d2 = loadData();
+  d2.main.current = pairs.slice(0, COUNT).map(p => ({
+    ip: p.ip, host: p.host,
+    latency_ms: p.latency === 1e9 ? null : p.latency,
+  }));
+  d2.main.current_updated = new Date().toISOString();
+  d2.main.balanced = true;
+  const fs = await import('node:fs');
+  fs.writeFileSync('data/servers.json', JSON.stringify(d2, null, 2) + '\n');
+}
