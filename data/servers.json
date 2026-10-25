@@ -140,6 +140,18 @@
       "consecutive_fail": 2,
       "source": "initial",
       "error": "TCP 连接失败（端口不通或域名无法解析）"
+    },
+    {
+      "id": "s14",
+      "host": "s14.ikms.eu.org",
+      "state": "unknown",
+      "latency_ms": null,
+      "ip": null,
+      "ips_ok": [],
+      "ips_total": null,
+      "last_checked": null,
+      "consecutive_fail": 0,
+      "source": "initial"
     }
   ],
   "candidates": [],
