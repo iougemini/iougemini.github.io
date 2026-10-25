@@ -25,11 +25,15 @@ jobs:
 
       - name: 编译 vlmcs 检测工具
         run: |
-          git clone --depth 1 https://github.com/hotbird64/vlmcsd.git /tmp/vlmcsd
+          git clone --depth 1 https://github.com/Wind4/vlmcsd.git /tmp/vlmcsd
           make -C /tmp/vlmcsd vlmcs || make -C /tmp/vlmcsd
-          VLMCS_PATH=$(find /tmp/vlmcsd -type f -name vlmcs | head -1)
+          VLMCS_PATH=""
+          for p in /tmp/vlmcsd/vlmcs /tmp/vlmcsd/bin/vlmcs $(find /tmp/vlmcsd -type f -name vlmcs); do
+            if file "$p" 2>/dev/null | grep -q ELF; then VLMCS_PATH="$p"; break; fi
+          done
+          if [ -z "$VLMCS_PATH" ]; then echo "vlmcs Linux binary not found"; exit 1; fi
           sudo install "$VLMCS_PATH" /usr/local/bin/vlmcs
-          vlmcs -x 2>&1 | head -3 || true
+          vlmcs -V 2>&1 | head -2 || true
 
       - name: 巡检全部线路（验证 + 延迟 + 自动替换失效线路）
         run: node scripts/kms-check.mjs
