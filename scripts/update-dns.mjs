@@ -23,16 +23,21 @@ const data = loadData();
 let precise = {};
 try { precise = JSON.parse(fs.readFileSync(LAST_RUN_FILE, 'utf8')).latency || {}; } catch {}
 
-/* 汇总所有在线服务器 → 解析 IP → 按延迟排序 */
-const hosts = [...data.lines, ...data.candidates].filter(e => e.state === 'ok').map(e => e.host);
+/* 汇总所有在线服务器 → 解析 IP → 按延迟排序（同一 IP 多域名时去重，保留最低延迟） */
+const hosts = [...new Set([...data.lines, ...data.candidates].filter(e => e.state === 'ok').map(e => e.host))];
 const pairs = [];
-for (const host of [...new Set(hosts)]) {
+for (const host of hosts) {
   const info = precise[host] || {};
   let ip = info.ip || null;
   if (!ip) { try { ip = (await dns.resolve4(host))[0] || null; } catch {} }
-  if (ip) pairs.push({ ip, host, latency: info.latency_ms ?? 1e9 });
+  if (!ip) continue;
+  const latency = info.latency_ms ?? 1e9;
+  const old = pairs.find(p => p.ip === ip);
+  if (old) { if (latency < old.latency) { old.latency = latency; old.host = host; } }
+  else pairs.push({ ip, host, latency });
 }
-const desired = [...pairs.sort((a, b) => a.latency - b.latency).slice(0, COUNT).map(p => p.ip)];
+pairs.sort((a, b) => a.latency - b.latency);
+const desired = pairs.slice(0, COUNT).map(p => p.ip);
 console.log(`[dns] 候选 IP（按延迟排序，取前 ${COUNT}）：`);
 for (const p of pairs.slice(0, COUNT)) console.log(`   ${p.ip.padEnd(16)} ${String(p.latency).padStart(5)} ms  (${p.host})`);
 
