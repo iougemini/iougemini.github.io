@@ -9,30 +9,30 @@
       {
         "ip": "154.7.181.209",
         "host": "s10.ikms.eu.org",
-        "latency_ms": 11
+        "latency_ms": 20
       },
       {
         "ip": "162.223.90.90",
         "host": "s02.ikms.eu.org",
-        "latency_ms": 62
+        "latency_ms": 118
       },
       {
         "ip": "185.213.174.199",
         "host": "s02.ikms.eu.org",
-        "latency_ms": 134
+        "latency_ms": 137
       },
       {
         "ip": "107.189.14.253",
         "host": "s02.ikms.eu.org",
-        "latency_ms": 146
+        "latency_ms": 145
       },
       {
         "ip": "8.210.148.24",
         "host": "s03.ikms.eu.org",
-        "latency_ms": 155
+        "latency_ms": 158
       }
     ],
-    "current_updated": "2026-10-25T18:00:55.356Z",
+    "current_updated": "2026-10-25T21:01:48.045Z",
     "balanced": true
   },
   "lines": [
@@ -50,7 +50,7 @@
       ],
       "ips_total": 1,
       "ip_lat": {
-        "139.199.78.129": 194
+        "139.199.78.129": 197
       },
       "partial": false
     },
@@ -58,7 +58,7 @@
       "id": "s02",
       "host": "s02.ikms.eu.org",
       "state": "ok",
-      "latency_ms": 60,
+      "latency_ms": 120,
       "ip": "162.223.90.90",
       "last_checked": "2026-10-25",
       "consecutive_fail": 0,
@@ -71,10 +71,10 @@
       ],
       "ips_total": 6,
       "ip_lat": {
-        "107.189.14.253": 146,
-        "185.213.174.199": 134,
-        "158.178.234.166": 179,
-        "162.223.90.90": 62
+        "162.223.90.90": 118,
+        "185.213.174.199": 137,
+        "107.189.14.253": 145,
+        "158.178.234.166": 180
       },
       "partial": true
     },
@@ -92,7 +92,7 @@
       ],
       "ips_total": 1,
       "ip_lat": {
-        "8.210.148.24": 155
+        "8.210.148.24": 158
       },
       "partial": false
     },
@@ -110,7 +110,7 @@
       ],
       "ips_total": 1,
       "ip_lat": {
-        "110.42.186.3": 205
+        "110.42.186.3": 212
       },
       "partial": false
     },
@@ -128,7 +128,7 @@
       ],
       "ips_total": 1,
       "ip_lat": {
-        "119.29.100.23": 195
+        "119.29.100.23": 196
       },
       "partial": false
     },
@@ -146,7 +146,7 @@
       ],
       "ips_total": 1,
       "ip_lat": {
-        "121.40.68.253": 199
+        "121.40.68.253": 201
       },
       "partial": false
     },
@@ -154,7 +154,7 @@
       "id": "s07",
       "host": "s07.ikms.eu.org",
       "state": "ok",
-      "latency_ms": 195,
+      "latency_ms": 205,
       "ip": "121.40.68.253",
       "last_checked": "2026-10-25",
       "consecutive_fail": 0,
@@ -164,7 +164,7 @@
       ],
       "ips_total": 1,
       "ip_lat": {
-        "121.40.68.253": 196
+        "121.40.68.253": 204
       },
       "partial": false
     },
@@ -182,7 +182,7 @@
       ],
       "ips_total": 1,
       "ip_lat": {
-        "153.101.161.27": 198
+        "153.101.161.27": 199
       },
       "partial": false
     },
@@ -193,7 +193,7 @@
       "latency_ms": null,
       "ip": null,
       "last_checked": "2026-10-25",
-      "consecutive_fail": 3,
+      "consecutive_fail": 4,
       "source": "initial",
       "error": "全部 1 个 IP 均未通过 KMS 协议验证：23.226.136.46(TCP 连接失败)",
       "ips_ok": [],
@@ -203,7 +203,7 @@
       "id": "s10",
       "host": "s10.ikms.eu.org",
       "state": "ok",
-      "latency_ms": 10,
+      "latency_ms": 20,
       "ip": "154.7.181.209",
       "last_checked": "2026-10-25",
       "consecutive_fail": 0,
@@ -213,7 +213,7 @@
       ],
       "ips_total": 1,
       "ip_lat": {
-        "154.7.181.209": 11
+        "154.7.181.209": 20
       },
       "partial": false
     },
@@ -231,7 +231,7 @@
       ],
       "ips_total": 1,
       "ip_lat": {
-        "139.199.78.129": 191
+        "139.199.78.129": 196
       },
       "partial": false
     },
@@ -239,7 +239,7 @@
       "id": "s12",
       "host": "s12.ikms.eu.org",
       "state": "ok",
-      "latency_ms": 190,
+      "latency_ms": 220,
       "ip": "1.15.144.40",
       "last_checked": "2026-10-25",
       "consecutive_fail": 0,
@@ -249,7 +249,7 @@
       ],
       "ips_total": 1,
       "ip_lat": {
-        "1.15.144.40": 189
+        "1.15.144.40": 221
       },
       "partial": false
     },
@@ -260,7 +260,7 @@
       "latency_ms": null,
       "ip": null,
       "last_checked": "2026-10-25",
-      "consecutive_fail": 3,
+      "consecutive_fail": 4,
       "source": "initial",
       "error": "全部 1 个 IP 均未通过 KMS 协议验证：45.128.210.94(TCP 连接失败)",
       "ips_ok": [],
@@ -269,20 +269,19 @@
     {
       "id": "s14",
       "host": "s14.ikms.eu.org",
-      "state": "ok",
+      "state": "down",
       "latency_ms": 200,
       "ip": "119.29.100.23",
-      "ips_ok": [
-        "119.29.100.23"
-      ],
+      "ips_ok": [],
       "ips_total": 1,
       "last_checked": "2026-10-25",
-      "consecutive_fail": 0,
+      "consecutive_fail": 1,
       "source": "initial",
       "ip_lat": {
         "119.29.100.23": 200
       },
-      "partial": false
+      "partial": false,
+      "error": "全部 1 个 IP 均未通过 KMS 协议验证：23.226.136.46(TCP 连接失败)"
     }
   ],
   "candidates": [],
