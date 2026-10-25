@@ -26,8 +26,9 @@ jobs:
       - name: 编译 vlmcs 检测工具
         run: |
           git clone --depth 1 https://github.com/hotbird64/vlmcsd.git /tmp/vlmcsd
-          make -C /tmp/vlmcsd vlmcs
-          sudo install /tmp/vlmcsd/bin/vlmcs /usr/local/bin/vlmcs
+          make -C /tmp/vlmcsd vlmcs || make -C /tmp/vlmcsd
+          VLMCS_PATH=$(find /tmp/vlmcsd -type f -name vlmcs | head -1)
+          sudo install "$VLMCS_PATH" /usr/local/bin/vlmcs
           vlmcs -x 2>&1 | head -3 || true
 
       - name: 巡检全部线路（验证 + 延迟 + 自动替换失效线路）

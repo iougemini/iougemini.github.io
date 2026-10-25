@@ -49,9 +49,17 @@ const api = async (path, opts = {}) => {
   return j.result;
 };
 
-const existing = await api(`?type=A&name=${MAIN_HOST}&per_page=100`);
+const existingAll = await api(`?name=${MAIN_HOST}&per_page=100`);
+const cnameRecs = existingAll.filter(r => r.type === 'CNAME');
+const existing = existingAll.filter(r => r.type === 'A');
 const existingIps = new Set(existing.map(r => r.content));
 const dry = process.env.DRY_RUN === '1';
+
+/* 主线路若当前是 CNAME，必须先删除才能创建 A 记录（DNS 不允许同名共存） */
+for (const rec of cnameRecs) {
+  console.log(`[dns] ${dry ? '(dry)' : 'DELETE'} CNAME ${rec.content}（改写为 A 记录负载均衡）`);
+  if (!dry) await api(`/${rec.id}`, { method: 'DELETE' });
+}
 
 for (const rec of existing) {
   if (!desired.includes(rec.content)) {
@@ -65,6 +73,16 @@ for (const ip of desired) {
     if (!dry) await api('', {
       method: 'POST',
       body: JSON.stringify({ type: 'A', name: MAIN_HOST, content: ip, ttl: 300, proxied: false }),
+    });
+  }
+}
+/* 保留的记录若开了橙云代理，改为灰云：Cloudflare 代理不转发 1688 端口 */
+for (const rec of existing) {
+  if (desired.includes(rec.content) && rec.proxied) {
+    console.log(`[dns] ${dry ? '(dry)' : 'PATCH'} ${rec.content} proxied -> false（1688 端口必须灰云直连）`);
+    if (!dry) await api(`/${rec.id}`, {
+      method: 'PATCH',
+      body: JSON.stringify({ proxied: false, ttl: 300 }),
     });
   }
 }
