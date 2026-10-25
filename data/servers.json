@@ -7,19 +7,138 @@
     "note": "主线路由 update-dns.mjs 从全部在线线路中按延迟择优写入 A 记录（需配置 Cloudflare 密钥）"
   },
   "lines": [
-    { "id": "s01", "host": "s01.ikms.eu.org", "state": "unknown", "latency_ms": null, "ip": null, "last_checked": null, "consecutive_fail": 0, "source": "initial" },
-    { "id": "s02", "host": "s02.ikms.eu.org", "state": "unknown", "latency_ms": null, "ip": null, "last_checked": null, "consecutive_fail": 0, "source": "initial" },
-    { "id": "s03", "host": "s03.ikms.eu.org", "state": "unknown", "latency_ms": null, "ip": null, "last_checked": null, "consecutive_fail": 0, "source": "initial" },
-    { "id": "s04", "host": "s04.ikms.eu.org", "state": "unknown", "latency_ms": null, "ip": null, "last_checked": null, "consecutive_fail": 0, "source": "initial" },
-    { "id": "s05", "host": "s05.ikms.eu.org", "state": "unknown", "latency_ms": null, "ip": null, "last_checked": null, "consecutive_fail": 0, "source": "initial" },
-    { "id": "s06", "host": "s06.ikms.eu.org", "state": "unknown", "latency_ms": null, "ip": null, "last_checked": null, "consecutive_fail": 0, "source": "initial" },
-    { "id": "s07", "host": "s07.ikms.eu.org", "state": "unknown", "latency_ms": null, "ip": null, "last_checked": null, "consecutive_fail": 0, "source": "initial" },
-    { "id": "s08", "host": "s08.ikms.eu.org", "state": "unknown", "latency_ms": null, "ip": null, "last_checked": null, "consecutive_fail": 0, "source": "initial" },
-    { "id": "s09", "host": "s09.ikms.eu.org", "state": "unknown", "latency_ms": null, "ip": null, "last_checked": null, "consecutive_fail": 0, "source": "initial" },
-    { "id": "s10", "host": "s10.ikms.eu.org", "state": "unknown", "latency_ms": null, "ip": null, "last_checked": null, "consecutive_fail": 0, "source": "initial" },
-    { "id": "s11", "host": "s11.ikms.eu.org", "state": "unknown", "latency_ms": null, "ip": null, "last_checked": null, "consecutive_fail": 0, "source": "initial" },
-    { "id": "s12", "host": "s12.ikms.eu.org", "state": "unknown", "latency_ms": null, "ip": null, "last_checked": null, "consecutive_fail": 0, "source": "initial" },
-    { "id": "s13", "host": "s13.ikms.eu.org", "state": "unknown", "latency_ms": null, "ip": null, "last_checked": null, "consecutive_fail": 0, "source": "initial" }
+    {
+      "id": "s01",
+      "host": "s01.ikms.eu.org",
+      "state": "ok",
+      "latency_ms": 1555,
+      "ip": "139.199.78.129",
+      "last_checked": "2026-10-25",
+      "consecutive_fail": 0,
+      "source": "initial"
+    },
+    {
+      "id": "s02",
+      "host": "s02.ikms.eu.org",
+      "state": "ok",
+      "latency_ms": 340,
+      "ip": "158.178.234.166",
+      "last_checked": "2026-10-25",
+      "consecutive_fail": 0,
+      "source": "initial"
+    },
+    {
+      "id": "s03",
+      "host": "s03.ikms.eu.org",
+      "state": "ok",
+      "latency_ms": 1525,
+      "ip": "8.210.148.24",
+      "last_checked": "2026-10-25",
+      "consecutive_fail": 0,
+      "source": "initial"
+    },
+    {
+      "id": "s04",
+      "host": "s04.ikms.eu.org",
+      "state": "ok",
+      "latency_ms": 1855,
+      "ip": "110.42.186.3",
+      "last_checked": "2026-10-25",
+      "consecutive_fail": 0,
+      "source": "initial"
+    },
+    {
+      "id": "s05",
+      "host": "s05.ikms.eu.org",
+      "state": "ok",
+      "latency_ms": 1710,
+      "ip": "119.29.100.23",
+      "last_checked": "2026-10-25",
+      "consecutive_fail": 0,
+      "source": "initial"
+    },
+    {
+      "id": "s06",
+      "host": "s06.ikms.eu.org",
+      "state": "ok",
+      "latency_ms": 2745,
+      "ip": "121.40.68.253",
+      "last_checked": "2026-10-25",
+      "consecutive_fail": 0,
+      "source": "initial"
+    },
+    {
+      "id": "s07",
+      "host": "s07.ikms.eu.org",
+      "state": "ok",
+      "latency_ms": 2300,
+      "ip": "121.40.68.253",
+      "last_checked": "2026-10-25",
+      "consecutive_fail": 0,
+      "source": "initial"
+    },
+    {
+      "id": "s08",
+      "host": "s08.ikms.eu.org",
+      "state": "ok",
+      "latency_ms": 1055,
+      "ip": "153.101.161.27",
+      "last_checked": "2026-10-25",
+      "consecutive_fail": 0,
+      "source": "initial"
+    },
+    {
+      "id": "s09",
+      "host": "s09.ikms.eu.org",
+      "state": "down",
+      "latency_ms": null,
+      "ip": null,
+      "last_checked": "2026-10-25",
+      "consecutive_fail": 1,
+      "source": "initial",
+      "error": "TCP 连接失败（端口不通或域名无法解析）"
+    },
+    {
+      "id": "s10",
+      "host": "s10.ikms.eu.org",
+      "state": "ok",
+      "latency_ms": 1215,
+      "ip": "154.7.181.209",
+      "last_checked": "2026-10-25",
+      "consecutive_fail": 0,
+      "source": "initial"
+    },
+    {
+      "id": "s11",
+      "host": "s11.ikms.eu.org",
+      "state": "ok",
+      "latency_ms": 1015,
+      "ip": "139.199.78.129",
+      "last_checked": "2026-10-25",
+      "consecutive_fail": 0,
+      "source": "initial"
+    },
+    {
+      "id": "s12",
+      "host": "s12.ikms.eu.org",
+      "state": "ok",
+      "latency_ms": 1475,
+      "ip": "1.15.144.40",
+      "last_checked": "2026-10-25",
+      "consecutive_fail": 0,
+      "source": "initial"
+    },
+    {
+      "id": "s13",
+      "host": "s13.ikms.eu.org",
+      "state": "down",
+      "latency_ms": null,
+      "ip": null,
+      "last_checked": "2026-10-25",
+      "consecutive_fail": 1,
+      "source": "initial",
+      "error": "TCP 连接失败（端口不通或域名无法解析）"
+    }
   ],
   "candidates": [],
   "swaps": []
