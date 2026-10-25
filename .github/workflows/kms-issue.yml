@@ -1,0 +1,54 @@
+name: KMS 投稿检测
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  process:
+    if: contains(github.event.issue.labels.*.name, 'kms-submit')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: 编译 vlmcs 检测工具
+        run: |
+          git clone --depth 1 https://github.com/hotbird64/vlmcsd.git /tmp/vlmcsd
+          make -C /tmp/vlmcsd vlmcs
+          sudo install /tmp/vlmcsd/bin/vlmcs /usr/local/bin/vlmcs
+
+      - name: 检测投稿服务器
+        env:
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          COMMENT_FILE: /tmp/comment.md
+        run: node scripts/process-issue.mjs
+
+      - name: 收录通过的服务器
+        env:
+          ISSUE_NUM: ${{ github.event.issue.number }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if [[ -n "$(git status --porcelain data/servers.json)" ]]; then
+            git add data/servers.json
+            git commit -m "chore(kms): 收录投稿服务器（issue #$ISSUE_NUM）"
+            git push
+          else
+            echo "数据无变化（未通过验证或重复投稿）"
+          fi
+
+      - name: 回复检测结果
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+        run: gh issue comment "$ISSUE_NUMBER" -R "$GITHUB_REPOSITORY" --body-file /tmp/comment.md

@@ -45,133 +45,18 @@
   <header class="page-head reveal">
     <span class="eyebrow">Backup Lines</span>
     <h1 class="page-title">备用 KMS 激活服务器</h1>
-    <p class="page-sub" style="max-width:none;text-wrap:balance">本站永久地址：<strong style="color:var(--text)">https://ikms.eu.org</strong>。主线路为 <code style="font-family:var(--font-mono);color:var(--accent)">s.ikms.eu.org</code>，以下 13 条备用线路仅供主线路异常时应急使用。</p>
+    <p class="page-sub" style="max-width:none;text-wrap:balance">本站永久地址：<strong style="color:var(--text)">https://ikms.eu.org</strong>。主线路为 <code style="font-family:var(--font-mono);color:var(--accent)">s.ikms.eu.org</code>，以下备用线路仅供主线路异常时应急使用，由巡检机器人自动维护。</p>
   </header>
 
   <div class="callout warn reveal" style="max-width:760px;margin-bottom:30px">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4M12 17h.01"/></svg>
-    <p>备用线路由热心企业或网友<a href="https://github.com/iougemini/iougemini.github.io/issues/1" target="_blank">投稿</a>并维护，不能保证随时可用，建议优先使用主线路。</p>
+    <p>备用线路由热心企业或网友<a href="https://github.com/iougemini/iougemini.github.io/issues/new?template=kms-server.yml" target="_blank">投稿</a>（机器人自动验证）后进入候选池；巡检机器人每 30 分钟检测全部线路，<strong style="color:var(--text)">失效线路自动由候选池顶替</strong>。线路不保证随时可用，建议优先使用主线路。</p>
   </div>
 
-  <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(380px,1fr))">
-    <div class="card reveal" style="cursor:default">
-      <h3 style="display:flex;align-items:center;gap:10px"><span style="font-family:var(--font-mono);font-size:0.8rem;color:var(--brand-1);background:rgba(251,113,133,0.1);border:1px solid rgba(251,113,133,0.3);padding:2px 9px;border-radius:999px">01</span>备用服务器 01</h3>
-      <div class="mini-cmd" style="margin-top:14px">
-        <code id="copy01">slmgr /skms s01.ikms.eu.org &amp;&amp; slmgr /ato</code>
-        </div>
-        <div class="line-actions">
-          <button class="copy-btn" data-copy="slmgr /skms s01.ikms.eu.org &amp;&amp; slmgr /ato"><span class="copy-label">复制命令</span></button>
-        </div>
-    </div>
-    <div class="card v-teal reveal" style="cursor:default">
-      <h3 style="display:flex;align-items:center;gap:10px"><span style="font-family:var(--font-mono);font-size:0.8rem;color:var(--accent);background:rgba(45,212,191,0.1);border:1px solid rgba(45,212,191,0.3);padding:2px 9px;border-radius:999px">02</span>备用服务器 02</h3>
-      <div class="mini-cmd" style="margin-top:14px">
-        <code id="copy02">slmgr /skms s02.ikms.eu.org &amp;&amp; slmgr /ato</code>
-        </div>
-        <div class="line-actions">
-          <button class="copy-btn" data-copy="slmgr /skms s02.ikms.eu.org &amp;&amp; slmgr /ato"><span class="copy-label">复制命令</span></button>
-        </div>
-    </div>
-    <div class="card v-blue reveal" style="cursor:default">
-      <h3 style="display:flex;align-items:center;gap:10px"><span style="font-family:var(--font-mono);font-size:0.8rem;color:var(--blue);background:rgba(96,165,250,0.1);border:1px solid rgba(96,165,250,0.3);padding:2px 9px;border-radius:999px">03</span>备用服务器 03</h3>
-      <div class="mini-cmd" style="margin-top:14px">
-        <code id="copy03">slmgr /skms s03.ikms.eu.org &amp;&amp; slmgr /ato</code>
-        </div>
-        <div class="line-actions">
-          <button class="copy-btn" data-copy="slmgr /skms s03.ikms.eu.org &amp;&amp; slmgr /ato"><span class="copy-label">复制命令</span></button>
-        </div>
-    </div>
-    <div class="card reveal" style="cursor:default">
-      <h3 style="display:flex;align-items:center;gap:10px"><span style="font-family:var(--font-mono);font-size:0.8rem;color:var(--brand-1);background:rgba(251,113,133,0.1);border:1px solid rgba(251,113,133,0.3);padding:2px 9px;border-radius:999px">04</span>备用服务器 04</h3>
-      <div class="mini-cmd" style="margin-top:14px">
-        <code id="copy04">slmgr /skms s04.ikms.eu.org &amp;&amp; slmgr /ato</code>
-        </div>
-        <div class="line-actions">
-          <button class="copy-btn" data-copy="slmgr /skms s04.ikms.eu.org &amp;&amp; slmgr /ato"><span class="copy-label">复制命令</span></button>
-        </div>
-    </div>
-    <div class="card v-teal reveal" style="cursor:default">
-      <h3 style="display:flex;align-items:center;gap:10px"><span style="font-family:var(--font-mono);font-size:0.8rem;color:var(--accent);background:rgba(45,212,191,0.1);border:1px solid rgba(45,212,191,0.3);padding:2px 9px;border-radius:999px">05</span>备用服务器 05</h3>
-      <div class="mini-cmd" style="margin-top:14px">
-        <code id="copy05">slmgr /skms s05.ikms.eu.org &amp;&amp; slmgr /ato</code>
-        </div>
-        <div class="line-actions">
-          <button class="copy-btn" data-copy="slmgr /skms s05.ikms.eu.org &amp;&amp; slmgr /ato"><span class="copy-label">复制命令</span></button>
-        </div>
-    </div>
-    <div class="card v-blue reveal" style="cursor:default">
-      <h3 style="display:flex;align-items:center;gap:10px"><span style="font-family:var(--font-mono);font-size:0.8rem;color:var(--blue);background:rgba(96,165,250,0.1);border:1px solid rgba(96,165,250,0.3);padding:2px 9px;border-radius:999px">06</span>备用服务器 06</h3>
-      <div class="mini-cmd" style="margin-top:14px">
-        <code id="copy06">slmgr /skms s06.ikms.eu.org &amp;&amp; slmgr /ato</code>
-        </div>
-        <div class="line-actions">
-          <button class="copy-btn" data-copy="slmgr /skms s06.ikms.eu.org &amp;&amp; slmgr /ato"><span class="copy-label">复制命令</span></button>
-        </div>
-    </div>
-    <div class="card reveal" style="cursor:default">
-      <h3 style="display:flex;align-items:center;gap:10px"><span style="font-family:var(--font-mono);font-size:0.8rem;color:var(--brand-1);background:rgba(251,113,133,0.1);border:1px solid rgba(251,113,133,0.3);padding:2px 9px;border-radius:999px">07</span>备用服务器 07</h3>
-      <div class="mini-cmd" style="margin-top:14px">
-        <code id="copy07">slmgr /skms s07.ikms.eu.org &amp;&amp; slmgr /ato</code>
-        </div>
-        <div class="line-actions">
-          <button class="copy-btn" data-copy="slmgr /skms s07.ikms.eu.org &amp;&amp; slmgr /ato"><span class="copy-label">复制命令</span></button>
-        </div>
-    </div>
-    <div class="card v-teal reveal" style="cursor:default">
-      <h3 style="display:flex;align-items:center;gap:10px"><span style="font-family:var(--font-mono);font-size:0.8rem;color:var(--accent);background:rgba(45,212,191,0.1);border:1px solid rgba(45,212,191,0.3);padding:2px 9px;border-radius:999px">08</span>备用服务器 08</h3>
-      <div class="mini-cmd" style="margin-top:14px">
-        <code id="copy08">slmgr /skms s08.ikms.eu.org &amp;&amp; slmgr /ato</code>
-        </div>
-        <div class="line-actions">
-          <button class="copy-btn" data-copy="slmgr /skms s08.ikms.eu.org &amp;&amp; slmgr /ato"><span class="copy-label">复制命令</span></button>
-        </div>
-    </div>
-    <div class="card v-blue reveal" style="cursor:default">
-      <h3 style="display:flex;align-items:center;gap:10px"><span style="font-family:var(--font-mono);font-size:0.8rem;color:var(--blue);background:rgba(96,165,250,0.1);border:1px solid rgba(96,165,250,0.3);padding:2px 9px;border-radius:999px">09</span>备用服务器 09</h3>
-      <div class="mini-cmd" style="margin-top:14px">
-        <code id="copy09">slmgr /skms s09.ikms.eu.org &amp;&amp; slmgr /ato</code>
-        </div>
-        <div class="line-actions">
-          <button class="copy-btn" data-copy="slmgr /skms s09.ikms.eu.org &amp;&amp; slmgr /ato"><span class="copy-label">复制命令</span></button>
-        </div>
-    </div>
-    <div class="card reveal" style="cursor:default">
-      <h3 style="display:flex;align-items:center;gap:10px"><span style="font-family:var(--font-mono);font-size:0.8rem;color:var(--brand-1);background:rgba(251,113,133,0.1);border:1px solid rgba(251,113,133,0.3);padding:2px 9px;border-radius:999px">10</span>备用服务器 10</h3>
-      <div class="mini-cmd" style="margin-top:14px">
-        <code id="copy10">slmgr /skms s10.ikms.eu.org &amp;&amp; slmgr /ato</code>
-        </div>
-        <div class="line-actions">
-          <button class="copy-btn" data-copy="slmgr /skms s10.ikms.eu.org &amp;&amp; slmgr /ato"><span class="copy-label">复制命令</span></button>
-        </div>
-    </div>
-    <div class="card v-teal reveal" style="cursor:default">
-      <h3 style="display:flex;align-items:center;gap:10px"><span style="font-family:var(--font-mono);font-size:0.8rem;color:var(--accent);background:rgba(45,212,191,0.1);border:1px solid rgba(45,212,191,0.3);padding:2px 9px;border-radius:999px">11</span>备用服务器 11</h3>
-      <div class="mini-cmd" style="margin-top:14px">
-        <code id="copy11">slmgr /skms s11.ikms.eu.org &amp;&amp; slmgr /ato</code>
-        </div>
-        <div class="line-actions">
-          <button class="copy-btn" data-copy="slmgr /skms s11.ikms.eu.org &amp;&amp; slmgr /ato"><span class="copy-label">复制命令</span></button>
-        </div>
-    </div>
-    <div class="card v-blue reveal" style="cursor:default">
-      <h3 style="display:flex;align-items:center;gap:10px"><span style="font-family:var(--font-mono);font-size:0.8rem;color:var(--blue);background:rgba(96,165,250,0.1);border:1px solid rgba(96,165,250,0.3);padding:2px 9px;border-radius:999px">12</span>备用服务器 12</h3>
-      <div class="mini-cmd" style="margin-top:14px">
-        <code id="copy12">slmgr /skms s12.ikms.eu.org &amp;&amp; slmgr /ato</code>
-        </div>
-        <div class="line-actions">
-          <button class="copy-btn" data-copy="slmgr /skms s12.ikms.eu.org &amp;&amp; slmgr /ato"><span class="copy-label">复制命令</span></button>
-        </div>
-    </div>
-    <div class="card reveal" style="cursor:default">
-      <h3 style="display:flex;align-items:center;gap:10px"><span style="font-family:var(--font-mono);font-size:0.8rem;color:var(--brand-1);background:rgba(251,113,133,0.1);border:1px solid rgba(251,113,133,0.3);padding:2px 9px;border-radius:999px">13</span>备用服务器 13</h3>
-      <div class="mini-cmd" style="margin-top:14px">
-        <code id="copy13">slmgr /skms s13.ikms.eu.org &amp;&amp; slmgr /ato</code>
-        </div>
-        <div class="line-actions">
-          <button class="copy-btn" data-copy="slmgr /skms s13.ikms.eu.org &amp;&amp; slmgr /ato"><span class="copy-label">复制命令</span></button>
-        </div>
-    </div>
+  <div class="grid" id="lines-grid" style="grid-template-columns:repeat(auto-fit,minmax(380px,1fr))">
+    <div class="card" style="cursor:default;grid-column:1/-1;text-align:center;color:var(--text-3);font-size:0.92rem">线路列表加载中…（数据由巡检机器人每 30 分钟自动更新）</div>
   </div>
+  <p id="lines-summary" style="text-align:center;color:var(--text-3);font-size:0.85rem;margin-top:18px"></p>
 
 </main>
 
@@ -193,6 +78,41 @@
 <div class="toast" role="status"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>已复制到剪贴板</div>
 <button class="to-top" aria-label="返回顶部"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg></button>
 
+<script>
+(function () {
+  var grid = document.getElementById('lines-grid');
+  var summary = document.getElementById('lines-summary');
+  var COLORS = ['', 'v-teal', 'v-blue'];
+  var CHIP = {
+    ok: ['在线', 'rgba(52,211,153,.12)', 'rgba(52,211,153,.4)', '#34d399'],
+    down: ['已失效', 'rgba(248,113,113,.12)', 'rgba(248,113,113,.4)', '#f87171'],
+    unknown: ['待检测', 'rgba(148,163,190,.12)', 'rgba(148,163,190,.4)', '#94a3be']
+  };
+  function esc(x) { return String(x).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+  fetch('data/servers.json', { cache: 'no-cache' }).then(function (r) { if (!r.ok) throw 0; return r.json(); }).then(function (d) {
+    var ok = 0;
+    grid.innerHTML = d.lines.map(function (l, i) {
+      var c = CHIP[l.state] || CHIP.unknown;
+      if (l.state === 'ok') ok++;
+      var n = String(i + 1).padStart(2, '0');
+      var cmd = 'slmgr /skms ' + esc(l.host) + ' &amp;&amp; slmgr /ato';
+      var chip = l.latency_ms != null ? c[0] + ' · ' + l.latency_ms + 'ms' : c[0];
+      return '<div class="card ' + COLORS[i % 3] + '" style="cursor:default">' +
+        '<h3 style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">' +
+        '<span style="font-family:var(--font-mono);font-size:0.8rem;background:rgba(251,113,133,0.1);border:1px solid rgba(251,113,133,0.3);padding:2px 9px;border-radius:999px">' + n + '</span>' +
+        '备用服务器 ' + n +
+        '<span style="margin-left:auto;font-size:0.72rem;font-weight:600;padding:2px 9px;border-radius:999px;border:1px solid ' + c[2] + ';background:' + c[1] + ';color:' + c[3] + '">' + chip + '</span>' +
+        '</h3>' +
+        '<div class="mini-cmd" style="margin-top:14px"><code>' + cmd + '</code></div>' +
+        '<div class="line-actions"><button class="copy-btn" data-copy="slmgr /skms ' + esc(l.host) + ' &amp;&amp; slmgr /ato"><span class="copy-label">复制命令</span></button></div>' +
+        '</div>';
+    }).join('');
+    summary.textContent = '共 ' + d.lines.length + ' 条线路 · ' + ok + ' 条在线 · 巡检更新：' + (d.updated_at || '-') + '（每 30 分钟自动检测，失效线路由投稿候选池自动顶替）';
+  }).catch(function () {
+    grid.innerHTML = '<div class="card" style="cursor:default;grid-column:1/-1;text-align:center;color:var(--text-3);font-size:0.92rem">线路数据加载失败，请刷新重试，或前往 <a href="./status.html">服务器状态</a> 页查看。</div>';
+  });
+})();
+</script>
 <script src="/assets/main.js"></script>
 <script defer src="https://um.nie.ge/niegeumami" data-website-id="5eb46560-0399-4c74-8669-4239364c832c"></script>
 </body>

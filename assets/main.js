@@ -80,28 +80,29 @@
   }
 
   function bindCopy() {
-    doc.querySelectorAll('[data-copy]').forEach(function (btn) {
+    /* 事件委托：动态渲染的线路卡片（more.html）无需重新绑定 */
+    doc.addEventListener('click', function (ev) {
+      var btn = ev.target && ev.target.closest ? ev.target.closest('[data-copy]') : null;
+      if (!btn) return;
       var source = btn.getAttribute('data-copy');
-      btn.addEventListener('click', function () {
-        var text = source !== null && source !== ''
-          ? source
-          : (btn.closest('.cmd, .term-body, .key-row, .mini-cmd') || doc).querySelector('code')?.textContent || '';
-        copyText(text.trim(), function (ok) {
-          var label = btn.querySelector('.copy-label');
-          var old = label ? label.textContent : '';
-          btn.classList.add('copied');
-          if (label) label.textContent = ok ? '已复制' : '复制失败';
-          var t = doc.querySelector('.toast');
-          if (t) {
-            t.classList.add('show');
-            clearTimeout(t._timer);
-            t._timer = setTimeout(function () { t.classList.remove('show'); }, 1600);
-          }
-          setTimeout(function () {
-            btn.classList.remove('copied');
-            if (label) label.textContent = old || '复制';
-          }, 1600);
-        });
+      var text = source !== null && source !== ''
+        ? source
+        : (btn.closest('.cmd, .term-body, .key-row, .mini-cmd, .line-actions') || doc).querySelector('code')?.textContent || '';
+      copyText(text.trim(), function (ok) {
+        var label = btn.querySelector('.copy-label');
+        var old = label ? label.textContent : '';
+        btn.classList.add('copied');
+        if (label) label.textContent = ok ? '已复制' : '复制失败';
+        var t = doc.querySelector('.toast');
+        if (t) {
+          t.classList.add('show');
+          clearTimeout(t._timer);
+          t._timer = setTimeout(function () { t.classList.remove('show'); }, 1600);
+        }
+        setTimeout(function () {
+          btn.classList.remove('copied');
+          if (label) label.textContent = old || '复制';
+        }, 1600);
       });
     });
   }

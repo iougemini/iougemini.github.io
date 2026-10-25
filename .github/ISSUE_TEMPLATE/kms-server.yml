@@ -1,0 +1,30 @@
+name: 投稿 KMS 服务器
+description: 提交一台可用的 KMS 服务器，机器人自动验证，通过后进入备用线路候选池
+title: "[KMS投稿] 服务器地址"
+labels: ["kms-submit"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢为 [iKMS](https://ikms.eu.org) 共享线路！提交后机器人会立即用 vlmcs 做 **真实 KMS 协议验证**（非简单 ping）：
+        - ✅ 验证通过 → 进入备用线路候选池，持续监测，失效线路将自动由它顶替，并参与主线路负载均衡
+        - ❌ 验证失败 → 机器人会回复原因，修正后可重新提交
+  - type: input
+    id: host
+    attributes:
+      label: 服务器地址
+      description: 域名或公网 IP，可带端口（默认 1688）。例如 `kms.example.com`、`1.2.3.4:1688`
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: 备注（可选）
+      description: 线路位置、带宽、长期稳定性等说明
+  - type: checkboxes
+    id: agree
+    attributes:
+      label: 投稿确认
+      options:
+        - label: 我拥有该服务器或已获持有者授权公开分享，同意其被公开列出并用于 KMS 激活服务
+          required: true
