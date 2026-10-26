@@ -1,7 +1,7 @@
 /* 处理 issue 投稿：解析服务器地址（支持多台，一行一个）→ 逐台 vlmcs 验证 → 通过的加入候选池 → 汇总表回复 */
 import fs from 'node:fs';
 import { execFileSync } from 'node:child_process';
-import { loadData, saveData, parseHosts, deepCheck } from './kms-lib.mjs';
+import { loadData, saveData, parseHosts, nextCandidateKey, deepCheck } from './kms-lib.mjs';
 
 const ISSUE_NUMBER = process.env.ISSUE_NUMBER || '?';
 const body = process.env.ISSUE_BODY || '';
@@ -56,6 +56,7 @@ for (const { host, port } of hosts) {
   const r = await deepCheck(VLMCS_BIN, host, port);
   if (r.ok) {
     data.candidates.push({
+      key: nextCandidateKey(data),           // 脱敏 key：公开数据不含地址，真实地址存 candidates-private.json
       host, port,
       state: 'ok',
       latency_ms: Math.round(r.latency_ms / 5) * 5,

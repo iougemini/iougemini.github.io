@@ -54,6 +54,7 @@ jobs:
       - name: 检测投稿服务器
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CANDIDATES_SECRET: ${{ secrets.CANDIDATES_SECRET }}
           ISSUE_NUMBER: ${{ github.event.issue.number || github.event.inputs.issue_number }}
           COMMENT_FILE: /tmp/comment.md
         run: |
@@ -69,11 +70,11 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          if [[ -z "$(git status --porcelain data/servers.json)" ]]; then
+          if [[ -z "$(git status --porcelain data)" ]]; then
             echo "数据无变化（未通过验证、重复投稿或已处理过）"
             exit 0
           fi
-          git add data/servers.json
+          git add data
           git commit -m "chore(kms): 收录投稿服务器（issue #$ISSUE_NUM）"
           # 巡检等任务可能并发更新过 servers.json，推送失败时合并远端后重试；
           # 冲突时保留本次收录（-X ours），对方的巡检状态更新下轮巡检会重写

@@ -2,18 +2,100 @@
 import fs from 'node:fs';
 import net from 'node:net';
 import dns from 'node:dns/promises';
+import crypto from 'node:crypto';
 import { execFile } from 'node:child_process';
 
 export const DATA_FILE = 'data/servers.json';
 export const LAST_RUN_FILE = 'data/.last-run.json';
 export const KMS_DEFAULT_PORT = 1688;
 
-/* ---------- 数据 ---------- */
-export function loadData() {
-  return JSON.parse(fs.readFileSync(DATA_FILE, 'utf8'));
+/* ---------- 数据 ----------
+   servers.json 随网站公开，候选池只存脱敏条目（key/状态/延迟，不含投稿地址）。
+   投稿服务器的真实地址加密存储在 data/candidates.enc（随仓库提交，AES-256-GCM，
+   密钥为 GitHub Secret CANDIDATES_SECRET），本地开发时另有明文 candidates-private.json（gitignore）。
+   loadData 读取时自动解密/合并回内存中的 candidates；
+   saveData 写盘时自动拆分：公开脱敏 + 私有加密，透明同步。 */
+export const PRIVATE_FILE = 'data/candidates-private.json';
+export const ENC_FILE = 'data/candidates.enc';
+
+function secretKey() {
+  const secret = process.env.CANDIDATES_SECRET;
+  if (!secret) return null;
+  return crypto.createHash('sha256').update(secret).digest();
 }
+
+function encryptJson(obj) {
+  const key = secretKey();
+  if (!key) return null;
+  const iv = crypto.randomBytes(12);
+  const cipher = crypto.createCipheriv('aes-256-gcm', key, iv);
+  const enc = Buffer.concat([cipher.update(JSON.stringify(obj), 'utf8'), cipher.final()]);
+  return JSON.stringify({ v: 1, iv: iv.toString('base64'), tag: cipher.getAuthTag().toString('base64'), data: enc.toString('base64') });
+}
+
+function decryptJson(text) {
+  const key = secretKey();
+  if (!key) return null;
+  try {
+    const box = JSON.parse(text);
+    const decipher = crypto.createDecipheriv('aes-256-gcm', key, Buffer.from(box.iv, 'base64'));
+    decipher.setAuthTag(Buffer.from(box.tag, 'base64'));
+    const dec = Buffer.concat([decipher.update(Buffer.from(box.data, 'base64')), decipher.final()]);
+    return JSON.parse(dec.toString('utf8'));
+  } catch { return null; }
+}
+
+/* 读取私有地址映射 { key: {host, port} }：优先明文本地文件（开发环境），其次解密仓库文件（CI） */
+function loadPrivate() {
+  try { return JSON.parse(fs.readFileSync(PRIVATE_FILE, 'utf8')); } catch {}
+  if (fs.existsSync(ENC_FILE)) {
+    const priv = decryptJson(fs.readFileSync(ENC_FILE, 'utf8'));
+    if (priv) return priv;
+    console.error('[warn] candidates.enc 存在但解密失败（缺少或错误的 CANDIDATES_SECRET）');
+  }
+  return {};
+}
+
+/* 为新投稿生成稳定的脱敏 key（c1, c2, ...） */
+export function nextCandidateKey(data) {
+  let n = 1;
+  const keys = new Set((data.candidates || []).map(c => c.key));
+  while (keys.has('c' + n)) n++;
+  return 'c' + n;
+}
+
+export function loadData() {
+  const data = JSON.parse(fs.readFileSync(DATA_FILE, 'utf8'));
+  const priv = loadPrivate();
+  for (const c of data.candidates || []) {
+    if (c.key && priv[c.key]) {
+      c.host = priv[c.key].host;
+      c.port = priv[c.key].port || 1688;
+    }
+  }
+  return data;
+}
+
 export function saveData(data) {
   data.updated_at = new Date().toISOString().slice(0, 10);
+  /* 私有地址抽出到加密文件与本地明文文件 */
+  const priv = loadPrivate();
+  for (const c of data.candidates || []) {
+    if (!c.key) c.key = nextCandidateKey(data);
+    priv[c.key] = { host: c.host, port: c.port || 1688 };
+    /* 公开条目脱敏：真实地址与 IP 都不公开（IP 可反查服务器归属） */
+    delete c.host;
+    delete c.port;
+    delete c.ip;
+    delete c.ips_ok;
+    delete c.ip_lat;
+  }
+  /* 本地明文（开发用，gitignore） */
+  fs.writeFileSync(PRIVATE_FILE, JSON.stringify(priv, null, 2) + '\n');
+  /* 加密文件（随仓库提交，CI 持久化）——未配置密钥时告警：真实地址将无法在下次巡检恢复 */
+  const enc = encryptJson(priv);
+  if (enc) fs.writeFileSync(ENC_FILE, enc + '\n');
+  else console.error('[warn] 未配置 CANDIDATES_SECRET，候选池真实地址仅存于本地 private 文件，CI 将无法持久化！');
   fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2) + '\n');
 }
 

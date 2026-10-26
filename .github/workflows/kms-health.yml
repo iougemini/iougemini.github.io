@@ -37,10 +37,13 @@ jobs:
 
       - name: 巡检全部线路（验证 + 延迟 + 自动替换失效线路）
         run: node scripts/kms-check.mjs
+        env:
+          CANDIDATES_SECRET: ${{ secrets.CANDIDATES_SECRET }}
 
       - name: 主线路 DNS 负载均衡（未配置密钥时自动跳过）
         run: node scripts/update-dns.mjs
         env:
+          CANDIDATES_SECRET: ${{ secrets.CANDIDATES_SECRET }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
           BALANCE_COUNT: "5"

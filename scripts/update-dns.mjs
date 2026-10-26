@@ -20,8 +20,9 @@ if (!TOKEN || !ZONE) {
 }
 
 const data = loadData();
-let precise = {};
-try { precise = JSON.parse(fs.readFileSync(LAST_RUN_FILE, 'utf8')).latency || {}; } catch {}
+let lastRun = {};
+try { lastRun = JSON.parse(fs.readFileSync(LAST_RUN_FILE, 'utf8')); } catch {}
+const precise = lastRun.latency || {};
 
 /* 汇总所有在线服务器 → 逐 IP 汇总（只取通过 vlmcs 验证的 IP）→ 按延迟排序（同 IP 多域名去重） */
 const hosts = [...new Set([...data.lines, ...data.candidates].filter(e => e.state === 'ok').map(e => e.host))];
@@ -105,4 +106,65 @@ if (!dry) {
   d2.main.balanced = true;
   const fs = await import('node:fs');
   fs.writeFileSync('data/servers.json', JSON.stringify(d2, null, 2) + '\n');
+}
+
+/* ---------- 失效线路 CNAME 替换 ----------
+   巡检发现失效线路后把 CNAME 意向（lineId -> 投稿服务器域名）写入 .last-run.json
+   （gitignore，不公开），这里读取并落实为 Cloudflare CNAME 记录：
+   sXX.ikms.eu.org --CNAME--> 投稿服务器域名。
+   servers.json 不含任何投稿地址字段，状态页与静态数据都不会泄露。 */
+const cnameIntents = lastRun.cname || {};
+const linesNeeding = (data.lines || []).filter(l => cnameIntents[l.id]);
+console.log(`[cname] ${linesNeeding.length} 条线路需要 CNAME 替换`);
+for (const line of linesNeeding) {
+  const target = cnameIntents[line.id];
+  try {
+    const recs = await api(`?name=${line.host}&per_page=100`);
+    const aRecs = recs.filter(r => r.type === 'A');
+    const cnameRecs2 = recs.filter(r => r.type === 'CNAME');
+    const correct = cnameRecs2.find(r => r.content === target);
+    /* 删除同名 A 记录（DNS 不允许 CNAME 与 A 共存）以及指向旧目标的 CNAME */
+    for (const rec of aRecs) {
+      console.log(`[cname] ${dry ? '(dry)' : 'DELETE'} A ${line.host} -> ${rec.content}（为 CNAME 让位）`);
+      if (!dry) await api(`/${rec.id}`, { method: 'DELETE' });
+    }
+    for (const rec of cnameRecs2) {
+      if (rec.content !== target) {
+        console.log(`[cname] ${dry ? '(dry)' : 'UPDATE'} CNAME ${line.host}: ${rec.content} -> ${target}`);
+        if (!dry) await api(`/${rec.id}`, { method: 'DELETE' });
+      }
+    }
+    if (!correct) {
+      console.log(`[cname] ${dry ? '(dry)' : 'CREATE'} CNAME ${line.host} -> ${target}`);
+      if (!dry) await api('', {
+        method: 'POST',
+        body: JSON.stringify({ type: 'CNAME', name: line.host, content: target, ttl: 300, proxied: false }),
+      });
+    } else if (correct.proxied) {
+      console.log(`[cname] ${dry ? '(dry)' : 'PATCH'} CNAME ${line.host} proxied -> false（1688 端口必须灰云直连）`);
+      if (!dry) await api(`/${correct.id}`, {
+        method: 'PATCH',
+        body: JSON.stringify({ proxied: false, ttl: 300 }),
+      });
+    } else {
+      console.log(`[cname] ${line.host} -> ${target} 已是最新，无需变更`);
+    }
+  } catch (err) {
+    console.error(`[cname] ${line.host} CNAME 处理失败：${err.message}`);
+  }
+}
+
+/* 已恢复/重新分配的线路：清除不再需要的 CNAME（线路重新指回自身或改指新目标） */
+const cnameTargets = new Set(linesNeeding.map(l => l.host));
+for (const line of (data.lines || [])) {
+  if (line.cname_target || !cnameTargets.has(line.host)) continue;
+  try {
+    const recs = await api(`?name=${line.host}&per_page=100`);
+    for (const rec of recs.filter(r => r.type === 'CNAME' && r.content !== MAIN_HOST)) {
+      console.log(`[cname] ${dry ? '(dry)' : 'DELETE'} CNAME ${line.host} -> ${rec.content}（线路已恢复自主解析）`);
+      if (!dry) await api(`/${rec.id}`, { method: 'DELETE' });
+    }
+  } catch (err) {
+    console.error(`[cname] ${line.host} 清理失败：${err.message}`);
+  }
 }

@@ -82,7 +82,7 @@
   <section class="section" id="cand-section" style="max-width:1080px;margin-inline:auto;display:none">
     <div class="section-head reveal">
       <h2>投稿候选池</h2>
-      <p>通过验证的投稿服务器，持续监测中，失效线路将由它们自动顶替</p>
+      <p>已有热心网友投稿的服务器通过验证进入候选池，持续监测中，失效线路将由它们自动顶替（为保护投稿者隐私，具体地址不公开）</p>
     </div>
     <div id="cand-list" class="reveal"></div>
   </section>
@@ -242,12 +242,13 @@
       mp.innerHTML = '<div style="color:var(--text-3);font-size:0.9rem">DNS 负载均衡尚未写入记录（配置 CLOUDFLARE_API_TOKEN 后自动启用），当前主线路由原有解析提供服务。</div>';
     }
 
-    // 备用线路
+    // 备用线路（已替换的线路 tooltip 不暴露 CNAME 目标，只显示替换时间）
     el('lines-status').innerHTML = lines.map(function (l) {
       var c = CHIP[l.state] || CHIP.unknown;
       var lat = l.latency_ms != null ? l.latency_ms + ' ms' : (l.state === 'down' ? '不可达' : '—');
       var partial = l.partial && l.ips_total ? ' · IP ' + (l.ips_ok || []).length + '/' + l.ips_total : '';
-      return '<div class="stat-line"' + (l.error ? ' title="' + esc(l.error) + '"' : '') + '>' +
+      var tip = l.swapped_at ? ('该线路已由投稿服务器自动顶替（' + String(l.swapped_at).slice(0, 10) + '）') : l.error || '';
+      return '<div class="stat-line"' + (tip ? ' title="' + esc(tip) + '"' : '') + '>' +
         '<span class="st-dot ' + (l.state || 'unknown') + '"></span>' +
         '<span class="st-name">' + esc(l.host) + '</span>' +
         '<span class="st-lat" style="color:' + c[1] + '">' + c[0] + ' · ' + lat + partial + '</span>' +
@@ -256,15 +257,15 @@
         '</div>';
     }).join('');
 
-    // 候选池
+    // 候选池（不显示投稿服务器地址，只显示序号、状态与来源）
     var cands = data.candidates || [];
     if (cands.length) {
       el('cand-section').style.display = '';
-      el('cand-list').innerHTML = cands.map(function (c) {
+      el('cand-list').innerHTML = cands.map(function (c, i) {
         var c2 = CHIP[c.state] || CHIP.unknown;
         return '<div class="stat-line">' +
           '<span class="st-dot ' + (c.state || 'unknown') + '"></span>' +
-          '<span class="st-name">' + esc(c.host) + ':' + (c.port || 1688) + '</span>' +
+          '<span class="st-name">投稿服务器 #' + (i + 1) + '</span>' +
           '<span class="st-lat" style="color:' + c2[1] + '">' + c2[0] + (c.latency_ms != null ? ' · ' + c.latency_ms + ' ms' : '') + '</span>' +
           '<span class="st-up" style="min-width:auto">' + esc(c.source || '') + '</span>' +
           '</div>';
