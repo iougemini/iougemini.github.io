@@ -235,14 +235,9 @@
     // 主线路
     var mp = el('main-panel');
     if (cur.length) {
-      mp.innerHTML = '<div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:12px">' +
+      mp.innerHTML = '<div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center">' +
         '<span class="main-ip-chip"><span style="color:var(--ok)">●</span> ' + cur.length + ' 条 A 记录在线 · 更新于 ' + esc((data.main.current_updated || '').replace('T', ' ').slice(0, 16)) + '</span>' +
-        '<span style="color:var(--text-3);font-size:0.85rem">客户端解析到任意一条均可激活</span></div>' +
-        '<div style="display:flex;flex-wrap:wrap;gap:10px">' +
-        cur.map(function (c) {
-          return '<span class="main-ip-chip">' + esc(c.ip) + '<span class="lat">' + esc(c.host) + (c.latency_ms != null ? ' · ' + c.latency_ms + 'ms' : '') + '</span></span>';
-        }).join('') +
-        '</div>';
+        '<span style="color:var(--text-3);font-size:0.85rem">客户端解析到任意一条均可激活，记录每 30 分钟自动调优</span></div>';
     } else {
       mp.innerHTML = '<div style="color:var(--text-3);font-size:0.9rem">DNS 负载均衡尚未写入记录（配置 CLOUDFLARE_API_TOKEN 后自动启用），当前主线路由原有解析提供服务。</div>';
     }
