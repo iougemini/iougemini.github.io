@@ -120,19 +120,13 @@ for (const line of linesNeeding) {
   const target = cnameIntents[line.id];
   try {
     const recs = await api(`?name=${line.host}&per_page=100`);
-    const aRecs = recs.filter(r => r.type === 'A');
-    const cnameRecs2 = recs.filter(r => r.type === 'CNAME');
-    const correct = cnameRecs2.find(r => r.content === target);
-    /* 删除同名 A 记录（DNS 不允许 CNAME 与 A 共存）以及指向旧目标的 CNAME */
-    for (const rec of aRecs) {
-      console.log(`[cname] ${dry ? '(dry)' : 'DELETE'} A ${line.host} -> ${rec.content}（为 CNAME 让位）`);
+    let correct = null;
+    /* 目标 CNAME 保留；同名其它所有记录（A/AAAA/TXT/旧 CNAME）全部清除，
+       否则 DNS 不允许 CNAME 与其他记录共存，会创建失败 */
+    for (const rec of recs) {
+      if (rec.type === 'CNAME' && rec.content === target) { correct = rec; continue; }
+      console.log(`[cname] ${dry ? '(dry)' : 'DELETE'} ${rec.type} ${line.host} -> ${rec.content}（为 CNAME 让位）`);
       if (!dry) await api(`/${rec.id}`, { method: 'DELETE' });
-    }
-    for (const rec of cnameRecs2) {
-      if (rec.content !== target) {
-        console.log(`[cname] ${dry ? '(dry)' : 'UPDATE'} CNAME ${line.host}: ${rec.content} -> ${target}`);
-        if (!dry) await api(`/${rec.id}`, { method: 'DELETE' });
-      }
     }
     if (!correct) {
       console.log(`[cname] ${dry ? '(dry)' : 'CREATE'} CNAME ${line.host} -> ${target}`);
@@ -154,17 +148,7 @@ for (const line of linesNeeding) {
   }
 }
 
-/* 已恢复/重新分配的线路：清除不再需要的 CNAME（线路重新指回自身或改指新目标） */
-const cnameTargets = new Set(linesNeeding.map(l => l.host));
-for (const line of (data.lines || [])) {
-  if (line.cname_target || !cnameTargets.has(line.host)) continue;
-  try {
-    const recs = await api(`?name=${line.host}&per_page=100`);
-    for (const rec of recs.filter(r => r.type === 'CNAME' && r.content !== MAIN_HOST)) {
-      console.log(`[cname] ${dry ? '(dry)' : 'DELETE'} CNAME ${line.host} -> ${rec.content}（线路已恢复自主解析）`);
-      if (!dry) await api(`/${rec.id}`, { method: 'DELETE' });
-    }
-  } catch (err) {
-    console.error(`[cname] ${line.host} 清理失败：${err.message}`);
-  }
-}
+/* 说明：已替换线路（sXX → CNAME → 候选服务器）的 CNAME 记录长期有效——
+   线路域名继续指向候选服务器，候选失效时巡检会再次触发替换并由上面的
+   UPDATE 逻辑改指新目标。这里不做“无意向即删除”的清理：意向只在替换
+   当轮存在，若按其清理会把上一轮写入的有效 CNAME 误删，导致线路反复失效。 */

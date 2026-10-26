@@ -79,6 +79,7 @@ for (const line of data.lines) {
       console.log(`[swap] ${line.id}: ${line.host} (连续失效 ${line.consecutive_fail} 次) → CNAME 候选池服务器 ${best.key || '(新收录)'} (${best.source || 'candidate'}）`);
       line.cname_target = best.host;                     // 由 update-dns.mjs 写入 CNAME 记录
       line.state = 'ok';
+      line.source = best.source || 'cname';              // 线路当前由该投稿来源支撑
       line.latency_ms = best.latency_ms;
       line.ip = best.ip || null;
       line.ips_ok = best.ips_ok || (best.ip ? [best.ip] : []);

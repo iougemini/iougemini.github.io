@@ -69,8 +69,14 @@ export function loadData() {
   const priv = loadPrivate();
   for (const c of data.candidates || []) {
     if (c.key && priv[c.key]) {
-      c.host = priv[c.key].host;
-      c.port = priv[c.key].port || 1688;
+      const p = priv[c.key];
+      c.host = p.host;
+      c.port = p.port || 1688;
+      /* 恢复技术状态字段（公开条目里不存，但巡检/负载均衡/替换继承需要） */
+      c.ips_ok = p.ips_ok || [];
+      c.ips_total = p.ips_total ?? (c.ips_ok.length || null);
+      c.ip_lat = p.ip_lat || {};
+      c.partial = !!p.partial;
     }
   }
   return data;
@@ -78,19 +84,37 @@ export function loadData() {
 
 export function saveData(data) {
   data.updated_at = new Date().toISOString().slice(0, 10);
-  /* 私有地址抽出到加密文件与本地明文文件 */
+  /* 私有地址抽出到加密文件与本地明文文件。
+     注意：不修改传入的 data 对象（后续步骤还依赖内存中的 ips_ok 等），
+     servers.json 写入的是脱敏副本。 */
   const priv = loadPrivate();
+  const pubCandidates = [];
   for (const c of data.candidates || []) {
     if (!c.key) c.key = nextCandidateKey(data);
-    /* 防覆盖：内存中缺少真实地址（解密失败等）时保留私有文件旧值，绝不写 undefined */
-    if (c.host) priv[c.key] = { host: c.host, port: c.port || 1688 };
-    else console.error(`[warn] 候选 ${c.key} 缺少真实地址，保留私有数据旧值（如需恢复请运行重建 workflow）`);
-    /* 公开条目脱敏：真实地址与 IP 都不公开（IP 可反查服务器归属） */
-    delete c.host;
-    delete c.port;
-    delete c.ip;
-    delete c.ips_ok;
-    delete c.ip_lat;
+    if (c.host) {
+      /* 全量技术状态入私有存储：替换继承、负载均衡、重启恢复都依赖它们 */
+      priv[c.key] = {
+        host: c.host, port: c.port || 1688,
+        ips_ok: c.ips_ok || [], ips_total: c.ips_total ?? (c.ips_ok || []).length,
+        ip_lat: c.ip_lat || {}, partial: !!c.partial,
+      };
+    } else {
+      /* 解密失败兜底：保留私有数据旧值，并用其回填技术字段保证功能可用 */
+      console.error(`[warn] 候选 ${c.key} 缺少真实地址，保留私有数据旧值（如需恢复请运行重建 workflow）`);
+      const old = priv[c.key];
+      if (old) {
+        c.ips_ok = old.ips_ok || [];
+        c.ips_total = old.ips_total ?? null;
+        c.ip_lat = old.ip_lat || {};
+        c.partial = !!old.partial;
+      }
+    }
+    /* 公开条目脱敏副本：真实地址与 IP 都不公开（IP 可反查服务器归属） */
+    pubCandidates.push({
+      ...c,
+      host: undefined, port: undefined, ip: undefined,
+      ips_ok: undefined, ip_lat: undefined,
+    });
   }
   /* 本地明文（开发用，gitignore） */
   fs.writeFileSync(PRIVATE_FILE, JSON.stringify(priv, null, 2) + '\n');
@@ -98,7 +122,7 @@ export function saveData(data) {
   const enc = encryptJson(priv);
   if (enc) fs.writeFileSync(ENC_FILE, enc + '\n');
   else console.error('[warn] 未配置 CANDIDATES_SECRET，候选池真实地址仅存于本地 private 文件，CI 将无法持久化！');
-  fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2) + '\n');
+  fs.writeFileSync(DATA_FILE, JSON.stringify({ ...data, candidates: pubCandidates }, null, 2) + '\n');
 }
 
 /* ---------- 主机规范化 ----------
