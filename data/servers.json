@@ -284,6 +284,64 @@
       "error": "全部 1 个 IP 均未通过 KMS 协议验证：23.226.136.46(TCP 连接失败)"
     }
   ],
-  "candidates": [],
+  "candidates": [
+    {
+      "host": "kms.xingez.me",
+      "port": 1688,
+      "state": "ok",
+      "latency_ms": 255,
+      "ip": "110.42.186.3",
+      "ips_ok": [
+        "110.42.186.3"
+      ],
+      "ips_total": 1,
+      "ip_lat": {
+        "110.42.186.3": 255
+      },
+      "partial": false,
+      "last_checked": "2026-10-26",
+      "consecutive_fail": 0,
+      "source": "issue #4",
+      "added": "2026-10-26"
+    },
+    {
+      "host": "kms.hmg.pw",
+      "port": 1688,
+      "state": "ok",
+      "latency_ms": 1250,
+      "ip": "119.29.100.23",
+      "ips_ok": [
+        "119.29.100.23"
+      ],
+      "ips_total": 1,
+      "ip_lat": {
+        "119.29.100.23": 1250
+      },
+      "partial": false,
+      "last_checked": "2026-10-26",
+      "consecutive_fail": 0,
+      "source": "issue #4",
+      "added": "2026-10-26"
+    },
+    {
+      "host": "ikms.dpdns.org",
+      "port": 1688,
+      "state": "ok",
+      "latency_ms": 170,
+      "ip": "146.56.187.155",
+      "ips_ok": [
+        "146.56.187.155"
+      ],
+      "ips_total": 1,
+      "ip_lat": {
+        "146.56.187.155": 169
+      },
+      "partial": false,
+      "last_checked": "2026-10-26",
+      "consecutive_fail": 0,
+      "source": "issue #4",
+      "added": "2026-10-26"
+    }
+  ],
   "swaps": []
 }
