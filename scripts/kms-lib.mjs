@@ -108,6 +108,33 @@ export async function deepCheck(vlmcsBin, host, port = KMS_DEFAULT_PORT, maxIps 
   };
 }
 
+/* ---------- 投稿地址解析 ----------
+   issue 表单渲染格式为 "### 服务器地址\n\n<多行值>"。
+   支持一次投稿多台：按行拆分（兼容同内逗号/分号/空格分隔），忽略空行与 # 注释行。
+   返回 { valid: [{host,port}], invalid: [{raw,reason}] }，已去重。 */
+export function parseHosts(bodyText) {
+  const m = bodyText.match(/###\s*服务器地址\s*\n+(.*?)(?=\n###|\n?$)/s);
+  const section = m ? m[1] : bodyText;
+  const tokens = [];
+  for (const line of section.split('\n')) {
+    for (const tok of line.split(/[,，;；\s]+/)) {
+      const t = tok.trim();
+      if (t && !t.startsWith('#')) tokens.push(t);
+    }
+  }
+  const seen = new Set();
+  const valid = [];
+  const invalid = [];
+  for (const t of tokens) {
+    if (seen.has(t)) continue;
+    seen.add(t);
+    const norm = normalizeHost(t);
+    if (norm) valid.push(norm);
+    else invalid.push({ raw: t, reason: '格式无效或为内网/环回地址' });
+  }
+  return { valid, invalid };
+}
+
 /* ---------- DNS 解析 ---------- */
 export async function resolveIp(host) {
   try { return (await dns.resolve4(host))[0] || null; }
