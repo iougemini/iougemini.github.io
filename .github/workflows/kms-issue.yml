@@ -14,6 +14,11 @@ permissions:
   contents: write
   issues: write
 
+# 同一 issue 的多次触发（opened/edited/labeled/reopened）只跑最新一次，旧任务自动取消，避免并发竞态
+concurrency:
+  group: kms-issue-${{ github.event.issue.number || github.event.inputs.issue_number || 'manual' }}
+  cancel-in-progress: true
+
 jobs:
   process:
     if: >-
@@ -64,13 +69,25 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          if [[ -n "$(git status --porcelain data/servers.json)" ]]; then
-            git add data/servers.json
-            git commit -m "chore(kms): 收录投稿服务器（issue #$ISSUE_NUM）"
-            git push
-          else
+          if [[ -z "$(git status --porcelain data/servers.json)" ]]; then
             echo "数据无变化（未通过验证、重复投稿或已处理过）"
+            exit 0
           fi
+          git add data/servers.json
+          git commit -m "chore(kms): 收录投稿服务器（issue #$ISSUE_NUM）"
+          # 巡检等任务可能并发更新过 servers.json，推送失败时合并远端后重试；
+          # 冲突时保留本次收录（-X ours），对方的巡检状态更新下轮巡检会重写
+          for i in 1 2 3; do
+            if git push; then echo "push ok (attempt $i)"; exit 0; fi
+            echo "push rejected (attempt $i), merging origin/main..."
+            git fetch origin main
+            git rebase origin/main 2>/dev/null || {
+              git rebase --abort
+              git merge origin/main -X ours -m "merge origin/main（冲突保留本次收录，issue #$ISSUE_NUM）"
+            }
+          done
+          echo "push failed after 3 attempts"
+          exit 1
 
       - name: 回复检测结果
         env:

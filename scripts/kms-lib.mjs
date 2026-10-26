@@ -83,10 +83,15 @@ export async function checkHost(vlmcsBin, host, port = KMS_DEFAULT_PORT) {
    公益线路常见"一个域名轮询多个服务器"的情况，其中可能混入失效/配置错误的 IP。
    逐 IP 做 TCP + vlmcs 验证，返回通过验证的 IP 清单（按延迟升序）。 */
 export async function deepCheck(vlmcsBin, host, port = KMS_DEFAULT_PORT, maxIps = 6) {
+  /* 纯 IP 投稿直接使用该地址，不做 DNS 解析 */
   let ips = [];
-  try { ips = (await dns.resolve4(host)).slice(0, maxIps); }
-  catch { return { ok: false, ips_ok: [], ips_total: 0, latency_ms: null, reason: '域名无法解析' }; }
-  if (!ips.length) return { ok: false, ips_ok: [], ips_total: 0, latency_ms: null, reason: '域名没有 A 记录' };
+  if (/^\d{1,3}(\.\d{1,3}){3}$/.test(host)) {
+    ips = [host];
+  } else {
+    try { ips = (await dns.resolve4(host)).slice(0, maxIps); }
+    catch { return { ok: false, ips_ok: [], ips_total: 0, latency_ms: null, reason: '域名无法解析' }; }
+    if (!ips.length) return { ok: false, ips_ok: [], ips_total: 0, latency_ms: null, reason: '域名没有 A 记录' };
+  }
 
   const results = await mapLimit(ips, 3, async ip => {
     const latency = await tcpLatency(ip, port);
