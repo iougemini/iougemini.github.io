@@ -18,13 +18,23 @@ for (const c of data.candidates) {
   if (!c.key) c.key = nextCandidateKey(data);
 }
 
+/* trusted（所有者担保）条目跳过海外验证：部分线路仅对国内开放，
+   CI（海外节点）的 vlmcs 验证会产生假阴性，故由所有者标记后直接视为在线 */
+for (const l of data.lines) if (l.trusted) {
+  l.state = 'ok'; l.consecutive_fail = 0; l.error = undefined; l.last_checked = now;
+}
+for (const c of data.candidates) if (c.trusted) {
+  c.state = 'ok'; c.consecutive_fail = 0; c.error = undefined; c.last_checked = now;
+}
+
 /* 收集全部待检目标：
    - line：线路自身域名（未替换时）或 cname_target（已替换线路，监测真实目标健康度）
-   - candidate：候选池服务器（替换后仍保留在池中持续监测，供多条线路复用与主线路负载均衡） */
+   - candidate：候选池服务器（替换后仍保留在池中持续监测，供多条线路复用与主线路负载均衡）
+   trusted 条目不参与海外验证 */
 const targets = [
   ...data.lines.map(l => ({ kind: 'line', ref: l, host: l.cname_target || l.host, port: 1688 })),
   ...data.candidates.map(c => ({ kind: 'candidate', ref: c, host: c.host, port: c.port || 1688 })),
-];
+].filter(t => !t.ref.trusted);
 
 await mapLimit(targets, PARALLEL, async t => {
   const r = await deepCheck(VLMCS_BIN, t.host, t.port);
@@ -80,6 +90,7 @@ for (const line of data.lines) {
       line.cname_target = best.host;                     // 由 update-dns.mjs 写入 CNAME 记录
       line.state = 'ok';
       line.source = best.source || 'cname';              // 线路当前由该投稿来源支撑
+      if (best.trusted) line.trusted = true;             // 继承信任标记：区域限制线路无法海外验证，防止状态震荡
       line.latency_ms = best.latency_ms;
       line.ip = best.ip || null;
       line.ips_ok = best.ips_ok || (best.ip ? [best.ip] : []);
