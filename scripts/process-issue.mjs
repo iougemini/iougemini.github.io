@@ -1,11 +1,25 @@
 /* 处理 issue 投稿：解析服务器地址 → vlmcs 验证 → 通过则加入候选池 → 生成回复内容 */
 import fs from 'node:fs';
+import { execFileSync } from 'node:child_process';
 import { loadData, saveData, normalizeHost, deepCheck } from './kms-lib.mjs';
 
 const ISSUE_NUMBER = process.env.ISSUE_NUMBER || '?';
 const body = process.env.ISSUE_BODY || '';
 const VLMCS_BIN = process.env.VLMCS_BIN || 'vlmcs';
 const COMMENT_FILE = process.env.COMMENT_FILE || '/tmp/comment.md';
+
+/* 幂等保护：该 issue 已被机器人处理过则跳过（防止 edited/labeled 重复触发重复回复） */
+if (process.env.GH_TOKEN && process.env.GITHUB_REPOSITORY && /^\d+$/.test(ISSUE_NUMBER)) {
+  try {
+    const comments = execFileSync('gh',
+      ['api', `repos/${process.env.GITHUB_REPOSITORY}/issues/${ISSUE_NUMBER}/comments`, '--jq', '.[].body'],
+      { encoding: 'utf8', stdio: ['pipe', 'pipe', 'pipe'] });
+    if (/候选池|验证未通过/.test(comments)) {
+      console.log('[skip] 该 issue 已被处理过，跳过重复处理');
+      process.exit(0);
+    }
+  } catch {}
+}
 
 /* issue 表单渲染格式为 "### 服务器地址\n\n<值>" */
 function parseHost() {

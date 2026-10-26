@@ -2,7 +2,13 @@ name: KMS 投稿检测
 
 on:
   issues:
-    types: [opened]
+    types: [opened, edited, labeled, reopened]
+  workflow_dispatch:
+    inputs:
+      issue_number:
+        description: 要检测的 issue 编号（补跑用）
+        required: false
+        default: ""
 
 permissions:
   contents: write
@@ -10,7 +16,11 @@ permissions:
 
 jobs:
   process:
-    if: contains(github.event.issue.labels.*.name, 'kms-submit')
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.action == 'labeled' && github.event.label.name == 'kms-submit') ||
+      contains(github.event.issue.labels.*.name, 'kms-submit') ||
+      contains(github.event.issue.body, '### 服务器地址')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -31,16 +41,26 @@ jobs:
           if [ -z "$VLMCS_PATH" ]; then echo "vlmcs Linux binary not found"; exit 1; fi
           sudo install "$VLMCS_PATH" /usr/local/bin/vlmcs
 
+      - name: 确保 kms-submit 标签存在（issue 表单不会自动创建新标签）
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh label create "kms-submit" --description "KMS 服务器投稿" --color "0E8A16" -R "$GITHUB_REPOSITORY" 2>/dev/null || true
+
       - name: 检测投稿服务器
         env:
-          ISSUE_NUMBER: ${{ github.event.issue.number }}
-          ISSUE_BODY: ${{ github.event.issue.body }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ github.event.issue.number || github.event.inputs.issue_number }}
           COMMENT_FILE: /tmp/comment.md
-        run: node scripts/process-issue.mjs
+        run: |
+          if [ -z "$ISSUE_NUMBER" ]; then echo "未指定 issue 编号"; exit 0; fi
+          ISSUE_BODY="$(gh issue view "$ISSUE_NUMBER" -R "$GITHUB_REPOSITORY" --json body --jq .body 2>/dev/null || true)"
+          if ! printf '%s' "$ISSUE_BODY" | grep -q "### 服务器地址"; then echo "非投稿 issue（正文无投稿表单标记），跳过"; exit 0; fi
+          export ISSUE_BODY
+          node scripts/process-issue.mjs
 
       - name: 收录通过的服务器
         env:
-          ISSUE_NUM: ${{ github.event.issue.number }}
+          ISSUE_NUM: ${{ github.event.issue.number || github.event.inputs.issue_number }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -49,11 +69,16 @@ jobs:
             git commit -m "chore(kms): 收录投稿服务器（issue #$ISSUE_NUM）"
             git push
           else
-            echo "数据无变化（未通过验证或重复投稿）"
+            echo "数据无变化（未通过验证、重复投稿或已处理过）"
           fi
 
       - name: 回复检测结果
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ISSUE_NUMBER: ${{ github.event.issue.number }}
-        run: gh issue comment "$ISSUE_NUMBER" -R "$GITHUB_REPOSITORY" --body-file /tmp/comment.md
+          ISSUE_NUMBER: ${{ github.event.issue.number || github.event.inputs.issue_number }}
+        run: |
+          if [ -s /tmp/comment.md ]; then
+            gh issue comment "$ISSUE_NUMBER" -R "$GITHUB_REPOSITORY" --body-file /tmp/comment.md
+          else
+            echo "无新回复（该 issue 已处理过）"
+          fi
