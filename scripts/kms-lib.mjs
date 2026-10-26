@@ -82,7 +82,9 @@ export function saveData(data) {
   const priv = loadPrivate();
   for (const c of data.candidates || []) {
     if (!c.key) c.key = nextCandidateKey(data);
-    priv[c.key] = { host: c.host, port: c.port || 1688 };
+    /* 防覆盖：内存中缺少真实地址（解密失败等）时保留私有文件旧值，绝不写 undefined */
+    if (c.host) priv[c.key] = { host: c.host, port: c.port || 1688 };
+    else console.error(`[warn] 候选 ${c.key} 缺少真实地址，保留私有数据旧值（如需恢复请运行重建 workflow）`);
     /* 公开条目脱敏：真实地址与 IP 都不公开（IP 可反查服务器归属） */
     delete c.host;
     delete c.port;

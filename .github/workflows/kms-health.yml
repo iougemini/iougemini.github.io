@@ -4,6 +4,11 @@ on:
   schedule:
     - cron: "*/30 * * * *"
   workflow_dispatch:
+    inputs:
+      rebuild_private:
+        description: "重建候选池加密数据（首次配置 CANDIDATES_SECRET 后勾选执行一次）"
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -22,6 +27,13 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
+
+      - name: 重建候选池加密数据（手动触发且勾选时执行）
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.rebuild_private }}
+        env:
+          CANDIDATES_SECRET: ${{ secrets.CANDIDATES_SECRET }}
+          HISTORY_COMMIT: e2ecbd1
+        run: node scripts/rebuild-private.mjs
 
       - name: 编译 vlmcs 检测工具
         run: |
