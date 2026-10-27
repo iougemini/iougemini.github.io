@@ -25,7 +25,7 @@
       <a href="./kms.html">详细教程</a>
       <a href="./more.html">备用线路</a>
       <a href="./android.html">自建线路</a>
-      <a href="./status.html">服务器状态</a>
+      <a href="./status.html">服务状态</a>
       <a href="./img.html">演示图例</a>
     </div>
     <div class="nav-actions">
@@ -67,7 +67,7 @@
       <a href="./kms.html">详细教程</a>
       <a href="./img.html">演示图例</a>
       <a href="./android.html">自建线路</a>
-      <a href="./status.html">服务器状态</a>
+      <a href="./status.html">服务状态</a>
       <a href="./kms.html#mianze">免责声明</a>
       <a href="./">返回首页</a>
     </div>
@@ -109,7 +109,7 @@
     }).join('');
     summary.textContent = '共 ' + d.lines.length + ' 条线路 · ' + ok + ' 条在线 · 巡检更新：' + (d.updated_at || '-') + '（每 30 分钟自动检测，失效线路由投稿候选池自动顶替）';
   }).catch(function () {
-    grid.innerHTML = '<div class="card" style="cursor:default;grid-column:1/-1;text-align:center;color:var(--text-3);font-size:0.92rem">线路数据加载失败，请刷新重试，或前往 <a href="./status.html">服务器状态</a> 页查看。</div>';
+    grid.innerHTML = '<div class="card" style="cursor:default;grid-column:1/-1;text-align:center;color:var(--text-3);font-size:0.92rem">线路数据加载失败，请刷新重试，或前往 <a href="./status.html">服务状态</a> 页查看。</div>';
   });
 })();
 </script>

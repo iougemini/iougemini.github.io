@@ -398,11 +398,75 @@ html[data-theme="light"] .icon-moon { display: none; }
   color: transparent;
 }
 .hero .lede {
-  margin: 0 auto 34px;
-  max-width: 640px;
+  margin: 0 auto 18px;
+  max-width: 900px;
   color: var(--text-2);
   font-size: clamp(1rem, 2vw, 1.15rem);
 }
+.hero .lede { white-space: nowrap; }
+@media (max-width: 1024px) { .hero .lede { white-space: normal; } }
+
+/* 首页激活请求统计条 */
+.req-strip {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin: -6px auto 36px;
+  font-size: 0.92rem;
+  color: var(--text-2);
+}
+.req-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+}
+.req-item b { color: var(--brand-2); font-size: 1.02rem; font-variant-numeric: tabular-nums; }
+
+/* 状态页：KMS 运行状态与监控 */
+.chart-shell {
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  border: 1px solid var(--border-strong);
+  box-shadow: var(--shadow-md);
+}
+.chart-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 20px;
+  background: linear-gradient(90deg, rgba(251, 146, 60, 0.12), rgba(251, 113, 133, 0.12));
+  border-bottom: 1px solid var(--border);
+  font-weight: 800;
+  font-size: 1.02rem;
+}
+.chart-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  padding: 18px 20px 6px;
+}
+.chart-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 20px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--border);
+}
+.chart-card.c-blue { background: rgba(96, 165, 250, 0.08); border-color: rgba(96, 165, 250, 0.3); }
+.chart-card.c-rose { background: rgba(244, 63, 94, 0.06); border-color: rgba(244, 63, 94, 0.28); }
+.chart-card .cc-icon { width: 34px; height: 34px; flex-shrink: 0; }
+.chart-card .cc-num { font-size: 1.7rem; font-weight: 800; font-variant-numeric: tabular-nums; line-height: 1.2; }
+.chart-card .cc-label { font-size: 0.82rem; color: var(--text-3); }
+.chart-wrap { padding: 10px 20px 20px; }
+.chart-wrap svg { display: block; width: 100%; height: auto; }
+.chart-empty { padding: 34px 20px; text-align: center; color: var(--text-3); font-size: 0.9rem; }
 .hero .lede strong { color: var(--text); font-weight: 600; }
 
 /* ---------- Terminal / command card ---------- */
