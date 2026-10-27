@@ -132,7 +132,18 @@
         <code>wget --no-check-certificate https://raw.githubusercontent.com/Mr-xn/kms-server-deploy/master/kms-server-deploy.sh &amp;&amp; bash kms-server-deploy.sh</code>
         <button class="copy-btn" data-copy="wget --no-check-certificate https://raw.githubusercontent.com/Mr-xn/kms-server-deploy/master/kms-server-deploy.sh &amp;&amp; bash kms-server-deploy.sh"><span class="copy-label">复制</span></button>
       </div>
-      <p style="margin:12px 0 0;color:var(--text-2);font-size:0.93rem">卸载：脚本同样提供卸载选项，再次运行按提示选择即可（已在 CentOS 6/7、Ubuntu 16 测试通过）。</p>
+      <p style="margin:12px 0 0;color:var(--text-2);font-size:0.93rem">运行后按菜单输入 <strong style="color:var(--text)">1</strong> 安装 vlmcsd 服务端（脚本同时提供状态查看 / 启停 / 重启 / 卸载）：</p>
+      <figure style="margin:14px 0 0;border-radius:var(--r-md);overflow:hidden;border:1px solid var(--border);background:#0a0f1d">
+        <img src="./img/deploy/install_0.png" alt="Linux 一键脚本运行界面：输入 1 安装 vlmcsd 服务端" loading="lazy" style="display:block;width:100%">
+      </figure>
+      <figure style="margin:10px 0 0;border-radius:var(--r-md);overflow:hidden;border:1px solid var(--border);background:#0a0f1d">
+        <img src="./img/deploy/install_1.png" alt="vlmcsd 服务端安装完成" loading="lazy" style="display:block;width:100%">
+      </figure>
+      <p style="margin:12px 0 0;color:var(--text-2);font-size:0.93rem">卸载：再次运行脚本按菜单选择 <strong style="color:var(--text)">6</strong> 即可：</p>
+      <figure style="margin:10px 0 0;border-radius:var(--r-md);overflow:hidden;border:1px solid var(--border);background:#0a0f1d">
+        <img src="./img/deploy/uninstall.png" alt="脚本卸载 vlmcsd 服务端" loading="lazy" style="display:block;width:100%">
+      </figure>
+      <p style="margin:12px 0 0;color:var(--text-2);font-size:0.93rem">已在 CentOS 6/7、Ubuntu 16 测试通过。</p>
     </div>
 
     <div class="panel reveal" style="margin-top:16px">
@@ -141,11 +152,24 @@
         <h3>Windows 系统</h3>
         <span class="tag">免安装</span>
       </div>
-      <ol style="margin:0 0 12px;padding-left:20px;color:var(--text-2);font-size:0.93rem;line-height:2">
+      <ol style="margin:0 0 14px;padding-left:20px;color:var(--text-2);font-size:0.93rem;line-height:2">
         <li>下载 <a href="https://raw.githubusercontent.com/Mr-xn/kms-server-deploy/master/mrxn_net_kms.zip" target="_blank">mrxn_net_kms.zip</a>（右键另存为，解压即可使用，CRLF 编码不会闪退）；</li>
-        <li>右键解压出的脚本 → <strong style="color:var(--text)">以管理员身份运行</strong>；</li>
-        <li>脚本自动完成服务安装与激活，支持 Windows 全系列和 Office（VL 版）激活。</li>
+        <li>右键解压出的脚本 → <strong style="color:var(--text)">以管理员身份运行</strong>（UAC 弹窗选择「是」）：</li>
       </ol>
+      <figure style="margin:0 0 14px;border-radius:var(--r-md);overflow:hidden;border:1px solid var(--border)">
+        <img src="./img/deploy/uac_run.png" alt="Windows 激活脚本以管理员身份运行" loading="lazy" style="display:block;width:100%">
+      </figure>
+      <p style="margin:0 0 8px;color:var(--text-2);font-size:0.93rem">脚本自动完成服务安装与激活，激活过程与成功提示如下：</p>
+      <figure style="margin:0 0 10px;border-radius:var(--r-md);overflow:hidden;border:1px solid var(--border);background:#0a0f1d">
+        <img src="./img/deploy/going.png" alt="Windows 与 Office 激活进行中" loading="lazy" style="display:block;width:100%">
+      </figure>
+      <figure style="margin:0 0 14px;border-radius:var(--r-md);overflow:hidden;border:1px solid var(--border)">
+        <img src="./img/deploy/success.png" alt="Windows 与 Office 激活成功" loading="lazy" style="display:block;width:100%">
+      </figure>
+      <p style="margin:0 0 8px;color:var(--text-2);font-size:0.93rem">Office（VL 版）同样支持，cmd（管理员）运行脚本即可自动检测并激活：</p>
+      <figure style="margin:0 0 14px;border-radius:var(--r-md);overflow:hidden;border:1px solid var(--border)">
+        <img src="./img/deploy/KMS激活office2019成功.png" alt="Office 2019 激活成功" loading="lazy" style="display:block;width:100%">
+      </figure>
       <p style="margin:0;color:var(--text-2);font-size:0.93rem">部署完成后，局域网内电脑执行 <code style="font-family:var(--font-mono);color:var(--accent)">slmgr /skms 你的服务器IP &amp;&amp; slmgr /ato</code> 即可激活。</p>
     </div>
 
