@@ -1090,8 +1090,9 @@ html[data-theme="light"] .icon-moon { display: none; }
   position: relative;
   display: flex;
   gap: 22px;
-  padding: 18px 0;
+  padding: 10px 0;
 }
+.step:last-child { padding-bottom: 0; }
 .step .s-num {
   position: relative;
   z-index: 1;
