@@ -464,7 +464,7 @@ html[data-theme="light"] .icon-moon { display: none; }
 .chart-card .cc-icon { width: 34px; height: 34px; flex-shrink: 0; }
 .chart-card .cc-num { font-size: 1.7rem; font-weight: 800; font-variant-numeric: tabular-nums; line-height: 1.2; }
 .chart-card .cc-label { font-size: 0.82rem; color: var(--text-3); }
-.chart-wrap { padding: 10px 20px 20px; }
+.chart-wrap { padding: 18px 20px 30px; }
 .chart-wrap svg { display: block; width: 100%; height: auto; }
 .chart-empty { padding: 34px 20px; text-align: center; color: var(--text-3); font-size: 0.9rem; }
 .hero .lede strong { color: var(--text); font-weight: 600; }
