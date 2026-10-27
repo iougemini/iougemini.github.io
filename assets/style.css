@@ -602,6 +602,27 @@ html[data-theme="light"] .icon-moon { display: none; }
   color: var(--accent);
   transform: translateY(-2px);
 }
+/* teal / amber 实心按钮（自建线路页方案导航与下载入口） */
+.btn-teal {
+  background: linear-gradient(135deg, #2dd4bf, #0ea5a4);
+  color: #04201c;
+  box-shadow: 0 10px 26px -8px rgba(45, 212, 191, 0.55);
+}
+.btn-teal:hover {
+  transform: translateY(-2px);
+  color: #04201c;
+  box-shadow: 0 16px 34px -8px rgba(45, 212, 191, 0.65);
+}
+.btn-amber {
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+  color: #2b1a03;
+  box-shadow: 0 10px 26px -8px rgba(251, 191, 36, 0.55);
+}
+.btn-amber:hover {
+  transform: translateY(-2px);
+  color: #2b1a03;
+  box-shadow: 0 16px 34px -8px rgba(251, 191, 36, 0.65);
+}
 .hero-cta { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-top: 34px; }
 
 /* ---------- Feature chips ---------- */
