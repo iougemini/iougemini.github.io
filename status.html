@@ -253,7 +253,7 @@
     // 备用线路（已替换的线路 tooltip 不暴露 CNAME 目标，只显示替换时间）
     el('lines-status').innerHTML = lines.map(function (l) {
       var c = CHIP[l.state] || CHIP.unknown;
-      var lat = l.latency_ms != null ? l.latency_ms + ' ms' : (l.state === 'down' ? '不可达' : '—');
+      var lat = l.latency_ms != null ? l.latency_ms + ' ms' : (l.trusted ? '已信任' : (l.state === 'down' ? '不可达' : '—'));
       var partial = l.partial && l.ips_total ? ' · IP ' + (l.ips_ok || []).length + '/' + l.ips_total : '';
       var tip = l.swapped_at ? ('该线路已由投稿服务器自动顶替（' + String(l.swapped_at).slice(0, 10) + '）') : l.error || '';
       return '<div class="stat-line"' + (tip ? ' title="' + esc(tip) + '"' : '') + '>' +

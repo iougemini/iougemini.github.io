@@ -98,7 +98,7 @@
       if (l.state === 'ok') ok++;
       var n = String(i + 1).padStart(2, '0');
       var cmd = 'slmgr /skms ' + esc(l.host) + ' &amp;&amp; slmgr /ato';
-      var chip = l.latency_ms != null ? c[0] + ' · ' + l.latency_ms + 'ms' : c[0];
+      var chip = c[0] + (l.latency_ms != null ? ' · ' + l.latency_ms + 'ms' : (l.trusted ? ' · 已信任' : ''));
       return '<div class="card ' + COLORS[i % 3] + '" style="cursor:default">' +
         '<h3 style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">' +
         '<span style="font-family:var(--font-mono);font-size:0.8rem;background:rgba(251,113,133,0.1);border:1px solid rgba(251,113,133,0.3);padding:2px 9px;border-radius:999px">' + n + '</span>' +
