@@ -42,12 +42,15 @@ const m = credRaw.match(/password=(.+)/);
 if (!m) { console.error('[report] 未取到 git 凭据'); process.exit(1); }
 const token = m[1].trim();
 
+/* repository_dispatch 要求外层包 event_type + client_payload */
+const body = JSON.stringify({ event_type: 'kms-latency', client_payload: JSON.parse(payload) });
+
 const res = execFileSync('curl', [
   '-s', '--max-time', '40', '-x', 'http://127.0.0.1:7890',
   '-X', 'POST',
   '-H', 'Accept: application/vnd.github+json',
   '-H', `Authorization: Bearer ${token}`,
   'https://api.github.com/repos/iougemini/iougemini.github.io/dispatches',
-  '-d', payload,
+  '-d', body,
 ], { encoding: 'utf8' });
 console.log('[report] 已上报', res ? res.slice(0, 200) : '(204 无返回体)');
