@@ -33,7 +33,7 @@ const targets = [
 await mapLimit(targets, PARALLEL, async t => {
   const r = await deepCheck(VLMCS_BIN, t.host, t.port);
   const e = t.ref;
-  const trusted = t.kind === 'line' ? trustedLines.has(e.id) : trustedCands.has(e.key);
+  const trusted = !!t.ref.trusted;
   e.last_checked = now;
   /* 已 CNAME 替换的线路：监测的是真实目标，把结果写回线路本身（状态页显示线路域名） */
   if (r.ok) {
