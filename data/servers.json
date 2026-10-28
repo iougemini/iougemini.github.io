@@ -63,7 +63,7 @@
       "id": "s02",
       "host": "s02.ikms.eu.org",
       "state": "ok",
-      "latency_ms": 65,
+      "latency_ms": 230,
       "ip": "162.223.90.90",
       "last_checked": "2026-10-28",
       "consecutive_fail": 0,
@@ -234,7 +234,7 @@
       "id": "s09",
       "host": "s09.ikms.eu.org",
       "state": "ok",
-      "latency_ms": 48,
+      "latency_ms": 45,
       "ip": null,
       "last_checked": "2026-10-28",
       "consecutive_fail": 0,
@@ -415,15 +415,7 @@
         "152.70.94.22"
       ],
       "v6_ok": [],
-      "stack": "v4",
-      "host": "kms.jling.pp.ua",
-      "port": 1688,
-      "ips_ok": [
-        "152.70.94.22"
-      ],
-      "ip_lat": {
-        "152.70.94.22": 129
-      }
+      "stack": "v4"
     },
     {
       "key": "c5",
@@ -439,15 +431,7 @@
         "20.187.167.217"
       ],
       "v6_ok": [],
-      "stack": "v4",
-      "host": "20.187.167.217",
-      "port": 1688,
-      "ips_ok": [
-        "20.187.167.217"
-      ],
-      "ip_lat": {
-        "20.187.167.217": 155
-      }
+      "stack": "v4"
     }
   ],
   "swaps": [
