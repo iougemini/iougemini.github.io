@@ -432,6 +432,17 @@
       ],
       "v6_ok": [],
       "stack": "v4"
+    },
+    {
+      "key": "c6",
+      "state": "ok",
+      "latency_ms": 160,
+      "ips_total": 1,
+      "partial": false,
+      "last_checked": "2026-10-28",
+      "consecutive_fail": 0,
+      "source": "issue #9",
+      "added": "2026-10-28"
     }
   ],
   "swaps": [
