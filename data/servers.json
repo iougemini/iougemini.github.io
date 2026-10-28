@@ -9,12 +9,12 @@
       {
         "ip": "108.181.4.2",
         "host": "s14.ikms.eu.org",
-        "latency_ms": 9
+        "latency_ms": 37
       },
       {
         "ip": "154.7.181.209",
         "host": "s10.ikms.eu.org",
-        "latency_ms": 11
+        "latency_ms": 38
       },
       {
         "ip": "162.223.90.90",
@@ -22,17 +22,17 @@
         "latency_ms": 64
       },
       {
-        "ip": "152.70.94.22",
-        "host": "s13.ikms.eu.org",
-        "latency_ms": 129
-      },
-      {
         "ip": "185.213.174.199",
         "host": "s02.ikms.eu.org",
         "latency_ms": 130
+      },
+      {
+        "ip": "107.189.14.253",
+        "host": "s02.ikms.eu.org",
+        "latency_ms": 143
       }
     ],
-    "current_updated": "2026-10-28T13:02:32.858Z",
+    "current_updated": "2026-10-28T15:03:52.002Z",
     "balanced": true
   },
   "lines": [
@@ -40,7 +40,7 @@
       "id": "s01",
       "host": "s01.ikms.eu.org",
       "state": "ok",
-      "latency_ms": 200,
+      "latency_ms": 210,
       "ip": "139.199.78.129",
       "last_checked": "2026-10-28",
       "consecutive_fail": 0,
@@ -50,7 +50,7 @@
       ],
       "ips_total": 2,
       "ip_lat": {
-        "139.199.78.129": 202
+        "139.199.78.129": 211
       },
       "partial": true,
       "v4_ok": [
@@ -90,13 +90,14 @@
         "107.189.14.253",
         "158.178.234.166"
       ],
-      "v6_ok": []
+      "v6_ok": [],
+      "error": "check-host 拨测未成功（所有拨测节点均连接失败），按所有者担保保持在线"
     },
     {
       "id": "s03",
       "host": "s03.ikms.eu.org",
       "state": "ok",
-      "latency_ms": 155,
+      "latency_ms": 165,
       "ip": "8.210.148.24",
       "last_checked": "2026-10-28",
       "consecutive_fail": 0,
@@ -106,7 +107,7 @@
       ],
       "ips_total": 1,
       "ip_lat": {
-        "8.210.148.24": 155
+        "8.210.148.24": 164
       },
       "partial": false,
       "v4_ok": [
@@ -129,7 +130,7 @@
       ],
       "ips_total": 2,
       "ip_lat": {
-        "110.42.186.3": 203
+        "110.42.186.3": 212
       },
       "partial": true,
       "v4_ok": [
@@ -152,7 +153,7 @@
       ],
       "ips_total": 2,
       "ip_lat": {
-        "119.29.100.23": 210
+        "119.29.100.23": 214
       },
       "partial": true,
       "v4_ok": [
@@ -165,7 +166,7 @@
       "id": "s06",
       "host": "s06.ikms.eu.org",
       "state": "ok",
-      "latency_ms": 200,
+      "latency_ms": 210,
       "ip": "121.40.68.253",
       "last_checked": "2026-10-28",
       "consecutive_fail": 0,
@@ -175,7 +176,7 @@
       ],
       "ips_total": 1,
       "ip_lat": {
-        "121.40.68.253": 200
+        "121.40.68.253": 208
       },
       "partial": false,
       "v4_ok": [
@@ -198,7 +199,7 @@
       ],
       "ips_total": 1,
       "ip_lat": {
-        "121.40.68.253": 203
+        "121.40.68.253": 200
       },
       "partial": false,
       "v4_ok": [
@@ -221,7 +222,7 @@
       ],
       "ips_total": 1,
       "ip_lat": {
-        "153.101.161.27": 208
+        "153.101.161.27": 204
       },
       "partial": false,
       "v4_ok": [
@@ -242,14 +243,14 @@
       "ips_ok": [],
       "ips_total": 1,
       "trusted": true,
-      "error": "CI 海外节点验证未通过（按所有者担保保持在线）",
+      "error": "check-host 拨测未成功（所有拨测节点均连接失败），按所有者担保保持在线",
       "stack": "v4"
     },
     {
       "id": "s10",
       "host": "s10.ikms.eu.org",
       "state": "ok",
-      "latency_ms": 10,
+      "latency_ms": 40,
       "ip": "154.7.181.209",
       "last_checked": "2026-10-28",
       "consecutive_fail": 0,
@@ -259,7 +260,7 @@
       ],
       "ips_total": 1,
       "ip_lat": {
-        "154.7.181.209": 11
+        "154.7.181.209": 38
       },
       "partial": false,
       "v4_ok": [
@@ -272,7 +273,7 @@
       "id": "s11",
       "host": "s11.ikms.eu.org",
       "state": "ok",
-      "latency_ms": 200,
+      "latency_ms": 210,
       "ip": "139.199.78.129",
       "last_checked": "2026-10-28",
       "consecutive_fail": 0,
@@ -282,7 +283,7 @@
       ],
       "ips_total": 2,
       "ip_lat": {
-        "139.199.78.129": 201
+        "139.199.78.129": 211
       },
       "partial": true,
       "v4_ok": [
@@ -295,7 +296,7 @@
       "id": "s12",
       "host": "s12.ikms.eu.org",
       "state": "ok",
-      "latency_ms": 200,
+      "latency_ms": 1225,
       "ip": "1.15.144.40",
       "last_checked": "2026-10-28",
       "consecutive_fail": 0,
@@ -305,7 +306,7 @@
       ],
       "ips_total": 1,
       "ip_lat": {
-        "1.15.144.40": 202
+        "1.15.144.40": 1224
       },
       "partial": false,
       "v4_ok": [
@@ -318,7 +319,7 @@
       "id": "s13",
       "host": "s13.ikms.eu.org",
       "state": "ok",
-      "latency_ms": 130,
+      "latency_ms": 150,
       "ip": "152.70.94.22",
       "last_checked": "2026-10-28",
       "consecutive_fail": 0,
@@ -328,7 +329,7 @@
       ],
       "ips_total": 1,
       "ip_lat": {
-        "152.70.94.22": 129
+        "152.70.94.22": 150
       },
       "partial": false,
       "swapped_at": "2026-10-28",
@@ -342,19 +343,19 @@
       "id": "s14",
       "host": "s14.ikms.eu.org",
       "state": "ok",
-      "latency_ms": 10,
+      "latency_ms": 35,
       "ip": "108.181.4.2",
       "ips_ok": [
         "108.181.4.2"
       ],
-      "ips_total": 2,
+      "ips_total": 1,
       "last_checked": "2026-10-28",
       "consecutive_fail": 0,
       "source": "initial",
       "ip_lat": {
-        "108.181.4.2": 9
+        "108.181.4.2": 37
       },
-      "partial": true,
+      "partial": false,
       "v4_ok": [
         "108.181.4.2"
       ],
@@ -404,7 +405,7 @@
     {
       "key": "c4",
       "state": "ok",
-      "latency_ms": 130,
+      "latency_ms": 145,
       "ips_total": 1,
       "partial": false,
       "last_checked": "2026-10-28",
@@ -415,7 +416,15 @@
         "152.70.94.22"
       ],
       "v6_ok": [],
-      "stack": "v4"
+      "stack": "v4",
+      "host": "kms.jling.pp.ua",
+      "port": 1688,
+      "ips_ok": [
+        "152.70.94.22"
+      ],
+      "ip_lat": {
+        "152.70.94.22": 147
+      }
     },
     {
       "key": "c5",
@@ -431,7 +440,15 @@
         "20.187.167.217"
       ],
       "v6_ok": [],
-      "stack": "v4"
+      "stack": "v4",
+      "host": "20.187.167.217",
+      "port": 1688,
+      "ips_ok": [
+        "20.187.167.217"
+      ],
+      "ip_lat": {
+        "20.187.167.217": 161
+      }
     },
     {
       "key": "c6",
@@ -442,7 +459,20 @@
       "last_checked": "2026-10-28",
       "consecutive_fail": 0,
       "source": "issue #9",
-      "added": "2026-10-28"
+      "added": "2026-10-28",
+      "v4_ok": [
+        "185.92.47.165"
+      ],
+      "v6_ok": [],
+      "stack": "v4",
+      "host": "k.kms.edu.eu.org",
+      "port": 1688,
+      "ips_ok": [
+        "185.92.47.165"
+      ],
+      "ip_lat": {
+        "185.92.47.165": 166
+      }
     }
   ],
   "swaps": [
