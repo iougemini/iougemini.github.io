@@ -34,6 +34,7 @@
       <a href="./more.html">备用线路</a>
       <a href="./android.html">自建线路</a>
       <a href="./status.html">服务状态</a>
+      <a href="./stats.html">请求统计</a>
       <a href="./img.html">激活演示</a>
     </div>
     <div class="nav-actions">
@@ -55,11 +56,6 @@
     <div class="hero-badge"><span class="dot"></span>DNS 负载均衡 · 数十条公益线路在线调度</div>
     <h1>Windows / Office<br><span class="grad">一句命令</span> 永久激活</h1>
     <p class="lede">无需下载、无需安装、无残留，不修改任何系统文件。复制下方命令，在<strong>命令提示符（管理员）</strong>中粘贴执行即可。</p>
-
-    <div class="req-strip" id="req-strip" hidden>
-      <span class="req-item">今日激活请求 <b id="req-today">0</b> 次</span>
-      <span class="req-item">累计激活请求 <b id="req-total">0</b> 次</span>
-    </div>
 
     <div class="term reveal">
       <div class="term-bar">
@@ -198,18 +194,6 @@
 <div class="toast" role="status"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>已复制到剪贴板</div>
 <button class="to-top" aria-label="返回顶部"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg></button>
 
-<script>
-(function () {
-  fetch('data/stats.json', { cache: 'no-cache' }).then(function (r) { if (!r.ok) throw 0; return r.json(); }).then(function (s) {
-    if (!s.total_requests) return;
-    var today = new Date().toISOString().slice(0, 10);
-    var t = (s.daily || []).filter(function (x) { return x.date === today; })[0];
-    document.getElementById('req-today').textContent = t ? t.requests.toLocaleString() : '0';
-    document.getElementById('req-total').textContent = (s.total_requests || 0).toLocaleString();
-    document.getElementById('req-strip').hidden = false;
-  }).catch(function () {});
-})();
-</script>
 <script src="/assets/main.js"></script>
 <script defer src="https://um.nie.ge/niegeumami" data-website-id="5eb46560-0399-4c74-8669-4239364c832c"></script>
 </body>

@@ -18,27 +18,22 @@ for (const c of data.candidates) {
   if (!c.key) c.key = nextCandidateKey(data);
 }
 
-/* trusted（所有者担保）条目跳过海外验证：部分线路仅对国内开放，
-   CI（海外节点）的 vlmcs 验证会产生假阴性，故由所有者标记后直接视为在线 */
-for (const l of data.lines) if (l.trusted) {
-  l.state = 'ok'; l.consecutive_fail = 0; l.error = undefined; l.last_checked = now;
-}
-for (const c of data.candidates) if (c.trusted) {
-  c.state = 'ok'; c.consecutive_fail = 0; c.error = undefined; c.last_checked = now;
-}
+/* trusted（所有者担保）条目照常测量（延迟与状态照常进页面/DNS），
+   但验证失败不判失效、不计连续失败——部分线路仅对国内开放，
+   海外 CI 节点验证会产生假阴性，由所有者担保其真实性 */
 
 /* 收集全部待检目标：
    - line：线路自身域名（未替换时）或 cname_target（已替换线路，监测真实目标健康度）
-   - candidate：候选池服务器（替换后仍保留在池中持续监测，供多条线路复用与主线路负载均衡）
-   trusted 条目不参与海外验证 */
+   - candidate：候选池服务器（替换后仍保留在池中持续监测，供多条线路复用与主线路负载均衡） */
 const targets = [
   ...data.lines.map(l => ({ kind: 'line', ref: l, host: l.cname_target || l.host, port: 1688 })),
   ...data.candidates.map(c => ({ kind: 'candidate', ref: c, host: c.host, port: c.port || 1688 })),
-].filter(t => !t.ref.trusted);
+];
 
 await mapLimit(targets, PARALLEL, async t => {
   const r = await deepCheck(VLMCS_BIN, t.host, t.port);
   const e = t.ref;
+  const trusted = t.kind === 'line' ? trustedLines.has(e.id) : trustedCands.has(e.key);
   e.last_checked = now;
   /* 已 CNAME 替换的线路：监测的是真实目标，把结果写回线路本身（状态页显示线路域名） */
   if (r.ok) {
@@ -52,6 +47,11 @@ await mapLimit(targets, PARALLEL, async t => {
     e.partial = r.ips_ok.length < r.ips_total;       // 存在未通过验证的 IP
     const rounded = Math.round(r.latency_ms / 5) * 5;   // 5ms 粒度，抑制抖动提交
     if (e.latency_ms == null || Math.abs(rounded - e.latency_ms) >= LATENCY_JITTER) e.latency_ms = rounded;
+  } else if (trusted) {
+    /* 区域限制线路：海外节点验证失败属预期假阴性，保持在线与既有延迟/可用 IP */
+    e.state = 'ok';
+    e.consecutive_fail = 0;
+    e.error = 'CI 海外节点验证未通过（按所有者担保保持在线）';
   } else {
     e.state = 'down';
     e.consecutive_fail = (e.consecutive_fail || 0) + 1;

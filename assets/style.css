@@ -406,27 +406,14 @@ html[data-theme="light"] .icon-moon { display: none; }
 .hero .lede { white-space: nowrap; }
 @media (max-width: 1024px) { .hero .lede { white-space: normal; } }
 
-/* 首页激活请求统计条 */
-.req-strip {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  gap: 12px;
-  margin: -6px auto 36px;
-  font-size: 0.92rem;
-  color: var(--text-2);
-}
-.req-item {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 16px;
-  border-radius: 999px;
-  border: 1px solid var(--border);
-  background: var(--bg-card);
-}
-.req-item b { color: var(--brand-2); font-size: 1.02rem; font-variant-numeric: tabular-nums; }
+/* 统计页：逐日明细表 */
+.stats-table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+.stats-table th, .stats-table td { padding: 12px 18px; border-bottom: 1px solid var(--border); text-align: left; }
+.stats-table th { color: var(--text-3); font-weight: 600; font-size: 0.82rem; }
+.stats-table tbody tr:hover { background: var(--bg-card-hover); }
+.stats-table td { font-variant-numeric: tabular-nums; color: var(--text-2); }
+.stats-table td:first-child { color: var(--text); font-family: var(--font-mono); font-size: 0.85rem; }
+.stats-table tr:last-child td { border-bottom: 0; }
 
 /* 状态页：KMS 运行状态与监控 */
 .chart-shell {
