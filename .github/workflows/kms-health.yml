@@ -23,6 +23,8 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0          # 重建脚本需要 git log --grep 历史明文数据
 
       - uses: actions/setup-node@v4
         with:
