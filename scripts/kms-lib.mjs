@@ -264,6 +264,16 @@ export async function deepCheck(vlmcsBin, host, port = KMS_DEFAULT_PORT, maxIps 
   };
 }
 
+/* ---------- DNS 层双栈判定 ----------
+   线路域名是否同时存在 A 与 AAAA 记录（用于 trusted 线路的栈标签） */
+export async function dnsStackTag(host) {
+  const [r4, r6] = await Promise.all([
+    dns.resolve4(host).then(a => a.length).catch(() => 0),
+    dns.resolve6(host).then(a => a.length).catch(() => 0),
+  ]);
+  return r4 && r6 ? 'dual' : r6 ? 'v6' : r4 ? 'v4' : undefined;
+}
+
 /* ---------- 投稿地址解析 ----------
    issue 表单渲染格式为 "### 服务器地址\n\n<多行值>"。
    支持一次投稿多台：按行拆分（兼容同内逗号/分号/空格分隔），忽略空行与 # 注释行。

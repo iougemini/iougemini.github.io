@@ -3,7 +3,7 @@
    2. 连续失效达阈值的线路自动由最优候选池顶替
    3. 结果写入 data/servers.json，精确延迟写入 data/.last-run.json（供 DNS 负载均衡用，不提交） */
 import fs from 'node:fs';
-import { loadData, saveData, deepCheck, mapLimit, nextCandidateKey, LAST_RUN_FILE, DATA_FILE } from './kms-lib.mjs';
+import { loadData, saveData, deepCheck, checkHostTcpLatency, dnsStackTag, mapLimit, nextCandidateKey, LAST_RUN_FILE, DATA_FILE } from './kms-lib.mjs';
 
 const REPLACE_AFTER = 3;        // 连续失败 N 次判定为失效
 const PARALLEL = 6;
@@ -44,8 +44,27 @@ const targets = [
 });
 
 await mapLimit(targets, PARALLEL, async t => {
-  const r = await deepCheck(VLMCS_BIN, t.host, t.port);
   const e = t.ref;
+  e.last_checked = now;
+
+  /* trusted（所有者担保）线路：海外 CI 无法直连（区域限制），
+     改用 check-host.net 多节点 TCP 拨测（开放 API，无需密钥）取真实延迟；
+     拨测失败时保持在线（所有者担保），延迟保留上次数值 */
+  if (e.trusted) {
+    const ch = await checkHostTcpLatency(t.host, 1688).catch(err => ({ ok: false, reason: String(err).slice(0, 120) }));
+    if (ch.ok) {
+      e.state = 'ok';
+      e.consecutive_fail = 0;
+      e.error = undefined;
+      e.latency_ms = Math.round(ch.latency_ms / 5) * 5;
+      e.stack = await dnsStackTag(t.host);
+    } else {
+      e.error = 'check-host 拨测未成功（' + (ch.reason || '') + '），按所有者担保保持在线';
+    }
+    return;
+  }
+
+  const r = await deepCheck(VLMCS_BIN, t.host, t.port);
   const trusted = !!t.ref.trusted;
   e.last_checked = now;
   /* 已 CNAME 替换的线路：监测的是真实目标，把结果写回线路本身（状态页显示线路域名） */
