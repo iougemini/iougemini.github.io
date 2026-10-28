@@ -32,7 +32,6 @@ jobs:
         if: ${{ github.event_name == 'workflow_dispatch' && inputs.rebuild_private }}
         env:
           CANDIDATES_SECRET: ${{ secrets.CANDIDATES_SECRET }}
-          HISTORY_COMMIT: e2ecbd1
         run: node scripts/rebuild-private.mjs
 
       - name: 编译 vlmcs 检测工具
