@@ -18,17 +18,30 @@ for (const c of data.candidates) {
   if (!c.key) c.key = nextCandidateKey(data);
 }
 
+/* 无真实地址的候选（手动编辑遗漏、加解密失败等）：标记失效原因，跳过检测防止 undefined 崩溃 */
+for (const c of data.candidates) {
+  if (!c.host && c.state !== 'down') {
+    c.state = 'down';
+    c.error = '缺少真实地址记录（需重新投稿或联系管理员补录）';
+  }
+}
+
 /* trusted（所有者担保）条目照常测量（延迟与状态照常进页面/DNS），
    但验证失败不判失效、不计连续失败——部分线路仅对国内开放，
    海外 CI 节点验证会产生假阴性，由所有者担保其真实性 */
 
 /* 收集全部待检目标：
    - line：线路自身域名（未替换时）或 cname_target（已替换线路，监测真实目标健康度）
-   - candidate：候选池服务器（替换后仍保留在池中持续监测，供多条线路复用与主线路负载均衡） */
+   - candidate：候选池服务器（替换后仍保留在池中持续监测，供多条线路复用与主线路负载均衡）
+   无真实地址的条目（手动编辑遗漏等）跳过检测并标记原因，防止 undefined 传入 DNS 调用崩溃 */
 const targets = [
   ...data.lines.map(l => ({ kind: 'line', ref: l, host: l.cname_target || l.host, port: 1688 })),
   ...data.candidates.map(c => ({ kind: 'candidate', ref: c, host: c.host, port: c.port || 1688 })),
-];
+].filter(t => {
+  if (t.host) return true;
+  console.error(`[skip] ${t.ref.key || t.ref.id || '?'} 缺少真实地址，本轮跳过检测`);
+  return false;
+});
 
 await mapLimit(targets, PARALLEL, async t => {
   const r = await deepCheck(VLMCS_BIN, t.host, t.port);
