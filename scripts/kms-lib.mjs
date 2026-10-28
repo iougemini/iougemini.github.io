@@ -178,6 +178,37 @@ export function vlmcsCheck(vlmcsBin, host, port, timeoutMs = 20000) {
   });
 }
 
+/* ---------- check-host.net 多节点 TCP 拨测（免费、无需密钥） ----------
+   区域限制线路（仅国内可达）无法从海外 CI 直接验证，改由 check-host.net
+   的全球节点发起 TCP 连接测试，返回成功节点的最小连接时间作为延迟。
+   拨测完全失败时返回 ok:false，由调用方按 trusted 规则保持在线。 */
+export async function checkHostTcpLatency(host, port = KMS_DEFAULT_PORT, maxNodes = 4, pollMs = 40000) {
+  const H = { Accept: 'application/json' };
+  const create = await fetch(
+    `https://check-host.net/check-tcp?host=${encodeURIComponent(host + ':' + port)}&max_nodes=${maxNodes}`,
+    { headers: H },
+  );
+  const cj = await create.json();
+  if (!cj.request_id) return { ok: false, reason: 'check-host 请求创建失败' };
+
+  const deadline = Date.now() + pollMs;
+  while (Date.now() < deadline) {
+    await new Promise(r => setTimeout(r, 3000));
+    const rr = await fetch(`https://check-host.net/check-result/${cj.request_id}`, { headers: H });
+    const rj = await rr.json();
+    const vals = Object.values(rj || {});
+    if (!vals.length) continue;
+    if (vals.every(v => v !== null)) {
+      const okTimes = vals.filter(v => Array.isArray(v) && v[0] === true).map(v => v[1]);
+      if (okTimes.length) {
+        return { ok: true, latency_ms: Math.round(Math.min(...okTimes) * 1000), nodes_ok: okTimes.length, nodes_total: vals.length };
+      }
+      return { ok: false, reason: '所有拨测节点均连接失败' };
+    }
+  }
+  return { ok: false, reason: '拨测超时' };
+}
+
 /* ---------- 单主机完整检测 ---------- */
 export async function checkHost(vlmcsBin, host, port = KMS_DEFAULT_PORT) {
   const latency = await tcpLatency(host, port);

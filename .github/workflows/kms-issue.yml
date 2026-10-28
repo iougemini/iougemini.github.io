@@ -2,7 +2,7 @@ name: KMS 投稿检测
 
 on:
   issues:
-    types: [opened, edited, labeled, reopened]
+    types: [opened]
   workflow_dispatch:
     inputs:
       issue_number:
