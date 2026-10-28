@@ -254,12 +254,11 @@
       var c = CHIP[l.state] || CHIP.unknown;
       var lat = l.latency_ms != null ? l.latency_ms + ' ms' : (l.trusted ? '已信任' : (l.state === 'down' ? '不可达' : '—'));
       var stackTag = l.stack === 'dual' ? ' · 双栈' : l.stack === 'v6' ? ' · 仅 IPv6' : (l.stack === 'v4' ? ' · 仅 IPv4' : '');
-      var partial = l.partial && l.ips_total ? ' · IP ' + (l.ips_ok || []).length + '/' + l.ips_total : '';
       var tip = l.swapped_at ? ('该线路已由投稿服务器自动顶替（' + String(l.swapped_at).slice(0, 10) + '）') : l.error || '';
       return '<div class="stat-line"' + (tip ? ' title="' + esc(tip) + '"' : '') + '>' +
         '<span class="st-dot ' + (l.state || 'unknown') + '"></span>' +
         '<span class="st-name">' + esc(l.host) + '</span>' +
-        '<span class="st-lat" style="color:' + c[1] + '">' + c[0] + ' · ' + lat + partial + stackTag + '</span>' +
+        '<span class="st-lat" style="color:' + c[1] + '">' + c[0] + ' · ' + lat + stackTag + '</span>' +
         '<span class="st-bar">' + dayBar(l.id, histDays) + '</span>' +
         '<span class="st-up">' + uptimePct(l.id, histDays) + '</span>' +
         '</div>';

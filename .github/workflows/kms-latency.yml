@@ -1,0 +1,44 @@
+name: KMS 本机延迟合并
+
+on:
+  repository_dispatch:
+    types: [kms-latency]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: kms-latency
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: 合并本机测量的延迟
+        env:
+          PAYLOAD: ${{ toJSON(github.event.client_payload) }}
+          CANDIDATES_SECRET: ${{ secrets.CANDIDATES_SECRET }}
+        run: node scripts/merge-latency.mjs
+
+      - name: 提交
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/servers.json
+          if [[ -z "$(git diff --cached --name-only)" ]]; then
+            echo "延迟数据无变化"
+            exit 0
+          fi
+          git commit -m "chore(kms): 更新 trusted 线路延迟（本机测量）"
+          for i in 1 2 3; do
+            git push && break
+            git pull --rebase origin main || (git rebase --abort; sleep 5)
+          done
