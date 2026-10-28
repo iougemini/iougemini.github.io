@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN" data-theme="dark">
 <head>
-<script>/* 主题预设：必须在首次渲染前执行，避免深色主题闪现 */(function(){try{var t=localStorage.getItem('ikms-theme');if(t!=='dark'&&t!=='light')t='dark';document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+<script>/* 主题预设：必须在首次渲染前执行，避免深色主题闪现 */(function(){function gt(){try{var t=localStorage.getItem('ikms-theme');if(t==='dark'||t==='light')return t}catch(e){}try{var m=document.cookie.match(/(?:^|; )ikms-theme=(dark|light)/);if(m)return m[1]}catch(e){}return 'dark'}document.documentElement.setAttribute('data-theme',gt())})();</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="keywords" content="KMS激活服务器,windows激活工具,windows激活教程,win10激活工具,Server2022激活,win11激活,win10激活,win8激活工具,win7激活工具,office2022激活,office2019激活工具,office365激活教程,office激活工具,系统激活教程,v0v.bid,微零微">
@@ -27,7 +27,6 @@
       <a href="./more.html">备用线路</a>
       <a href="./android.html">自建线路</a>
       <a href="./status.html">服务状态</a>
-      <a href="./stats.html">请求统计</a>
       <a href="./img.html">激活演示</a>
     </div>
     <div class="nav-actions">
@@ -1383,7 +1382,8 @@ ato 可以理解为是 “自动” 的缩写。<br><br>
 <h2><span>免责声明</span></h2>
 <p>
 
-免责声明<a href="https://github.com/dylanbai8/kmspro/issues" target="_blank" rel="noopener noreferrer">（联系我们）</a>：<br><br>
+免责声明
+      <a href="https://github.com/dylanbai8/kmspro/issues" target="_blank" rel="noopener noreferrer">（联系我们）</a>：<br><br>
 
 1.本站所有展示的以及涉及到的包括但不限于文字、段落、教程、代码、脚本、软件等，均来自互联网文档以及微软官方文档收集整理。由于收集过程长且杂碎，未能一一标注出处。如果侵犯到了您的权益，请联系我们删除。<br><br>
 2.本站展示的所有 Windows/Office Product GVLK、以及激活步骤和代码全部来自微软官方公示文档。<br><br>
@@ -1424,6 +1424,7 @@ ato 可以理解为是 “自动” 的缩写。<br><br>
       <a href="./img.html">激活演示</a>
       <a href="./more.html">备用线路</a>
       <a href="./android.html">自建线路</a>
+      <a href="./stats.html">请求统计</a>
       <a href="#mianze">免责声明</a>
       <a href="https://github.com/dylanbai8/kmspro/issues" target="_blank" rel="noopener noreferrer">问题反馈</a>
     </div>

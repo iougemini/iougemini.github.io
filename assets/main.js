@@ -10,9 +10,11 @@
   function applyTheme(t) {
     root.setAttribute('data-theme', t);
     try { localStorage.setItem(THEME_KEY, t); } catch (e) {}
+    try { document.cookie = THEME_KEY + "=" + t + ";path=/;max-age=31536000;samesite=lax"; } catch (e) {}
   }
   var saved = null;
   try { saved = localStorage.getItem(THEME_KEY); } catch (e) {}
+    if (saved !== "dark" && saved !== "light") { try { var m = document.cookie.match(/(?:^|; )ikms-theme=(dark|light)/); if (m) saved = m[1]; } catch (e) {} }
   applyTheme(saved || 'dark');
 
   function bindThemeBtns() {

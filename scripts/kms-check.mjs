@@ -41,7 +41,10 @@ await mapLimit(targets, PARALLEL, async t => {
     e.consecutive_fail = 0;
     e.error = undefined;
     e.ip = r.ips_ok[0];                              // 最快的通过验证 IP
-    e.ips_ok = r.ips_ok;                             // 全部通过验证的 IP（供 DNS 负载均衡）
+    e.ips_ok = r.ips_ok;                             // 全部通过验证的 IP（v4+v6）
+    e.v4_ok = r.v4_ok;                               // IPv4 通过清单（供 DNS A 记录）
+    e.v6_ok = r.v6_ok;                               // IPv6 通过清单
+    e.stack = r.stack;                               // dual / v4 / v6
     e.ips_total = r.ips_total;
     e.ip_lat = Object.fromEntries(r.results.filter(x => x.ok).map(x => [x.ip, x.latency_ms]));
     e.partial = r.ips_ok.length < r.ips_total;       // 存在未通过验证的 IP
@@ -91,6 +94,9 @@ for (const line of data.lines) {
       line.state = 'ok';
       line.source = best.source || 'cname';              // 线路当前由该投稿来源支撑
       if (best.trusted) line.trusted = true;             // 继承信任标记：区域限制线路无法海外验证，防止状态震荡
+      line.stack = best.stack;                           // 继承双栈标记
+      line.v4_ok = best.v4_ok || best.ips_ok || [];
+      line.v6_ok = best.v6_ok || [];
       line.latency_ms = best.latency_ms;
       line.ip = best.ip || null;
       line.ips_ok = best.ips_ok || (best.ip ? [best.ip] : []);

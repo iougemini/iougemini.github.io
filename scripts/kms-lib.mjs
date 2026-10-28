@@ -154,11 +154,11 @@ export function isPrivateIp(host) {
   return false;
 }
 
-/* ---------- TCP 连接延迟（对 KMS 端口） ---------- */
-export function tcpLatency(host, port, timeoutMs = 4000) {
+/* ---------- TCP 连接延迟（对 KMS 端口，family 4/6 可选） ---------- */
+export function tcpLatency(host, port, timeoutMs = 4000, family) {
   return new Promise(resolve => {
     const start = process.hrtime.bigint();
-    const sock = net.connect({ host, port });
+    const sock = net.connect({ host, port, family });
     const done = ms => { sock.destroy(); resolve(ms); };
     sock.setTimeout(timeoutMs, () => done(null));
     sock.once('connect', () => done(Number(process.hrtime.bigint() - start) / 1e6));
@@ -187,34 +187,46 @@ export async function checkHost(vlmcsBin, host, port = KMS_DEFAULT_PORT) {
   return { ok: true, latency_ms: Math.round(latency), output: v.output };
 }
 
-/* ---------- 深度检测：多 IP 主机逐 IP 验证 ----------
+/* ---------- 深度检测：多 IP 主机逐 IP 验证（IPv4 + IPv6 双栈） ----------
    公益线路常见"一个域名轮询多个服务器"的情况，其中可能混入失效/配置错误的 IP。
-   逐 IP 做 TCP + vlmcs 验证，返回通过验证的 IP 清单（按延迟升序）。 */
+   同时解析 A 与 AAAA 记录，逐 IP 做 TCP + vlmcs 验证，返回通过验证的 IP 清单（按延迟升序）。 */
 export async function deepCheck(vlmcsBin, host, port = KMS_DEFAULT_PORT, maxIps = 6) {
-  /* 纯 IP 投稿直接使用该地址，不做 DNS 解析 */
-  let ips = [];
+  let v4 = [], v6 = [];
   if (/^\d{1,3}(\.\d{1,3}){3}$/.test(host)) {
-    ips = [host];
+    v4 = [host];                                     // 纯 IP 投稿直接使用该地址
+  } else if (/^[0-9a-fA-F:]+$/.test(host) && host.includes(':')) {
+    v6 = [host];
   } else {
-    try { ips = (await dns.resolve4(host)).slice(0, maxIps); }
-    catch { return { ok: false, ips_ok: [], ips_total: 0, latency_ms: null, reason: '域名无法解析' }; }
-    if (!ips.length) return { ok: false, ips_ok: [], ips_total: 0, latency_ms: null, reason: '域名没有 A 记录' };
+    const [a4, a6] = await Promise.all([
+      dns.resolve4(host).then(a => a.slice(0, maxIps)).catch(() => []),
+      dns.resolve6(host).then(a => a.slice(0, maxIps)).catch(() => []),
+    ]);
+    v4 = a4; v6 = a6;
   }
+  const all = [
+    ...v4.map(ip => ({ ip, family: 4 })),
+    ...v6.map(ip => ({ ip, family: 6 })),
+  ];
+  if (!all.length) return { ok: false, ips_ok: [], v4_ok: [], v6_ok: [], stack: null, ips_total: 0, latency_ms: null, reason: '域名无法解析（无 A/AAAA 记录）' };
 
-  const results = await mapLimit(ips, 3, async ip => {
-    const latency = await tcpLatency(ip, port);
-    if (latency == null) return { ip, ok: false, latency_ms: null, fail: 'TCP 连接失败' };
-    const v = await vlmcsCheck(vlmcsBin, ip, port);
-    return { ip, ok: v.ok, latency_ms: Math.round(latency), fail: v.ok ? undefined : v.output.slice(-120) };
+  const results = await mapLimit(all, 3, async t => {
+    const latency = await tcpLatency(t.ip, port, 4000, t.family);
+    if (latency == null) return { ip: t.ip, family: t.family, ok: false, latency_ms: null, fail: 'TCP 连接失败' };
+    const v = await vlmcsCheck(vlmcsBin, t.ip, port);
+    return { ip: t.ip, family: t.family, ok: v.ok, latency_ms: Math.round(latency), fail: v.ok ? undefined : v.output.slice(-120) };
   });
   const good = results.filter(r => r.ok).sort((a, b) => a.latency_ms - b.latency_ms);
+  const v4_ok = good.filter(g => g.family === 4).map(g => g.ip);
+  const v6_ok = good.filter(g => g.family === 6).map(g => g.ip);
+  const stack = v4_ok.length && v6_ok.length ? 'dual' : v4_ok.length ? 'v4' : v6_ok.length ? 'v6' : null;
   const reason = good.length ? undefined
-    : '全部 ' + ips.length + ' 个 IP 均未通过 KMS 协议验证：' +
+    : '全部 ' + all.length + ' 个 IP 均未通过 KMS 协议验证：' +
       results.filter(r => !r.ok).map(r => r.ip + '(' + (r.fail || '').replace(/\s+/g, ' ').slice(-80) + ')').join('；').slice(0, 400);
   return {
     ok: good.length > 0,
     ips_ok: good.map(g => g.ip),
-    ips_total: ips.length,
+    v4_ok, v6_ok, stack,
+    ips_total: all.length,
     latency_ms: good.length ? good[0].latency_ms : null,
     results,
     reason,

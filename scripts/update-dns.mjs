@@ -29,7 +29,7 @@ const hosts = [...new Set([...data.lines, ...data.candidates].filter(e => e.stat
 const pairs = [];
 for (const host of hosts) {
   const info = precise[host] || {};
-  const ipsOk = info.ips_ok || (info.ip ? [info.ip] : []);
+  const ipsOk = (info.v4_ok && info.v4_ok.length ? info.v4_ok : (info.ips_ok || []).filter(ip => !ip.includes(':'))) || (info.ip && !info.ip.includes(':') ? [info.ip] : []);
   if (!ipsOk.length) continue;
   for (const ip of ipsOk) {
     const latency = (info.lat && info.lat[ip]) ?? info.latency_ms ?? 1e9;

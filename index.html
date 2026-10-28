@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN" data-theme="dark">
 <head>
-<script>/* 主题预设：必须在首次渲染前执行，避免深色主题闪现 */(function(){try{var t=localStorage.getItem('ikms-theme');if(t!=='dark'&&t!=='light')t='dark';document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+<script>/* 主题预设：必须在首次渲染前执行，避免深色主题闪现 */(function(){function gt(){try{var t=localStorage.getItem('ikms-theme');if(t==='dark'||t==='light')return t}catch(e){}try{var m=document.cookie.match(/(?:^|; )ikms-theme=(dark|light)/);if(m)return m[1]}catch(e){}return 'dark'}document.documentElement.setAttribute('data-theme',gt())})();</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="keywords" content="KMS激活服务器,windows激活工具,windows激活教程,win10激活工具,Server2022激活,win11激活,win10激活,win8激活工具,win7激活工具,office2022激活,office2019激活工具,office365激活教程,office激活工具,系统激活教程,v0v.bid,微零微">
@@ -34,7 +34,6 @@
       <a href="./more.html">备用线路</a>
       <a href="./android.html">自建线路</a>
       <a href="./status.html">服务状态</a>
-      <a href="./stats.html">请求统计</a>
       <a href="./img.html">激活演示</a>
     </div>
     <div class="nav-actions">
@@ -183,6 +182,7 @@
       <a href="./kms.html">详细教程</a>
       <a href="./more.html">备用线路</a>
       <a href="./android.html">自建线路</a>
+      <a href="./stats.html">请求统计</a>
       <a href="./status.html">服务状态</a>
       <a href="./kms.html#mianze">免责声明</a>
       <a href="https://github.com/dylanbai8/kmspro/issues" target="_blank" rel="noopener noreferrer">问题反馈</a>
