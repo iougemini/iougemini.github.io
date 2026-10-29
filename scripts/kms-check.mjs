@@ -59,6 +59,8 @@ await mapLimit(targets, PARALLEL, async t => {
       e.latency_ms = Math.round(ch.latency_ms / 5) * 5;
       e.stack = await dnsStackTag(t.host);
     } else {
+      e.state = 'ok';
+      e.consecutive_fail = 0;
       e.error = 'check-host 拨测未成功（' + (ch.reason || '') + '），按所有者担保保持在线';
     }
     return;
