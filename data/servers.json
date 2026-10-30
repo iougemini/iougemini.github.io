@@ -9,7 +9,7 @@
       {
         "ip": "154.7.181.209",
         "host": "s10.ikms.eu.org",
-        "latency_ms": 38
+        "latency_ms": 53
       },
       {
         "ip": "162.223.90.90",
@@ -22,17 +22,17 @@
         "latency_ms": 130
       },
       {
-        "ip": "152.70.94.22",
-        "host": "kms.jling.pp.ua",
-        "latency_ms": 141
-      },
-      {
         "ip": "107.189.14.253",
         "host": "s02.ikms.eu.org",
         "latency_ms": 143
+      },
+      {
+        "ip": "146.56.187.155",
+        "host": "ikms.dpdns.org",
+        "latency_ms": 163
       }
     ],
-    "current_updated": "2026-10-30T09:23:41.442Z",
+    "current_updated": "2026-10-30T16:07:35.308Z",
     "balanced": true
   },
   "lines": [
@@ -40,7 +40,7 @@
       "id": "s01",
       "host": "s01.ikms.eu.org",
       "state": "ok",
-      "latency_ms": 205,
+      "latency_ms": 225,
       "ip": "139.199.78.129",
       "last_checked": "2026-10-30",
       "consecutive_fail": 0,
@@ -50,7 +50,7 @@
       ],
       "ips_total": 2,
       "ip_lat": {
-        "139.199.78.129": 203
+        "139.199.78.129": 227
       },
       "partial": true,
       "v4_ok": [
@@ -91,13 +91,13 @@
         "158.178.234.166"
       ],
       "v6_ok": [],
-      "error": "check-host 拨测未成功（拨测超时），按所有者担保保持在线"
+      "error": "check-host 拨测未成功（所有拨测节点均连接失败），按所有者担保保持在线"
     },
     {
       "id": "s03",
       "host": "s03.ikms.eu.org",
       "state": "ok",
-      "latency_ms": 160,
+      "latency_ms": 175,
       "ip": "8.210.148.24",
       "last_checked": "2026-10-30",
       "consecutive_fail": 0,
@@ -107,7 +107,7 @@
       ],
       "ips_total": 1,
       "ip_lat": {
-        "8.210.148.24": 162
+        "8.210.148.24": 176
       },
       "partial": false,
       "v4_ok": [
@@ -120,7 +120,7 @@
       "id": "s04",
       "host": "s04.ikms.eu.org",
       "state": "ok",
-      "latency_ms": 235,
+      "latency_ms": 220,
       "ip": "110.42.186.3",
       "last_checked": "2026-10-30",
       "consecutive_fail": 0,
@@ -130,7 +130,7 @@
       ],
       "ips_total": 2,
       "ip_lat": {
-        "110.42.186.3": 237
+        "110.42.186.3": 222
       },
       "partial": true,
       "v4_ok": [
@@ -143,7 +143,7 @@
       "id": "s05",
       "host": "s05.ikms.eu.org",
       "state": "ok",
-      "latency_ms": 205,
+      "latency_ms": 230,
       "ip": "119.29.100.23",
       "last_checked": "2026-10-30",
       "consecutive_fail": 0,
@@ -153,7 +153,7 @@
       ],
       "ips_total": 2,
       "ip_lat": {
-        "119.29.100.23": 205
+        "119.29.100.23": 229
       },
       "partial": true,
       "v4_ok": [
@@ -166,7 +166,7 @@
       "id": "s06",
       "host": "s06.ikms.eu.org",
       "state": "ok",
-      "latency_ms": 210,
+      "latency_ms": 220,
       "ip": "121.40.68.253",
       "last_checked": "2026-10-30",
       "consecutive_fail": 0,
@@ -176,7 +176,7 @@
       ],
       "ips_total": 1,
       "ip_lat": {
-        "121.40.68.253": 208
+        "121.40.68.253": 219
       },
       "partial": false,
       "v4_ok": [
@@ -189,7 +189,7 @@
       "id": "s07",
       "host": "s07.ikms.eu.org",
       "state": "ok",
-      "latency_ms": 205,
+      "latency_ms": 230,
       "ip": "121.40.68.253",
       "last_checked": "2026-10-30",
       "consecutive_fail": 0,
@@ -199,7 +199,7 @@
       ],
       "ips_total": 1,
       "ip_lat": {
-        "121.40.68.253": 206
+        "121.40.68.253": 228
       },
       "partial": false,
       "v4_ok": [
@@ -212,7 +212,7 @@
       "id": "s08",
       "host": "s08.ikms.eu.org",
       "state": "ok",
-      "latency_ms": 215,
+      "latency_ms": 235,
       "ip": "153.101.161.27",
       "last_checked": "2026-10-30",
       "consecutive_fail": 0,
@@ -222,7 +222,7 @@
       ],
       "ips_total": 1,
       "ip_lat": {
-        "153.101.161.27": 213
+        "153.101.161.27": 234
       },
       "partial": false,
       "v4_ok": [
@@ -243,14 +243,14 @@
       "ips_ok": [],
       "ips_total": 1,
       "trusted": true,
-      "error": "check-host 拨测未成功（拨测超时），按所有者担保保持在线",
+      "error": "check-host 拨测未成功（SyntaxError: Unexpected token '<', \"<html>\r\n<h\"... is not valid JSON），按所有者担保保持在线",
       "stack": "v4"
     },
     {
       "id": "s10",
       "host": "s10.ikms.eu.org",
       "state": "ok",
-      "latency_ms": 45,
+      "latency_ms": 55,
       "ip": "154.7.181.209",
       "last_checked": "2026-10-30",
       "consecutive_fail": 0,
@@ -260,7 +260,7 @@
       ],
       "ips_total": 1,
       "ip_lat": {
-        "154.7.181.209": 38
+        "154.7.181.209": 53
       },
       "partial": false,
       "v4_ok": [
@@ -273,7 +273,7 @@
       "id": "s11",
       "host": "s11.ikms.eu.org",
       "state": "ok",
-      "latency_ms": 215,
+      "latency_ms": 230,
       "ip": "139.199.78.129",
       "last_checked": "2026-10-30",
       "consecutive_fail": 0,
@@ -283,7 +283,7 @@
       ],
       "ips_total": 2,
       "ip_lat": {
-        "139.199.78.129": 208
+        "139.199.78.129": 230
       },
       "partial": true,
       "v4_ok": [
@@ -296,7 +296,7 @@
       "id": "s12",
       "host": "s12.ikms.eu.org",
       "state": "ok",
-      "latency_ms": 200,
+      "latency_ms": 230,
       "ip": "1.15.144.40",
       "last_checked": "2026-10-30",
       "consecutive_fail": 0,
@@ -306,7 +306,7 @@
       ],
       "ips_total": 1,
       "ip_lat": {
-        "1.15.144.40": 198
+        "1.15.144.40": 231
       },
       "partial": false,
       "v4_ok": [
@@ -319,7 +319,7 @@
       "id": "s13",
       "host": "s13.ikms.eu.org",
       "state": "ok",
-      "latency_ms": 145,
+      "latency_ms": 195,
       "ip": "152.70.94.22",
       "last_checked": "2026-10-30",
       "consecutive_fail": 0,
@@ -329,7 +329,7 @@
       ],
       "ips_total": 1,
       "ip_lat": {
-        "152.70.94.22": 144
+        "152.70.94.22": 197
       },
       "partial": false,
       "swapped_at": "2026-10-28",
@@ -343,19 +343,19 @@
       "id": "s14",
       "host": "s14.ikms.eu.org",
       "state": "ok",
-      "latency_ms": 215,
+      "latency_ms": 225,
       "ip": "119.29.100.23",
       "ips_ok": [
         "119.29.100.23"
       ],
-      "ips_total": 1,
+      "ips_total": 2,
       "last_checked": "2026-10-30",
       "consecutive_fail": 0,
       "source": "initial",
       "ip_lat": {
-        "119.29.100.23": 213
+        "119.29.100.23": 224
       },
-      "partial": false,
+      "partial": true,
       "v4_ok": [
         "119.29.100.23"
       ],
@@ -392,7 +392,7 @@
       "added": "2026-10-26",
       "key": "c2",
       "trusted": true,
-      "error": "check-host 拨测未成功（SyntaxError: Unexpected token '<', \"<html>\r\n<h\"... is not valid JSON），按所有者担保保持在线",
+      "error": "check-host 拨测未成功（所有拨测节点均连接失败），按所有者担保保持在线",
       "host": "kms.hmg.pw",
       "port": 1688,
       "ips_ok": [],
@@ -400,7 +400,7 @@
     },
     {
       "state": "ok",
-      "latency_ms": 145,
+      "latency_ms": 165,
       "ips_total": 1,
       "partial": false,
       "last_checked": "2026-10-30",
@@ -419,13 +419,13 @@
         "146.56.187.155"
       ],
       "ip_lat": {
-        "146.56.187.155": 144
+        "146.56.187.155": 163
       }
     },
     {
       "key": "c4",
       "state": "ok",
-      "latency_ms": 140,
+      "latency_ms": 170,
       "ips_total": 1,
       "partial": false,
       "last_checked": "2026-10-30",
@@ -443,13 +443,13 @@
         "152.70.94.22"
       ],
       "ip_lat": {
-        "152.70.94.22": 141
+        "152.70.94.22": 168
       }
     },
     {
       "key": "c5",
       "state": "ok",
-      "latency_ms": 160,
+      "latency_ms": 175,
       "ips_total": 1,
       "partial": false,
       "last_checked": "2026-10-30",
@@ -467,13 +467,13 @@
         "20.187.167.217"
       ],
       "ip_lat": {
-        "20.187.167.217": 161
+        "20.187.167.217": 174
       }
     },
     {
       "key": "c6",
       "state": "ok",
-      "latency_ms": 170,
+      "latency_ms": 185,
       "ips_total": 1,
       "partial": false,
       "last_checked": "2026-10-30",
@@ -491,7 +491,7 @@
         "185.92.47.165"
       ],
       "ip_lat": {
-        "185.92.47.165": 168
+        "185.92.47.165": 185
       }
     }
   ],
