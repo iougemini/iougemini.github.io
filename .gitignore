@@ -2,3 +2,4 @@ data/.last-run.json
 data/candidates-private.json
 .workbuddy/
 zcode-context/
+.zcode/
