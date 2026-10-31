@@ -1411,6 +1411,37 @@ ato 可以理解为是 “自动” 的缩写。<br><br>
 </section>
 
 
+
+      <section id="check-version">
+        <h2><span class="num" style="background:linear-gradient(135deg,#2dd4bf,#0ea5a4)">A</span><span>查 Windows / Office 版本</span></h2>
+        <p><strong style="color:var(--text)">方法 1：运行 winver</strong> — 按 Win+R，输入 winver 回车即可弹出版本信息窗口。</p>
+        <p><strong style="color:var(--text)">方法 2：设置页面</strong> — 打开「设置」→「系统」→「关于」。</p>
+        <p><strong style="color:var(--text)">方法 3：PowerShell 查询命令</strong></p>
+        <div class="cmd"><span class="ps1">PowerShell</span><code>Get-ComputerInfo | Select-Object WindowsProductName, OsVersion, OsArchitecture</code><button class="copy-btn" data-copy="Get-ComputerInfo | Select-Object WindowsProductName, OsVersion, OsArchitecture"><span class="copy-label">复制</span></button></div>
+        <p><strong style="color:var(--text)">查 Office 版本</strong>：打开任意 Office 软件 →「文件」→「账户」，在右侧面板查看版本及是否为批量授权（Volume）版本。或用命令行：</p>
+        <div class="cmd"><span class="ps1">C:&gt;</span><code>cscript "C:Program FilesMicrosoft OfficeOffice16OSPP.VBS" /dstatus</code><button class="copy-btn" data-copy="cscript OSPP.VBS /dstatus"><span class="copy-label">复制</span></button></div>
+        <p>在输出中找 LICENSE STATUS 行：---LICENSED--- 为已激活。LICENSE DESCRIPTION 行包含 RETAIL（零售版）或 VOLUME（批量版）。</p>
+      </section>
+
+      <section id="test-port">
+        <h2><span class="num" style="background:linear-gradient(135deg,#2dd4bf,#0ea5a4)">B</span><span>检测 KMS 服务器连通性</span></h2>
+        <p>在 PowerShell 中执行以下命令，检测 KMS 服务器的 1688 端口是否可达：</p>
+        <div class="cmd"><span class="ps1">PowerShell</span><code>Test-NetConnection s.ikms.eu.org -Port 1688</code><button class="copy-btn" data-copy="Test-NetConnection s.ikms.eu.org -Port 1688"><span class="copy-label">复制</span></button></div>
+        <p>TcpTestSucceeded 为 True 表示端口可达。如果为 False，请更换网络后重试。</p>
+      </section>
+
+      <section id="fix-spp">
+        <h2><span class="num" style="background:linear-gradient(135deg,#2dd4bf,#0ea5a4)">C</span><span>SppExtComObj 劫持修复</span></h2>
+        <p>曾使用过同类激活工具可能导致 SppExtComObj.exe 被劫持，激活报错 0x80080005 / 0x8007000D，且「设置→激活」页面打不开。执行修复命令后重启电脑：</p>
+        <div class="cmd"><span class="ps1">C:&gt;</span><code>reg delete "HKLMSOFTWAREMicrosoftWindows NTCurrentVersionImage File Execution OptionsSppExtComObj.exe" /f &amp; net stop sppsvc &amp; net start sppsvc</code><button class="copy-btn" data-copy="修复命令"><span class="copy-label">复制</span></button></div>
+        <p>修复后可运行 <code style="font-family:var(--font-mono);color:var(--accent)">ms-settings:windowsactivation</code> 重新打开激活设置确认。</p>
+      </section>
+
+      <section id="fix-time">
+        <h2><span class="num" style="background:linear-gradient(135deg,#2dd4bf,#0ea5a4)">D</span><span>检查电脑时间</span></h2>
+        <p>时间偏差过大也会导致激活失败。打开「日期和时间」设置开启自动设置时间：</p>
+        <div class="cmd"><span class="ps1">运行</span><code>ms-settings:dateandtime</code><button class="copy-btn" data-copy="ms-settings:dateandtime"><span class="copy-label">复制</span></button></div>
+      </section>
     </article>
   </div>
 
