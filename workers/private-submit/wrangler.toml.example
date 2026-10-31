@@ -1,0 +1,19 @@
+name = "private-submit"
+main = "worker.js"
+compatibility_date = "2024-09-01"
+
+# KV namespace 绑定（Cloudflare 面板或 wrangler kv:namespace create KMS_SUBMISSIONS 创建后填入 id）
+[[kv_namespaces]]
+binding = "KMS_SUBMISSIONS"
+id = "<YOUR_KV_NAMESPACE_ID>"
+
+# 变量
+[vars]
+GITHUB_REPOSITORY = "iougemini/iougemini.github.io"
+
+# Secrets（用 wrangler secret put 或面板设置）：
+# ADMIN_KEY  = 管理员审核密钥
+# GH_TOKEN   = Fine-grained PAT (Contents: Read and write)
+#
+# 自定义域名（面板添加或 route 配置）：
+# routes = [{ pattern = "submit.ikms.eu.org", custom_domain = true }]

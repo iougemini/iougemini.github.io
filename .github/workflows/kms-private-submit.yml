@@ -1,0 +1,44 @@
+name: KMS 私密投稿收录
+
+on:
+  repository_dispatch:
+    types: [kms-private-submit]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: kms-private
+  cancel-in-progress: false
+
+jobs:
+  add:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: 收录私密投稿到加密候选池
+        env:
+          PAYLOAD: ${{ toJSON(github.event.client_payload) }}
+          CANDIDATES_SECRET: ${{ secrets.CANDIDATES_SECRET }}
+        run: node scripts/add-private-submit.mjs
+
+      - name: 提交
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if [[ -n "$(git status --porcelain data)" ]]; then
+            git add data
+            git commit -m "chore(kms): 收录私密投稿（来源: repository_dispatch）"
+            for i in 1 2 3; do
+              git push && break
+              git pull --rebase origin main || (git rebase --abort; sleep 5)
+            done
+          else
+            echo "无变化（重复投稿或无效地址）"
+          fi
