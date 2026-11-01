@@ -214,11 +214,10 @@ SW_DVD9_Win_Pro_11_22H2_64BIT_ChnSimp_Pro_Ent_EDU_N_MLF_X23-12741.ISO
 
 查看系统版本（备用）<br>
 <div class="cmd"><span class="ps1">C:\&gt;</span><code>wmic os get caption</code><button class="copy-btn" data-copy="wmic os get caption" aria-label="复制命令"><span class="copy-label">复制</span></button></div>
-<br>
 查看激活详情（备用）<br>
 <div class="cmd"><span class="ps1">C:&gt;</span><code>slmgr /dlv</code><button class="copy-btn" data-copy="slmgr /dlv" aria-label="复制命令"><span class="copy-label">复制</span></button></div><br>
 查看所有命令（备用）<br>
-slmgr<br>
+<div class="cmd"><span class="ps1">C:&gt;</span><code>slmgr</code><button class="copy-btn" data-copy="slmgr" aria-label="复制命令"><span class="copy-label">复制</span></button></div>
 本站同时提供了备用的便捷激活脚本（备用）<a href="#bat">跳转下文</a><br><br>
 
 如果激活失败有两种原因：<br>
@@ -249,7 +248,6 @@ c.更多问题请下拉本文查看“激活失败如何排错”。
 </div>2.激活。按提示升级后打开命令提示符(管理员)逐行执行以下命令：<br>
 <div class="cmd"><span class="ps1">C:&gt;</span><code>slmgr /ipk NPPR9-FWDCX-D2C8J-H872K-2YT43</code><button class="copy-btn" data-copy="slmgr /ipk NPPR9-FWDCX-D2C8J-H872K-2YT43" aria-label="复制命令"><span class="copy-label">复制</span></button></div><br>
 <div class="cmd"><span class="ps1">C:\&gt;</span><code>slmgr /skms s.ikms.eu.org &amp;&amp; slmgr /ato</code><button class="copy-btn" data-copy="slmgr /skms s.ikms.eu.org &amp;&amp; slmgr /ato" aria-label="复制命令"><span class="copy-label">复制</span></button></div>
-<br><br>
 
 同样的方法可以升级为专业版、教育版等，以及版本退回切换（政府版不可逆） 。升级密钥在文末“附1”。<br><br>
 
@@ -302,17 +300,14 @@ cd C:\Program Files\Microsoft Office\Office14<br><br>
 
 查询Office激活详情（备用）<br>
 <div class="cmd"><span class="ps1">C:\&gt;</span><code>cscript ospp.vbs /dstatus</code><button class="copy-btn" data-copy="cscript ospp.vbs /dstatus" aria-label="复制命令"><span class="copy-label">复制</span></button></div>
-<br>
 查看所有命令（备用）<br>
 <div class="cmd"><span class="ps1">C:\&gt;</span><code>cscript ospp.vbs</code><button class="copy-btn" data-copy="cscript ospp.vbs" aria-label="复制命令"><span class="copy-label">复制</span></button></div>
-<br>
 本站同时提供了备用的便捷激活脚本（备用）<a href="#bat">跳转下文</a><br><br>
 
 如果激活失败有两种原因：<br>
 a.你无意中修改或卸载了Office自带的KMS激活密钥（比如你曾经使用了MAK密钥或网络上找到的其它密钥尝试激活失败）。<br>
 解决办法：执行以下命令安装对应版本的KMS密钥后重新激活（密钥在文末“附2”）<br>
 <div class="cmd"><span class="ps1">C:\&gt;</span><code>cscript ospp.vbs /inpkey:XXXXX-XXXXX-XXXXX-XXXXX-XXXXX</code><button class="copy-btn" data-copy="cscript ospp.vbs /inpkey:XXXXX-XXXXX-XXXXX-XXXXX-XXXXX" aria-label="复制命令"><span class="copy-label">复制</span></button></div>
-<br>
 b.你安装的为RTL版Office，需要转换为VOL版才能激活，方法请 <a href="#rtl-to-vol-office">参照特例</a>，或者使用一键转换脚本（<a href="#bat">跳转下文</a>）。<br>
 c.Mac版的批量版Office不需要KMS激活，只需运行微软提供的 SWDVD5_Office_Mac_Serializer_*.ISO（相当于激活补丁，十几MB）安装即可激活。<br>
 d.更多问题请下拉本文查看“激活失败如何排错”。
@@ -340,19 +335,15 @@ cd C:\Program Files\Microsoft Office\Office16<br><br>
 完成上一步骤后，执行以下命令转换版本。<br><br>
 
 <div class="cmd"><span class="ps1">C:\&gt;</span><code>for /f %x in ('dir /b ..\root\Licenses16\proplusvl_kms*.xrm-ms') do cscript ospp.vbs /inslic:"..\root\Licenses16\%x"</code><button class="copy-btn" data-copy="for /f %x in ('dir /b ..\root\Licenses16\proplusvl_kms*.xrm-ms') do cscript ospp.vbs /inslic:&quot;..\root\Licenses16\%x&quot;" aria-label="复制命令"><span class="copy-label">复制</span></button></div>
-<br>
 <div class="cmd"><span class="ps1">C:\&gt;</span><code>for /f %x in ('dir /b ..\root\Licenses16\proplusvl_mak*.xrm-ms') do cscript ospp.vbs /inslic:"..\root\Licenses16\%x"</code><button class="copy-btn" data-copy="for /f %x in ('dir /b ..\root\Licenses16\proplusvl_mak*.xrm-ms') do cscript ospp.vbs /inslic:&quot;..\root\Licenses16\%x&quot;" aria-label="复制命令"><span class="copy-label">复制</span></button></div>
-<br><br>
 
 提示：将以上代码中的“16”(Office2016 Office2019 LTSC2021 Office365/Microsoft365)改为“15”(Office2013)或者“14”(Office2010)，便可以将相对应的RTL版转换VOL版。<br><br>
 
 3.安装KMS激活密钥<br>
 <div class="cmd"><span class="ps1">C:\&gt;</span><code>cscript ospp.vbs /inpkey:XQNVK-8JYDB-WJ9W3-YJ8YR-WFG99</code><button class="copy-btn" data-copy="cscript ospp.vbs /inpkey:XQNVK-8JYDB-WJ9W3-YJ8YR-WFG99" aria-label="复制命令"><span class="copy-label">复制</span></button></div>
-<br><br>
 
 4.激活 Office<br>
 <div class="cmd"><span class="ps1">C:\&gt;</span><code>cscript ospp.vbs /sethst:s.ikms.eu.org &amp;&amp; cscript ospp.vbs /act</code><button class="copy-btn" data-copy="cscript ospp.vbs /sethst:s.ikms.eu.org &amp;&amp; cscript ospp.vbs /act" aria-label="复制命令"><span class="copy-label">复制</span></button></div>
-<br><br>
 
 全新装机请直接部署VOL版，本文末有下载链接。不推荐RTL转VOL的方式装机。
 </p>
@@ -439,7 +430,6 @@ KMS激活和MAK密钥激活是所有VOL版操作系统和Office套件的2种激�
 C:\Windows\System32\spp\tokens\skus<br>
 证书更新命令：<br>
 <div class="cmd"><span class="ps1">C:\&gt;</span><code>slmgr /rilc</code><button class="copy-btn" data-copy="slmgr /rilc" aria-label="复制命令"><span class="copy-label">复制</span></button></div>
-<br><br>
 
 顺便提一下"数字权利"激活吧：<br><br>
 数字权利是在Win10刚出来的时候，给Win7升级免费升级到win10搞出来的东西。正常来说你需要有一个正版的win7或者win8等系统，然后升级，程序会收集你电脑的硬件信息和密钥，生成一个"免费门票"提交给微软服务器，以后联网微软就可以判断硬件信息是否对的上就能激活。(要是你的key来源不怎么干净，这就相当于偷渡洗白了。)然而这枚免费门票是由 gatherosstate.exe 生成的，想必你也猜到了，破解这个系统应用就得到了盗版系统"数字权利"激活工具。<br><br>
@@ -518,11 +508,9 @@ C:\Windows\System32\spp\tokens\skus<br>
 </div>2.激活。按提示升级后打开命令提示符(管理员)逐行执行以下命令：<br>
 <div class="cmd"><span class="ps1">C:&gt;</span><code>slmgr /ipk YYVX9-NTFWV-6MDM3-9PT4T-4M68B</code><button class="copy-btn" data-copy="slmgr /ipk YYVX9-NTFWV-6MDM3-9PT4T-4M68B" aria-label="复制命令"><span class="copy-label">复制</span></button></div><br>
 <div class="cmd"><span class="ps1">C:\&gt;</span><code>slmgr /skms s.ikms.eu.org &amp;&amp; slmgr /ato</code><button class="copy-btn" data-copy="slmgr /skms s.ikms.eu.org &amp;&amp; slmgr /ato" aria-label="复制命令"><span class="copy-label">复制</span></button></div>
-<br><br>
 
 执行以下命令查看KMS激活期限<br>
 <div class="cmd"><span class="ps1">C:\&gt;</span><code>slmgr /xpr</code><button class="copy-btn" data-copy="slmgr /xpr" aria-label="复制命令"><span class="copy-label">复制</span></button></div>
-<br><br>
 
 温馨提示：<br>
 你也可以直接使用原版 Windows10 神州网信政府版系统镜像安装系统，只需执行以下命令即可激活410年授权。<br>
@@ -562,13 +550,10 @@ C:\Windows\System32\spp\tokens\skus<br>
 下载 <a href="./files/vlmcs.exe" download="vlmcs.exe">vlmcs.exe</a> 到C盘根目录后cmd执行以下命令：<br>
 1.查看运行信息<br>
 <div class="cmd"><span class="ps1">C:\&gt;</span><code>C:\vlmcs.exe -v s.ikms.eu.org</code><button class="copy-btn" data-copy="C:\vlmcs.exe -v s.ikms.eu.org" aria-label="复制命令"><span class="copy-label">复制</span></button></div>
-<br>
 2.查看可激活版本<br>
 <div class="cmd"><span class="ps1">C:\&gt;</span><code>C:\vlmcs.exe -x s.ikms.eu.org</code><button class="copy-btn" data-copy="C:\vlmcs.exe -x s.ikms.eu.org" aria-label="复制命令"><span class="copy-label">复制</span></button></div>
-<br>
 3.查看帮助<br>
 <div class="cmd"><span class="ps1">C:\&gt;</span><code>C:\vlmcs.exe -h s.ikms.eu.org</code><button class="copy-btn" data-copy="C:\vlmcs.exe -h s.ikms.eu.org" aria-label="复制命令"><span class="copy-label">复制</span></button></div>
-<br>
 4.Windows11/10激活测试<br>
 <div class="cmd"><span class="ps1">C:\&gt;</span><code>C:\vlmcs.exe -l 1 s.ikms.eu.org</code><button class="copy-btn" data-copy="C:\vlmcs.exe -l 1 s.ikms.eu.org" aria-label="复制命令"><span class="copy-label">复制</span></button></div>
 </p>
@@ -588,12 +573,9 @@ C:\Windows\System32\spp\tokens\skus<br>
 #卸载 Office KMS 激活<br>
 1.打开命令提示符(管理员)进入 Office OSPP.VBS目录，执行以下命令查询激活密钥后五位（可能是多个）<br>
 <div class="cmd"><span class="ps1">C:\&gt;</span><code>cscript ospp.vbs /dstatus</code><button class="copy-btn" data-copy="cscript ospp.vbs /dstatus" aria-label="复制命令"><span class="copy-label">复制</span></button></div>
-<br>
 2.继续执行以下命令<br>
 <div class="cmd"><span class="ps1">C:\&gt;</span><code>cscript ospp.vbs /unpkey:密钥后五位</code><button class="copy-btn" data-copy="cscript ospp.vbs /unpkey:密钥后五位" aria-label="复制命令"><span class="copy-label">复制</span></button></div>
-<br>
 <div class="cmd"><span class="ps1">C:\&gt;</span><code>cscript ospp.vbs /remhst</code><button class="copy-btn" data-copy="cscript ospp.vbs /remhst" aria-label="复制命令"><span class="copy-label">复制</span></button></div>
-<br>
 <div class="cmd"><span class="ps1">C:\&gt;</span><code>cscript ospp.vbs /rearm</code><button class="copy-btn" data-copy="cscript ospp.vbs /rearm" aria-label="复制命令"><span class="copy-label">复制</span></button></div>
 </p>
 
@@ -649,11 +631,9 @@ C:\Windows\System32\spp\tokens\skus<br>
 
 Windows 命令提示符(管理员)：<br>
 <div class="cmd"><span class="ps1">C:\&gt;</span><code>slmgr /skms 192.168.1.XXX &amp;&amp; slmgr /ato</code><button class="copy-btn" data-copy="slmgr /skms 192.168.1.XXX &amp;&amp; slmgr /ato" aria-label="复制命令"><span class="copy-label">复制</span></button></div>
-<br><br>
 
 Office 命令提示符(管理员)进入Office OSPP.VBS目录后执行：<br>
 <div class="cmd"><span class="ps1">C:\&gt;</span><code>cscript ospp.vbs /sethst:192.168.1.XXX &amp;&amp; cscript ospp.vbs /act</code><button class="copy-btn" data-copy="cscript ospp.vbs /sethst:192.168.1.XXX &amp;&amp; cscript ospp.vbs /act" aria-label="复制命令"><span class="copy-label">复制</span></button></div>
-<br><br>
 
 是不是很酷呢！如果你懂得内网穿透或者动态解析(需开放1688端口)，你的手机同样可以为全球提供 KMS激活服务。<br>
 另外，在没有 WIFI 的情况下，可以在软件设置内使用 WIFI热点、USB系绳 等方式提供 KMS激活服务。<br><br>
@@ -1387,7 +1367,6 @@ slmgr 是 Software License Manager 的缩写，译为：软件许可证管理器
 
 <div class="cmd"><span class="ps1">C:&gt;</span><code>slmgr /skms s.ikms.eu.org</code><button class="copy-btn" data-copy="slmgr /skms s.ikms.eu.org" aria-label="复制命令"><span class="copy-label">复制</span></button></div><br>
 <div class="cmd"><span class="ps1">C:\&gt;</span><code>slmgr /ato</code><button class="copy-btn" data-copy="slmgr /ato" aria-label="复制命令"><span class="copy-label">复制</span></button></div>
-<br><br>
 
 skms中的s是 “specify” 缩写，译为：指定kms主机<br>
 ato 可以理解为是 “自动” 的缩写。<br><br>
