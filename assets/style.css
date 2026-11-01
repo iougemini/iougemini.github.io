@@ -897,12 +897,98 @@ html[data-theme="light"] .icon-moon { display: none; }
   margin-right: 10px;
   vertical-align: 2px;
 }
+.prose h4 {
+  margin: 20px 0 10px;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-2);
+}
 .prose p { margin: 0 0 14px; color: var(--text-2); }
 .prose p strong, .prose b { color: var(--text); font-weight: 600; }
 .prose a { text-decoration: underline; text-underline-offset: 3px; text-decoration-color: color-mix(in srgb, var(--blue) 45%, transparent); }
 .prose a:hover { text-decoration-color: var(--accent); }
+.prose a[href^="ed2k:"] {
+  font-family: var(--font-mono);
+  font-size: 0.84em;
+  word-break: break-all;
+  color: var(--text-2);
+}
 .prose ul, .prose ol { margin: 0 0 14px; padding-left: 22px; color: var(--text-2); }
 .prose li { margin-bottom: 6px; }
+.prose blockquote {
+  margin: 0 0 16px;
+  padding: 16px 20px;
+  border-left: 3px solid var(--border-strong);
+  border-radius: 0 var(--r-md) var(--r-md) 0;
+  background: var(--bg-card);
+}
+.prose blockquote p {
+  margin: 0 0 12px;
+  text-indent: 2em;
+}
+.prose blockquote p:last-child { margin-bottom: 0; }
+
+/* 免责声明专属样式：法律声明质感 */
+#mianze blockquote {
+  position: relative;
+  margin: 24px 0 0;
+  padding: 28px 30px 24px 64px;
+  border: 1px solid rgba(251, 146, 60, 0.25);
+  border-left: 4px solid var(--brand-1);
+  border-radius: var(--r-lg);
+  background:
+    linear-gradient(160deg, rgba(251, 146, 60, 0.07), rgba(251, 113, 133, 0.04) 45%, transparent),
+    var(--bg-card);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+#mianze blockquote::before {
+  content: "§";
+  position: absolute;
+  top: 6px;
+  left: 18px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1;
+  color: rgba(251, 146, 60, 0.45);
+  user-select: none;
+}
+#mianze blockquote::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background: radial-gradient(420px 140px at 100% 0%, rgba(251, 113, 133, 0.08), transparent 70%);
+}
+#mianze blockquote > * { position: relative; z-index: 1; }
+#mianze blockquote p {
+  margin: 0 0 13px;
+  text-indent: 2em;
+  font-size: 0.9rem;
+  line-height: 1.85;
+  color: var(--text-2);
+}
+#mianze blockquote p:first-of-type {
+  padding-top: 4px;
+  border-top: 1px dashed rgba(148, 163, 190, 0.18);
+  margin-top: 6px;
+}
+#mianze blockquote p:last-child { margin-bottom: 0; padding-bottom: 2px; }
+#mianze blockquote a {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px dashed rgba(45, 212, 191, 0.4);
+  word-break: break-all;
+}
+#mianze blockquote a:hover { border-bottom-style: solid; }
+[data-theme="light"] #mianze blockquote {
+  border-color: rgba(251, 146, 60, 0.22);
+  background:
+    linear-gradient(160deg, rgba(251, 146, 60, 0.06), rgba(251, 113, 133, 0.035) 45%, transparent),
+    #fffdf9;
+}
 .prose code:not(pre code) {
   font-family: var(--font-mono);
   font-size: 0.86em;
@@ -960,6 +1046,11 @@ html[data-theme="light"] .icon-moon { display: none; }
   font-size: 0.92rem;
   color: #e8eefb;
   white-space: nowrap;
+}
+.cmd.multi { align-items: flex-start; }
+.cmd.multi code {
+  white-space: pre;
+  line-height: 1.75;
 }
 .cmd .copy-btn { margin-left: auto; padding: 7px 13px; font-size: 0.83rem; }
 .cmd-label {
