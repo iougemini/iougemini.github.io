@@ -6,6 +6,21 @@
    通过 repository_dispatch 触发 CI 收录到加密候选池。 */
 
 const JSON_H = { 'Content-Type': 'application/json; charset=utf-8' };
+/* 站点留言接口的跨域白名单（弹窗从主站直接 POST） */
+const CORS_ORIGINS = [
+  'https://ikms.eu.org', 'https://www.ikms.eu.org',
+  'http://localhost:8931', 'http://localhost:8932',
+  'http://127.0.0.1:8931', 'http://127.0.0.1:8932',
+];
+function corsHeaders(origin) {
+  const allow = CORS_ORIGINS.includes(origin) ? origin : CORS_ORIGINS[0];
+  return {
+    'Access-Control-Allow-Origin': allow,
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Max-Age': '86400',
+  };
+}
 const VALID_HOST = /^[a-z0-9]([a-z0-9.-]*[a-z0-9])?(\.[a-z]{2,})$|^\d{1,3}(\.\d{1,3}){3}$/;
 const PRIVATE_V4 = /^(10\.|127\.|0\.|192\.168\.|172\.(1[6-9]|2[0-9]|3[01])\.|169\.254\.)/;
 
@@ -129,6 +144,79 @@ export default {
       });
       await env.KMS_SUBMISSIONS.put('submissions', JSON.stringify(submissions));
       return new Response(JSON.stringify({ ok: true, msg: '投稿已提交，等待管理员审核' }), { headers: JSON_H });
+    }
+
+    /* ---- 站点留言（弹窗表单 → Resend 转发到管理员邮箱） ---- */
+    if (url.pathname === '/api/contact' && request.method === 'OPTIONS') {
+      return new Response(null, { status: 204, headers: corsHeaders(request.headers.get('Origin') || '') });
+    }
+    if (url.pathname === '/api/contact' && request.method === 'POST') {
+      const cors = corsHeaders(request.headers.get('Origin') || '');
+      const json = (obj, status = 200) => new Response(JSON.stringify(obj), { status, headers: { ...JSON_H, ...cors } });
+
+      if (!env.RESEND_API_KEY) {
+        return json({ ok: false, msg: '发信接口未配置，请直接写信到 admin@ikms.eu.org' }, 503);
+      }
+
+      /* 限流：同一 IP 每天最多 5 条留言 */
+      const rlKey = `rlc:${ip}:${new Date().toISOString().slice(0, 10)}`;
+      const rlCount = Number(await env.KMS_SUBMISSIONS.get(rlKey)) || 0;
+      if (rlCount >= 5) {
+        return json({ ok: false, msg: '今日留言次数已达上限（5 条），请明日再试' }, 429);
+      }
+
+      let body;
+      try { body = await request.json(); } catch { return json({ ok: false, msg: '请求格式错误' }, 400); }
+
+      /* 蜜罐字段：机器人会填，人看不到 */
+      if (body.website) return json({ ok: true, msg: '留言已发送' });
+
+      const name = String(body.name || '').trim().slice(0, 80);
+      const email = String(body.email || '').trim().slice(0, 200);
+      const message = String(body.message || '').trim().slice(0, 5000);
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        return json({ ok: false, msg: '请填写有效的邮箱地址' }, 400);
+      }
+      if (!message) {
+        return json({ ok: false, msg: '请填写留言内容' }, 400);
+      }
+
+      const subject = ('[iKMS 留言] ' + (name || email.split('@')[0])).replace(/[\r\n]+/g, ' ');
+      const text = [
+        '来自 iKMS 站点留言弹窗：',
+        '',
+        '称呼：' + (name || '（未填写）'),
+        '邮箱：' + email,
+        'IP：' + ip,
+        '时间：' + new Date().toISOString(),
+        '',
+        '— — —',
+        '',
+        message,
+      ].join('\n');
+
+      const sendRes = await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${env.RESEND_API_KEY}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          from: env.CONTACT_FROM || 'iKMS 留言 <onboarding@resend.dev>',
+          to: [env.CONTACT_TO || 'admin@ikms.eu.org'],
+          reply_to: email,
+          subject,
+          text,
+        }),
+      });
+      if (!sendRes.ok) {
+        const errText = await sendRes.text().catch(() => '');
+        console.error('Resend error:', sendRes.status, errText.slice(0, 200));
+        return json({ ok: false, msg: '发送失败，请直接写信到 admin@ikms.eu.org' }, 502);
+      }
+
+      await env.KMS_SUBMISSIONS.put(rlKey, String(rlCount + 1), { expirationTtl: 86400 });
+      return json({ ok: true, msg: '留言已发送，管理员会回信到你的邮箱' });
     }
 
     /* ---- 管理员查看 ---- */
