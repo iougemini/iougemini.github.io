@@ -241,9 +241,20 @@
     if (closeBtn) closeBtn.addEventListener('click', close);
     doc.addEventListener('keydown', function (e) { if (e.key === 'Escape' && overlay.classList.contains('open')) close(); });
 
-    /* 页脚「反馈邮箱」也改为打开弹窗（mailto 保留在兜底页） */
+    /* 页脚「投稿反馈」也改为打开弹窗（mailto 保留在兜底页） */
     doc.querySelectorAll('a[href^="mailto:' + CONTACT_EMAIL + '"]').forEach(function (a) {
       a.addEventListener('click', function (e) { e.preventDefault(); open(); });
+    });
+
+    /* 「私密投稿」按钮也打开弹窗，并预填私密投稿提纲（Worker 表单保留为备用入口） */
+    var PRIV_LINK = 'https://submit.ikms.eu.org';
+    doc.querySelectorAll('a[href="' + PRIV_LINK + '"]').forEach(function (a) {
+      a.addEventListener('click', function (e) {
+        e.preventDefault();
+        open();
+        var chip = overlay.querySelector('.cm-chips button[data-topic^="私密投稿"]');
+        if (chip) chip.click();
+      });
     });
 
     /* 快捷主题起头 */
