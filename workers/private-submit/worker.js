@@ -1,6 +1,7 @@
 /* iKMS 私密投稿 Cloudflare Worker
    部署到 submit.ikms.eu.org（或任意子域），配合 KV namespace KMS_SUBMISSIONS 使用。
-   Secrets: ADMIN_KEY（管理员密钥）、GH_TOKEN（Fine-grained PAT，contents:write）。
+   Secrets: ADMIN_KEY（管理员密钥）、GH_TOKEN（Fine-grained PAT，contents:write）、
+            RESEND_API_KEY（留言发信）、TURNSTILE_SECRET（人机验证服务端密钥，不入库）。
    Vars: GITHUB_REPOSITORY = iougemini/iougemini.github.io
    投稿地址不创建公开 issue，不入公开 servers.json，仅存 KV 由管理员审核后
    通过 repository_dispatch 触发 CI 收录到加密候选池。 */
@@ -20,6 +21,23 @@ function corsHeaders(origin) {
     'Access-Control-Allow-Headers': 'Content-Type',
     'Access-Control-Max-Age': '86400',
   };
+}
+
+/* Turnstile 服务端校验（token 一次性，验证失败即拒） */
+async function verifyTurnstile(env, token, ip) {
+  if (!env.TURNSTILE_SECRET) return { ok: false, reason: 'TURNSTILE_SECRET 未配置' };
+  if (!token) return { ok: false, reason: '缺少验证令牌' };
+  try {
+    const res = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({ secret: env.TURNSTILE_SECRET, response: token, remoteip: ip }),
+    });
+    const j = await res.json();
+    return { ok: !!j.success, reason: j.success ? '' : (j['error-codes'] || []).join(',') };
+  } catch (e) {
+    return { ok: false, reason: String(e).slice(0, 120) };
+  }
 }
 const VALID_HOST = /^[a-z0-9]([a-z0-9.-]*[a-z0-9])?(\.[a-z]{2,})$|^\d{1,3}(\.\d{1,3}){3}$/;
 const PRIVATE_V4 = /^(10\.|127\.|0\.|192\.168\.|172\.(1[6-9]|2[0-9]|3[01])\.|169\.254\.)/;
@@ -171,6 +189,12 @@ export default {
       /* 蜜罐字段：机器人会填，人看不到 */
       if (body.website) return json({ ok: true, msg: '留言已发送' });
 
+      /* Turnstile 人机验证（服务端复核，token 一次性） */
+      const ts = await verifyTurnstile(env, String(body.turnstile || ''), ip);
+      if (!ts.ok) {
+        return json({ ok: false, msg: '人机验证未通过（' + (ts.reason || '请重试') + '）' }, 403);
+      }
+
       const name = String(body.name || '').trim().slice(0, 80);
       const email = String(body.email || '').trim().slice(0, 200);
       const message = String(body.message || '').trim().slice(0, 5000);
@@ -202,7 +226,7 @@ export default {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          from: env.CONTACT_FROM || 'iKMS 留言 <onboarding@resend.dev>',
+          from: env.CONTACT_FROM || 'iKMS 留言 <noreply@subit.us.mw>',
           to: [env.CONTACT_TO || 'admin@ikms.eu.org'],
           reply_to: email,
           subject,

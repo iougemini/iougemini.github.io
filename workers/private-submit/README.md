@@ -35,18 +35,23 @@ Worker → Settings → Variables → Environment Variables（加密）：
 | `ADMIN_KEY` | 自定义随机字符串（≥ 16 字符） | 管理员审核页面密钥 |
 | `GITHUB_TOKEN` | Fine-grained PAT（Contents: Read and write，限定本仓库） | 触发 repository_dispatch |
 | `RESEND_API_KEY` | Resend API Key（`re_` 开头） | 站点留言弹窗发信（免费 100 封/天、3000 封/月） |
+| `TURNSTILE_SECRET` | Turnstile 服务端密钥（`0x4AAAAAAF...`） | 留言人机验证服务端复核（只放 Secrets，不入库） |
 
 可选 Vars（留言发件/收件）：
 
 | 变量名 | 值 | 说明 |
 |---|---|---|
-| `CONTACT_FROM` | `iKMS 留言 <noreply@ikms.eu.org>` | 发件人显示；需先在 Resend 验证 ikms.eu.org 域名 |
-| `CONTACT_TO` | `admin@ikms.eu.org` | 收件地址（默认即此） |
+| `CONTACT_FROM` | `iKMS 留言 <noreply@subit.us.mw>` | 发件人（默认即此，subit.us.mw 已在 Resend 验证） |
+| `CONTACT_TO` | `admin@ikms.eu.org` | 收件地址（默认即此，经 CF 邮件路由转发） |
 
-> **Resend 配置**：resend.com 注册 → API Keys 创建（`re_` 开头）→ Domains 添加
-> `ikms.eu.org` 并按提示在 Cloudflare DNS 加 SPF/DKIM 记录。未验证域名前，
-> `CONTACT_FROM` 用默认的 `onboarding@resend.dev` 只能发给你注册 Resend 用的邮箱；
-> 验证域名后即可发给任意地址。留言的 `reply_to` 自动设为留言者的邮箱，直接回复即可回信。
+> **Resend 配置**：resend.com 注册 → API Keys 创建（`re_` 开头）→ Domains 添加发信域名并按提示配置
+> SPF/DKIM 记录。注意：`.eu.org` 免费域名 Resend 不支持添加（无法通过域名校验），所以发信域名用的是
+> `subit.us.mw`；收件地址 `admin@ikms.eu.org` 走 Cloudflare 邮件路由，不受影响。留言的
+> `reply_to` 自动设为留言者的邮箱，直接回复即可回信。
+>
+> **Turnstile 配置**：弹窗前端使用站点密钥（已写入 `assets/main.js`），服务端复核密钥只放本
+> Secret，绝不入库、绝不进前端。若站点密钥配置了主机名白名单，需包含 `ikms.eu.org` 与
+> `www.ikms.eu.org`。
 
 ### 5. 配置 Vars
 

@@ -202,6 +202,7 @@
       '</div>' +
       '<div class="cm-field"><label>留言 <span>必填</span></label><textarea id="cm-msg" maxlength="5000" placeholder="写点什么…"></textarea><span class="cm-count">0 / 5000</span></div>' +
       '<input id="cm-website" class="cm-hp" tabindex="-1" autocomplete="off" aria-hidden="true">' +
+      '<div class="cm-turnstile"><div id="cm-ts"></div><span class="cm-ts-hint" hidden>人机验证加载失败，可改用「打开邮件应用」直接联系</span></div>' +
       '<button type="button" class="cm-send" id="cm-send"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>发送留言</button>' +
       '<p class="cm-note">提交即表示同意我们仅为回复此留言而使用你填写的邮箱，内容不会公开展示。</p>' +
       '</div>' +
@@ -219,9 +220,38 @@
       '</div>';
     doc.body.appendChild(overlay);
 
+    /* Turnstile：弹窗首次打开时懒加载脚本并渲染（站点密钥公开可入库） */
+    var TURNSTILE_SITE = '0x4AAAAAAF0gJ7CCSk4QFOeM';
+    var tsWidget = null, tsToken = '', tsLoaded = false;
+    function ensureTurnstile() {
+      if (tsLoaded) return;
+      tsLoaded = true;
+      var hint = overlay.querySelector('.cm-ts-hint');
+      function render() {
+        try {
+          tsWidget = window.turnstile.render('#cm-ts', {
+            sitekey: TURNSTILE_SITE,
+            theme: doc.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark',
+            callback: function (t) { tsToken = t; },
+            'expired-callback': function () { tsToken = ''; },
+            'error-callback': function () { if (hint) hint.hidden = false; },
+          });
+        } catch (e) { if (hint) hint.hidden = false; }
+      }
+      if (window.turnstile) { render(); return; }
+      var s = doc.createElement('script');
+      s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+      s.async = true;
+      s.onload = render;
+      s.onerror = function () { if (hint) hint.hidden = false; };
+      doc.head.appendChild(s);
+      setTimeout(function () { if (!window.turnstile && hint) hint.hidden = false; }, 8000);
+    }
+
     function open() {
       overlay.classList.add('open');
       doc.body.style.overflow = 'hidden';
+      ensureTurnstile();
       setTimeout(function () { var el = overlay.querySelector('#cm-name'); if (el) el.focus(); }, 80);
     }
     function close() {
@@ -286,20 +316,28 @@
       var message = ta ? ta.value : '';
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) { alert('请填写有效的邮箱地址'); return; }
       if (!message.trim()) { alert('请填写留言内容'); return; }
+      if (!tsToken) {
+        if (!window.turnstile) { show('cm-fallback'); }
+        else { alert('请先完成人机验证'); }
+        return;
+      }
       sendBtn.disabled = true;
       sendBtn.classList.add('sending');
       fetch(CONTACT_API, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: name.trim(), email: email.trim(), message: message, website: hp }),
+        body: JSON.stringify({ name: name.trim(), email: email.trim(), message: message, website: hp, turnstile: tsToken }),
       }).then(function (r) { return r.json().catch(function () { throw 0; }); }).then(function (j) {
         if (j && j.ok) { show('cm-success'); }
+        else if (j && j.msg && /验证/.test(j.msg)) { alert(j.msg); }
         else { show('cm-fallback'); }
       }).catch(function () {
         show('cm-fallback');
       }).finally(function () {
         sendBtn.disabled = false;
         sendBtn.classList.remove('sending');
+        tsToken = '';
+        if (tsWidget !== null && window.turnstile) { try { window.turnstile.reset(tsWidget); } catch (e) {} }
       });
     });
   }

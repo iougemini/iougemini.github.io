@@ -1608,3 +1608,9 @@ html[data-theme="light"] .icon-moon { display: none; }
   .contact-modal { padding: 22px 18px 18px; }
   .contact-fab { right: 16px; bottom: 66px; }
 }
+
+/* 留言弹窗 Turnstile 人机验证 */
+.cm-turnstile { margin: 2px 0 14px; }
+.cm-turnstile > div { display: flex; justify-content: center; min-height: 65px; }
+.cm-turnstile iframe { max-width: 100%; }
+.cm-ts-hint { display: block; margin-top: 6px; text-align: center; font-size: 0.75rem; color: var(--warn); }
