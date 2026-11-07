@@ -2,6 +2,9 @@
   "name": "ikms-private-submit",
   "private": true,
   "type": "module",
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "scripts": {
     "test": "node test/smoke.mjs",
     "dev": "wrangler dev",
