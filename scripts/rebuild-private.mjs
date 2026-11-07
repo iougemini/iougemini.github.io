@@ -39,9 +39,9 @@ for (let i = 0; i < pub.length && i < oldCands.length; i++) {
     pub[i].host = oldCands[i].host;
     pub[i].port = oldCands[i].port || 1688;
     restored++;
-    console.log(`[rebuild] ${pub[i].key} ← ${oldCands[i].host}`);
+    console.log(`[rebuild] ${pub[i].key} ← 历史明文（地址不写入日志）`);
   } else {
-    console.log(`[rebuild] ${pub[i].key} 已有地址（${pub[i].host}），跳过`);
+    console.log(`[rebuild] ${pub[i].key} 已有地址，跳过（地址不写入日志）`);
   }
 }
 

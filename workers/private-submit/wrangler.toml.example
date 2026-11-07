@@ -1,8 +1,10 @@
 name = "private-submit"
 main = "worker.js"
-compatibility_date = "2024-09-01"
+compatibility_date = "2026-11-01"
 
-# KV namespace 绑定（Cloudflare 面板或 wrangler kv:namespace create KMS_SUBMISSIONS 创建后填入 id）
+# KV namespace 绑定（先执行：
+#   npx wrangler kv namespace create KMS_SUBMISSIONS
+# 然后把输出里的 id 填到下面）
 [[kv_namespaces]]
 binding = "KMS_SUBMISSIONS"
 id = "<YOUR_KV_NAMESPACE_ID>"
@@ -10,10 +12,17 @@ id = "<YOUR_KV_NAMESPACE_ID>"
 # 变量
 [vars]
 GITHUB_REPOSITORY = "iougemini/iougemini.github.io"
+TURNSTILE_SITE_KEY = "0x4AAAAAAF0gJ7CCSk4QFOeM"
 
 # Secrets（用 wrangler secret put 或面板设置）：
-# ADMIN_KEY  = 管理员审核密钥
-# GH_TOKEN   = Fine-grained PAT (Contents: Read and write)
-#
-# 自定义域名（面板添加或 route 配置）：
+# ADMIN_KEY       管理员审核密钥（≥16 位随机串）
+# GH_TOKEN        Fine-grained PAT (Contents: Read and write)
+# RESEND_API_KEY  Resend API Key（留言发信，可选）
+# TURNSTILE_SECRET Turnstile 服务端密钥（必填）
+
+# 可观测性（Workers Logs，便于排障；不会把日志导出到外部）
+[observability]
+enabled = true
+
+# 自定义域名（面板添加，或用下面的 routes 配置）
 # routes = [{ pattern = "submit.ikms.eu.org", custom_domain = true }]

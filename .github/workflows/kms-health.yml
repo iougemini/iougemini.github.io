@@ -68,7 +68,10 @@ jobs:
           if [[ -n "$(git status --porcelain data)" ]]; then
             git add data
             git commit -m "chore(kms): 巡检更新线路状态"
-            git push
+            for i in 1 2 3; do
+              git push && break
+              git pull --rebase origin main || (git rebase --abort; sleep 5)
+            done
           else
             echo "本次巡检无状态变化，跳过提交"
           fi

@@ -1,0 +1,13 @@
+{
+  "name": "ikms-private-submit",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node test/smoke.mjs",
+    "dev": "wrangler dev",
+    "dry-run": "wrangler deploy --dry-run --outdir dist"
+  },
+  "devDependencies": {
+    "wrangler": "4.158.0"
+  }
+}

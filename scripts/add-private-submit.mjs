@@ -7,7 +7,7 @@ import { loadData, saveData, normalizeHost, nextCandidateKey } from './kms-lib.m
 const p = JSON.parse(process.env.PAYLOAD || '{}');
 const norm = normalizeHost(p.host);
 if (!norm) {
-  console.error('[private] 无效的服务器地址:', p.host);
+  console.error('[private] 收到无效的服务器地址，已拒绝（地址不写入日志）');
   process.exit(1);
 }
 
@@ -17,7 +17,7 @@ const data = loadData();
 const dup = [...data.lines, ...data.candidates].some(e =>
   e.host === host && (e.port || 1688) === port);
 if (dup) {
-  console.log('[private] 重复投稿:', host + ':' + port, '跳过');
+  console.log('[private] 重复投稿，跳过（地址不写入日志）');
   process.exit(0);
 }
 
@@ -35,4 +35,5 @@ data.candidates.push({
 });
 
 saveData(data);
-console.log(`[private] 已收录: ${host}:${port} (trusted, source: ${p.source || 'private'})`);
+/* 日志会随公开仓库的 Actions 公开展示，禁止打印 host:port 与来源 IP */
+console.log(`[private] 已收录 1 条 trusted 候选（地址仅存加密候选池，不写入日志）`);

@@ -1,0 +1,44 @@
+name: KMS 投稿 Worker 校验
+
+on:
+  push:
+    paths:
+      - "workers/private-submit/**"
+      - ".github/workflows/kms-worker-ci.yml"
+  pull_request:
+    paths:
+      - "workers/private-submit/**"
+      - ".github/workflows/kms-worker-ci.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: workers/private-submit
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: 安装依赖（固定 wrangler 版本）
+        run: npm install --no-audit --no-fund
+
+      - name: 语法检查
+        run: node --check worker.js && node --check test/smoke.mjs
+
+      - name: 冒烟测试
+        run: npm test
+
+      - name: wrangler 配置与打包 dry-run
+        run: |
+          cp wrangler.toml.example wrangler.toml
+          sed -i 's/<YOUR_KV_NAMESPACE_ID>/00000000000000000000000000000000/' wrangler.toml
+          npx wrangler deploy --dry-run --outdir dist

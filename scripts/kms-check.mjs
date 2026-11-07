@@ -123,7 +123,7 @@ for (const line of data.lines) {
         from: best.source || 'candidate',
       });
       data.swaps = data.swaps.slice(0, 30);
-      console.log(`[swap] ${line.id}: ${line.host} (连续失效 ${line.consecutive_fail} 次) → CNAME 候选池服务器 ${best.key || '(新收录)'} (${best.source || 'candidate'}）`);
+      console.log(`[swap] ${line.id}: ${line.host} (连续失效 ${line.consecutive_fail} 次) → CNAME 候选池服务器 ${best.key || '(新收录)'}`);
       line.cname_target = best.host;                     // 由 update-dns.mjs 写入 CNAME 记录
       line.state = 'ok';
       line.source = best.source || 'cname';              // 线路当前由该投稿来源支撑

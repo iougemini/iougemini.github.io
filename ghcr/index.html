@@ -1,116 +1,959 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-theme="dark">
 <head>
-<link rel="shortcut icon" href="https://gcore.jsdelivr.net/gh/love2wind/love2wind.github.io/gh-proxy/fav.png">
+<script>/* 主题预设：必须在首次渲染前执行，避免深色主题闪现 */(function(){function gt(){try{var t=localStorage.getItem('ikms-theme');if(t==='dark'||t==='light')return t}catch(e){}try{var m=document.cookie.match(/(?:^|; )ikms-theme=(dark|light)/);if(m)return m[1]}catch(e){}return 'dark'}document.documentElement.setAttribute('data-theme',gt())})();</script>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DockerHub 镜像加速</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="GHCR.IO 镜像加速 — 通过 ghcr.everyhub.top 免费加速 ghcr.io（GitHub Container Registry）镜像拉取，替换域名即可使用，Cloudflare CDN 加持。">
+<title>GHCR.IO 镜像加速</title>
+<link rel="shortcut icon" href="https://gcore.jsdelivr.net/gh/love2wind/love2wind.github.io/gh-proxy/fav.png">
 <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            line-height: 1.2;
-            color: #000;
-            margin: 0;
-            padding: 30px;
-        }
-        .container {
-            max-width: 1320px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        h1 {
-            font-size: 2em;
-            margin-bottom: 0.5em;
-            color: #9d0e06;
-            font-weight: 900;
-        }
-        p {
-            margin-bottom: 1.5em;
-        }
-        pre {
-            background: #2d2d2d;
-            color: #f8f8f2;
-            padding: 30px 20px 20px;
-            border-radius: 5px;
-            overflow-x: auto;
-            position: relative;
-        }
-        pre::before {
-            content: " ";
-            display: block;
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            width: 12px;
-            height: 12px;
-            background: #ff5f56;
-            border-radius: 50%;
-            box-shadow: 20px 0 0 #ffbd2e, 40px 0 0 #27c93f;
-        }
-        code {
-            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
-            font-size: 0.875em;
-        }
-        .copy-button {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: #007aff;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-        pre:hover .copy-button {
-            opacity: 1;
-        }
-        .custom-button {
-            display: inline-block;
-            padding: 0 5px;
-            color: #919ca7;
-            text-align: center;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 900;
-            cursor: pointer;
-        }
-        .custom-button:hover {
-            background-color: #7c858e;
-            color: #ffffff;
-        }        
-    </style>
+/* ============================================================
+   iKMS 镜像加速子页 — 自包含设计系统（源自 /assets/style.css）
+   深色默认 · data-theme="light" 切换 · 偏好存于 ikms-theme
+   ============================================================ */
+
+/* ---------- Tokens ---------- */
+:root {
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "PingFang SC",
+    "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+  --font-mono: ui-monospace, "Cascadia Code", "SF Mono", "JetBrains Mono",
+    Consolas, Menlo, monospace;
+
+  --bg: #0b1120;
+  --bg-soft: #0e1628;
+  --bg-card: rgba(255, 255, 255, 0.035);
+  --bg-card-hover: rgba(255, 255, 255, 0.06);
+  --bg-code: #0a0f1d;
+  --bg-inset: rgba(255, 255, 255, 0.05);
+  --border: rgba(148, 163, 190, 0.16);
+  --border-strong: rgba(148, 163, 190, 0.3);
+  --text: #e7ecf6;
+  --text-2: #a3adc4;
+  --text-3: #6e7a94;
+
+  --brand-1: #fb923c;
+  --brand-2: #fb7185;
+  --accent: #2dd4bf;
+  --blue: #60a5fa;
+  --ok: #34d399;
+  --warn: #fbbf24;
+  --danger: #f87171;
+
+  --grad-brand: linear-gradient(135deg, #fdba74 0%, #fb7185 55%, #f43f5e 100%);
+  --grad-accent: linear-gradient(135deg, #2dd4bf, #60a5fa);
+
+  --shadow-sm: 0 1px 2px rgba(2, 6, 17, 0.5);
+  --shadow-md: 0 8px 24px -8px rgba(2, 6, 17, 0.55);
+  --shadow-lg: 0 24px 60px -16px rgba(2, 6, 17, 0.7);
+  --glow-brand: 0 0 40px -8px rgba(251, 113, 133, 0.35);
+  --glow-accent: 0 0 40px -10px rgba(45, 212, 191, 0.3);
+
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-lg: 18px;
+  --r-xl: 24px;
+
+  --nav-h: 64px;
+  --wrap: 1120px;
+
+  color-scheme: dark;
+}
+
+[data-theme="light"] {
+  --bg: #f5f7fb;
+  --bg-soft: #ffffff;
+  --bg-card: #ffffff;
+  --bg-card-hover: #ffffff;
+  --bg-code: #0e1628;
+  --bg-inset: #eef2f9;
+  --border: rgba(15, 34, 68, 0.1);
+  --border-strong: rgba(15, 34, 68, 0.2);
+  --text: #16203a;
+  --text-2: #46536e;
+  --text-3: #7c8aa5;
+
+  --shadow-sm: 0 1px 2px rgba(23, 43, 84, 0.06);
+  --shadow-md: 0 10px 28px -10px rgba(23, 43, 84, 0.14);
+  --shadow-lg: 0 24px 60px -20px rgba(23, 43, 84, 0.22);
+  --glow-brand: 0 12px 40px -12px rgba(251, 113, 133, 0.45);
+  --glow-accent: 0 12px 40px -14px rgba(45, 212, 191, 0.4);
+
+  color-scheme: light;
+}
+
+/* ---------- Reset / base ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.75;
+  color: var(--text);
+  background: var(--bg);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  -webkit-font-smoothing: antialiased;
+  transition: background 0.35s ease, color 0.35s ease;
+}
+
+img { max-width: 100%; height: auto; }
+
+a {
+  color: var(--blue);
+  text-decoration: none;
+  transition: color 0.15s ease, opacity 0.15s ease;
+}
+a:hover { color: var(--accent); }
+
+::selection { background: rgba(251, 113, 133, 0.35); }
+
+* { scrollbar-width: thin; scrollbar-color: var(--border-strong) transparent; }
+*::-webkit-scrollbar { width: 8px; height: 8px; }
+*::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 8px; }
+*::-webkit-scrollbar-track { background: transparent; }
+
+.wrap {
+  width: min(var(--wrap), 100% - 48px);
+  margin-inline: auto;
+}
+@media (max-width: 640px) {
+  .wrap { width: calc(100% - 36px); }
+}
+
+/* ---------- Ambient background ---------- */
+.ambient {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+.ambient::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(148, 163, 190, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(148, 163, 190, 0.05) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(ellipse 90% 60% at 50% 0%, #000 30%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse 90% 60% at 50% 0%, #000 30%, transparent 75%);
+}
+.ambient::after {
+  content: "";
+  position: absolute;
+  width: 720px; height: 720px;
+  border-radius: 50%;
+  top: -320px; left: 50%;
+  transform: translateX(-50%);
+  background:
+    radial-gradient(closest-side, rgba(251, 113, 133, 0.16), transparent 70%),
+    radial-gradient(closest-side at 70% 60%, rgba(45, 212, 191, 0.12), transparent 70%),
+    radial-gradient(closest-side at 30% 55%, rgba(96, 165, 250, 0.14), transparent 70%);
+  filter: blur(10px);
+}
+[data-theme="light"] .ambient::before {
+  background-image:
+    linear-gradient(rgba(15, 34, 68, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(15, 34, 68, 0.045) 1px, transparent 1px);
+}
+[data-theme="light"] .ambient::after { opacity: 0.55; }
+
+/* ---------- Navbar ---------- */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  height: var(--nav-h);
+  backdrop-filter: blur(16px) saturate(1.4);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+  background: color-mix(in srgb, var(--bg) 72%, transparent);
+  border-bottom: 1px solid var(--border);
+}
+.nav .wrap {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  font-size: 1.12rem;
+  color: var(--text);
+  letter-spacing: 0.2px;
+  flex-shrink: 0;
+}
+.brand:hover { color: var(--text); }
+.brand img {
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px var(--border), 0 4px 14px -4px rgba(251, 113, 133, 0.5);
+}
+.brand .tld { color: var(--text-3); font-weight: 500; font-size: 0.85em; }
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  margin-left: auto;
+}
+.nav-links a {
+  padding: 7px 13px;
+  border-radius: 999px;
+  color: var(--text-2);
+  font-size: 0.94rem;
+  white-space: nowrap;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+.nav-links a:hover { color: var(--text); background: var(--bg-card-hover); }
+
+.nav-actions { display: flex; align-items: center; gap: 8px; }
+
+.icon-btn {
+  display: grid;
+  place-items: center;
+  width: 38px; height: 38px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--bg-card);
+  color: var(--text-2);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.icon-btn:hover {
+  color: var(--text);
+  border-color: var(--border-strong);
+  transform: translateY(-1px);
+}
+.icon-btn svg { width: 18px; height: 18px; }
+html[data-theme="dark"] .icon-sun { display: none; }
+html[data-theme="light"] .icon-moon { display: none; }
+
+.nav-burger { display: none; }
+
+@media (max-width: 860px) {
+  .nav-links {
+    position: fixed;
+    top: calc(var(--nav-h) + 1px);
+    left: 0; right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 4px;
+    padding: 12px 16px 16px;
+    background: color-mix(in srgb, var(--bg) 92%, transparent);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    box-shadow: var(--shadow-lg);
+    display: none;
+  }
+  .nav-links.open { display: flex; }
+  .nav-links a { padding: 12px 14px; border-radius: 12px; font-size: 1rem; }
+  .nav-burger { display: grid; }
+}
+
+/* ---------- Page / hero ---------- */
+.page {
+  flex: 1;
+  padding: 0 0 72px;
+}
+
+.hero {
+  padding: 60px 0 16px;
+  text-align: center;
+  position: relative;
+}
+@media (max-width: 640px) { .hero { padding: 40px 0 8px; } }
+
+/* 子页专属：服务图标徽标 */
+.hero-logo {
+  display: grid;
+  place-items: center;
+  width: 116px; height: 116px;
+  margin: 0 auto 26px;
+  border-radius: 28px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-lg), var(--glow-accent);
+  animation: float 6s ease-in-out infinite;
+}
+.hero-logo img { max-width: 82px; max-height: 82px; width: auto; height: auto; }
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-2);
+  font-size: 0.86rem;
+  margin-bottom: 22px;
+}
+.hero-badge .dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--ok);
+  box-shadow: 0 0 0 3px rgba(52, 211, 153, 0.18);
+  animation: pulse 2.2s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 3px rgba(52, 211, 153, 0.18); }
+  50% { box-shadow: 0 0 0 6px rgba(52, 211, 153, 0.06); }
+}
+
+.hero h1 {
+  margin: 0 0 16px;
+  font-size: clamp(2rem, 5.4vw, 3.2rem);
+  font-weight: 800;
+  line-height: 1.18;
+  letter-spacing: -0.02em;
+}
+.hero h1 .grad {
+  background: var(--grad-brand);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.hero .lede {
+  margin: 0 auto 18px;
+  max-width: 780px;
+  color: var(--text-2);
+  font-size: clamp(1rem, 2vw, 1.12rem);
+}
+.hero .lede strong { color: var(--text); font-weight: 600; }
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 30px;
+}
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 15px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-2);
+  font-size: 0.88rem;
+  transition: all 0.15s ease;
+}
+.chip:hover { border-color: var(--border-strong); color: var(--text); transform: translateY(-1px); }
+.chip svg { width: 15px; height: 15px; color: var(--accent); }
+
+/* ---------- Sections / panels ---------- */
+.section { margin-top: 60px; }
+.section-head { text-align: center; margin-bottom: 26px; }
+.section-head h2 {
+  margin: 0 0 8px;
+  font-size: clamp(1.35rem, 3vw, 1.8rem);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+.section-head p { margin: 0; color: var(--text-2); font-size: 0.98rem; }
+
+.duo {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+@media (max-width: 760px) { .duo { grid-template-columns: 1fr; } }
+
+.panel {
+  padding: 26px;
+  border-radius: var(--r-lg);
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+}
+/* 加速命令面板：青色高亮 */
+.panel-accent {
+  border-color: rgba(45, 212, 191, 0.38);
+  background: linear-gradient(160deg, rgba(45, 212, 191, 0.08), transparent 55%), var(--bg-card);
+  box-shadow: var(--glow-accent);
+}
+.panel-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.panel-head .icon {
+  display: grid;
+  place-items: center;
+  width: 40px; height: 40px;
+  border-radius: 12px;
+  background: var(--bg-inset);
+  border: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.panel-head h3 { margin: 0; font-size: 1.08rem; font-weight: 700; }
+.panel-head .tag {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--accent);
+  background: rgba(45, 212, 191, 0.1);
+  border: 1px solid rgba(45, 212, 191, 0.25);
+  padding: 2px 8px;
+  border-radius: 999px;
+  margin-left: auto;
+  white-space: nowrap;
+}
+
+/* ---------- Command blocks ---------- */
+.cmd {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 14px 0 0;
+  padding: 13px 14px;
+  border-radius: var(--r-md);
+  background: var(--bg-code);
+  border: 1px solid var(--border-strong);
+  box-shadow: var(--shadow-sm);
+  overflow-x: auto;
+}
+.panel .cmd:last-child { margin-bottom: 0; }
+.cmd .ps1 { color: var(--accent); font-family: var(--font-mono); font-size: 0.92rem; user-select: none; flex-shrink: 0; }
+.cmd code {
+  font-family: var(--font-mono);
+  font-size: 0.92rem;
+  color: #e8eefb;
+  white-space: nowrap;
+}
+.cmd.multi { align-items: flex-start; }
+.cmd.multi code { white-space: pre; line-height: 1.75; }
+.cmd .copy-btn { margin-left: auto; padding: 7px 13px; font-size: 0.83rem; }
+
+/* ---------- Copy button ---------- */
+.copy-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 16px;
+  border: 1px solid var(--border-strong);
+  border-radius: 11px;
+  background: var(--bg-inset);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: all 0.18s ease;
+}
+.copy-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  box-shadow: var(--glow-accent);
+  transform: translateY(-1px);
+}
+.copy-btn.copied {
+  border-color: var(--ok);
+  color: var(--ok);
+  background: rgba(52, 211, 153, 0.1);
+}
+.copy-btn svg { width: 15px; height: 15px; }
+/* 命令块常驻深色表面：两种主题下保持深色配色 */
+.cmd .copy-btn {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(255, 255, 255, 0.16);
+  color: #e8eefb;
+}
+.cmd .copy-btn:hover { color: var(--accent); }
+
+/* ---------- Cross-link card ---------- */
+.card {
+  position: relative;
+  display: block;
+  padding: 24px;
+  border-radius: var(--r-lg);
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text);
+  overflow: hidden;
+  transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+.card:hover {
+  transform: translateY(-4px);
+  border-color: var(--border-strong);
+  background: var(--bg-card-hover);
+  box-shadow: var(--shadow-md);
+  color: var(--text);
+}
+.card .icon {
+  display: grid;
+  place-items: center;
+  width: 44px; height: 44px;
+  border-radius: 13px;
+  margin-bottom: 16px;
+  background: var(--bg-inset);
+  border: 1px solid var(--border);
+  transition: all 0.2s ease;
+}
+.card .icon svg { width: 21px; height: 21px; color: var(--accent); }
+.card:hover .icon { background: rgba(45, 212, 191, 0.12); border-color: rgba(45, 212, 191, 0.3); }
+.card h3 { margin: 0 0 6px; font-size: 1.06rem; font-weight: 700; }
+.card p { margin: 0; color: var(--text-2); font-size: 0.9rem; line-height: 1.65; }
+.card .go {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 14px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--accent);
+}
+.card .go svg { width: 14px; height: 14px; transition: transform 0.2s ease; }
+.card:hover .go svg { transform: translateX(3px); }
+
+/* 横排跨服务卡片 */
+.cross-card { display: flex; align-items: center; gap: 20px; padding: 26px 28px; }
+.cross-card > .icon { margin-bottom: 0; flex-shrink: 0; width: 54px; height: 54px; border-radius: 16px; }
+.cross-card > .icon svg { width: 24px; height: 24px; }
+.cross-card .cc-body { flex: 1; min-width: 0; }
+.cross-card h3 { margin: 0 0 4px; }
+.cross-card .go { margin-top: 0; }
+@media (max-width: 640px) {
+  .cross-card { flex-wrap: wrap; }
+  .cross-card .go { margin-left: auto; }
+}
+
+/* ---------- Callout ---------- */
+.callout {
+  display: flex;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: var(--r-md);
+  border: 1px solid rgba(96, 165, 250, 0.3);
+  background: rgba(96, 165, 250, 0.07);
+  font-size: 0.93rem;
+  color: var(--text-2);
+}
+.callout svg { width: 18px; height: 18px; color: var(--blue); flex-shrink: 0; margin-top: 3px; }
+.callout p { margin: 0; }
+.callout a { font-weight: 600; }
+
+/* ---------- Footer ---------- */
+.footer {
+  border-top: 1px solid var(--border);
+  padding: 34px 0 42px;
+  margin-top: 48px;
+}
+.footer .wrap {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+.footer .f-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-2);
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+.footer .f-brand img { width: 26px; height: 26px; border-radius: 50%; }
+.footer .f-links { display: flex; flex-wrap: wrap; gap: 4px 18px; font-size: 0.88rem; }
+.footer .f-links a { color: var(--text-2); }
+.footer .f-links a:hover { color: var(--accent); }
+.footer .f-note {
+  width: 100%;
+  margin-top: 6px;
+  font-size: 0.8rem;
+  color: var(--text-3);
+  line-height: 1.7;
+  text-align: center;
+}
+
+/* ---------- Toast / back to top ---------- */
+.toast {
+  position: fixed;
+  left: 50%; bottom: 28px;
+  transform: translate(-50%, 16px);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: var(--bg-soft);
+  border: 1px solid var(--border-strong);
+  box-shadow: var(--shadow-lg);
+  color: var(--text);
+  font-size: 0.88rem;
+  font-weight: 600;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.25s ease;
+}
+.toast.show { opacity: 1; visibility: visible; transform: translate(-50%, 0); }
+.toast svg { width: 15px; height: 15px; color: var(--ok); }
+
+.to-top {
+  position: fixed;
+  right: 22px; bottom: 22px;
+  z-index: 40;
+  display: grid;
+  place-items: center;
+  width: 42px; height: 42px;
+  border-radius: 13px;
+  border: 1px solid var(--border-strong);
+  background: color-mix(in srgb, var(--bg-soft) 85%, transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: var(--text-2);
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px);
+  transition: all 0.25s ease;
+  box-shadow: var(--shadow-md);
+}
+.to-top.show { opacity: 1; visibility: visible; transform: translateY(0); }
+.to-top:hover { color: var(--accent); border-color: var(--accent); }
+.to-top svg { width: 17px; height: 17px; }
+
+/* ---------- Reveal animation ---------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+.reveal.in { opacity: 1; transform: none; }
+.reveal-d1 { transition-delay: 0.06s; }
+.reveal-d2 { transition-delay: 0.12s; }
+
+/* 移动端：命令行换行 — 按钮独立一行，命令在行内横向滚动 */
+@media (max-width: 640px) {
+  .panel-head { flex-wrap: wrap; row-gap: 6px; }
+  .panel-head h3 { flex: 1 1 auto; min-width: 0; }
+  .panel-head .tag { order: 3; flex-basis: calc(100% - 64px); margin-left: 52px; }
+  .cmd { flex-wrap: wrap; }
+  .cmd code {
+    order: 3;
+    flex-basis: 100%;
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
+  .cmd .copy-btn { order: 2; margin-left: auto; }
+  .cmd .ps1 { align-self: center; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .reveal { opacity: 1; transform: none; }
+}
+</style>
 </head>
 <body>
-<div class="container">
-<center><img src="https://gcore.jsdelivr.net/gh/love2wind/love2wind.github.io/gh-proxy/fav.png" width="500em" style="margin-top: -25px;"><br><h1>GHCR.IO 镜像加速</h1></center>
-<div style="max-width: 1080px;margin: auto;">
-<center><p style="color:blue">仅CN IP可以使用</p></center>
-<h3>使用 docker hub proxy</h3>
-<h4 style="font-weight: 400;">将原拉取镜像命令：</h4>
-<pre><code>docker pull ghcr.io/helloworld/helloworld</code><button class="copy-button" onclick="copyCode(this)">复制代码</button></pre>
-<h4 style="font-weight: 400;">替换为下面的加速拉取镜像命令：</h4>
-<pre><code>docker pull ghcr.everyhub.top/helloworld/helloworld</code><button class="copy-button" onclick="copyCode(this)">复制代码</button></pre>
-</div>
-<center style="margin-top: 2rem;"><p style="color: #2a7903;font-size: 14px;font-weight: 500;">本站使用Cloudflare CDN进行加速，想要获得更好的速度，可以使用<a href="https://github.com/XIU2/CloudflareSpeedTest" class="" style="text-decoration: none; color: #2a7903; font-weight: 900;">优选IP</a>。</p><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" class="custom-button">COPYRIGHT BY-NC-SA 4.0</a> | <a href="https://ikms.eu.org" class="custom-button">KMS ACTIVATION</a> | <a href="https://docker.everyhub.top" class="custom-button">DOCKER HUB PROXY</a> | <a href="https://git.everyhub.top" class="custom-button">GITHUB PROXY</a> | <a href="https://pixiv.everyhub.top" class="custom-button">PIXIV IMAGES PROXY</a> | <a href="https://linux.do/t/topic/107726" class="custom-button">SOURCE CODE</a> | <a href="https://cloudflare.com" class="custom-button">POWERED CLOUDFLARE</a></center>
 
-</div>
+<div class="ambient" aria-hidden="true"></div>
+
+<nav class="nav">
+  <div class="wrap">
+    <a class="brand" href="https://ikms.eu.org">
+      <img src="https://ikms.eu.org/img/ikmslogo.png" alt="iKMS logo">
+      <span>iKMS<span class="tld">.eu.org</span></span>
+    </a>
+    <div class="nav-links">
+      <a href="https://ikms.eu.org/">首页</a>
+      <a href="https://ikms.eu.org/kms.html">详细教程</a>
+      <a href="https://ikms.eu.org/more.html">备用线路</a>
+      <a href="https://ikms.eu.org/android.html">自建线路</a>
+      <a href="https://ikms.eu.org/status.html">服务状态</a>
+      <a href="https://ikms.eu.org/img.html">激活演示</a>
+    </div>
+    <div class="nav-actions">
+      <button class="icon-btn theme-toggle" aria-label="切换深浅色主题">
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+      </button>
+      <button class="icon-btn nav-burger" aria-label="打开菜单" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<main class="page">
+
+  <header class="hero wrap">
+    <div class="hero-logo"><img src="https://gcore.jsdelivr.net/gh/love2wind/love2wind.github.io/gh-proxy/fav.png" alt="GHCR.IO 镜像加速"></div>
+    <div class="hero-badge"><span class="dot"></span>仅 CN IP 可用 · Cloudflare CDN 加速</div>
+    <h1>GHCR.IO <span class="grad">镜像加速</span></h1>
+    <p class="lede">GitHub Container Registry（ghcr.io）镜像拉取加速：将镜像地址中的 <strong>ghcr.io</strong> 替换为 <strong>ghcr.everyhub.top</strong> 即可，无需登录、无需任何配置。</p>
+
+    <div class="chips reveal">
+      <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg>Cloudflare CDN 加速</span>
+      <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>仅限中国大陆 IP</span>
+      <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>ghcr.io 全量镜像</span>
+      <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>无需注册 · 纯公益</span>
+    </div>
+  </header>
+
+  <section class="section wrap">
+    <div class="section-head reveal">
+      <h2>加速拉取镜像</h2>
+      <p>将原拉取镜像命令替换为下面的加速拉取镜像命令</p>
+    </div>
+    <div class="duo">
+      <div class="panel reveal">
+        <div class="panel-head">
+          <div class="icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#fb923c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div>
+          <h3>将原拉取镜像命令</h3>
+          <span class="tag">ghcr.io</span>
+        </div>
+        <div class="cmd">
+          <span class="ps1">$</span>
+          <code>docker pull ghcr.io/helloworld/helloworld</code>
+          <button class="copy-btn" data-copy="docker pull ghcr.io/helloworld/helloworld">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            <span class="copy-label">复制</span>
+          </button>
+        </div>
+      </div>
+      <div class="panel panel-accent reveal reveal-d1">
+        <div class="panel-head">
+          <div class="icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#2dd4bf" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+          <h3>替换为加速拉取镜像命令</h3>
+          <span class="tag">加速生效</span>
+        </div>
+        <div class="cmd">
+          <span class="ps1">$</span>
+          <code>docker pull ghcr.everyhub.top/helloworld/helloworld</code>
+          <button class="copy-btn" data-copy="docker pull ghcr.everyhub.top/helloworld/helloworld">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            <span class="copy-label">复制</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <a class="card cross-card reveal" href="https://ikms.eu.org/docker/" target="_blank" rel="noopener noreferrer">
+      <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"/><rect x="2" y="14" width="20" height="8" rx="2" ry="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg></div>
+      <div class="cc-body">
+        <h3>DockerHub 加速在这里</h3>
+        <p>Docker Hub 镜像加速同样可用，支持 Registry Mirror 全局加速与单次 Proxy 拉取。</p>
+      </div>
+      <span class="go">前往 DockerHub 加速 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+    </a>
+  </section>
+
+  <section class="section wrap">
+    <div class="callout reveal">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
+      <p>本站使用 Cloudflare CDN 进行加速，想要获得更好的速度，可以使用 <a href="https://github.com/XIU2/CloudflareSpeedTest" target="_blank" rel="noopener noreferrer">优选IP</a>。</p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="f-brand"><img src="https://ikms.eu.org/img/ikmslogo.png" alt="iKMS">iKMS · 镜像加速</div>
+    <div class="f-links">
+      <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer">COPYRIGHT BY-NC-SA 4.0</a>
+      <a href="https://ikms.eu.org">KMS ACTIVATION</a>
+      <a href="https://docker.everyhub.top" target="_blank" rel="noopener noreferrer">DOCKER HUB PROXY</a>
+      <a href="https://git.everyhub.top" target="_blank" rel="noopener noreferrer">GITHUB PROXY</a>
+      <a href="https://pixiv.everyhub.top" target="_blank" rel="noopener noreferrer">PIXIV IMAGES PROXY</a>
+      <a href="https://linux.do/t/topic/107726" target="_blank" rel="noopener noreferrer">SOURCE CODE</a>
+      <a href="https://cloudflare.com" target="_blank" rel="noopener noreferrer">POWERED CLOUDFLARE</a>
+    </div>
+    <div class="f-note">DockerHub / GHCR.IO 镜像加速 · 基于 Cloudflare CDN 构建 · 本站永久地址：https://ikms.eu.org</div>
+  </div>
+</footer>
+
+<div class="toast" role="status"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>已复制到剪贴板</div>
+<button class="to-top" aria-label="返回顶部"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg></button>
+
 <script>
-        function copyCode(button) {
-            const code = button.previousSibling;
-            const textArea = document.createElement('textarea');
-            textArea.value = code.textContent;
-            document.body.appendChild(textArea);
-            textArea.select();
-            document.execCommand('copy');
-            document.body.removeChild(textArea);
-            button.textContent = '已复制';
-            setTimeout(() => {
-                button.textContent = '复制代码';
-            }, 2000);
+/* iKMS 子页共享脚本 — 主题切换 / 移动端菜单 / 复制 / 滚动显现 / 返回顶部（源自 assets/main.js） */
+(function () {
+  'use strict';
+
+  var doc = document;
+  var root = doc.documentElement;
+
+  /* ---------- theme（与主站共用 ikms-theme 偏好） ---------- */
+  var THEME_KEY = 'ikms-theme';
+  function applyTheme(t) {
+    root.setAttribute('data-theme', t);
+    try { localStorage.setItem(THEME_KEY, t); } catch (e) {}
+    try { document.cookie = THEME_KEY + '=' + t + ';path=/;max-age=31536000;samesite=lax'; } catch (e) {}
+  }
+  function bindThemeBtns() {
+    doc.querySelectorAll('.theme-toggle').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        applyTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+      });
+    });
+  }
+
+  /* ---------- mobile nav ---------- */
+  function bindNav() {
+    var burger = doc.querySelector('.nav-burger');
+    var links = doc.querySelector('.nav-links');
+    if (!burger || !links) return;
+    burger.addEventListener('click', function () {
+      links.classList.toggle('open');
+      burger.setAttribute('aria-expanded', links.classList.contains('open'));
+    });
+    doc.addEventListener('click', function (e) {
+      if (links.classList.contains('open') && !links.contains(e.target) && !burger.contains(e.target)) {
+        links.classList.remove('open');
+      }
+    });
+  }
+
+  /* ---------- copy to clipboard ---------- */
+  function copyText(text, done) {
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(text).then(function () { done(true); }, function () { fallback(); });
+    } else {
+      fallback();
+    }
+    function fallback() {
+      var ta = doc.createElement('textarea');
+      ta.value = text;
+      ta.style.cssText = 'position:fixed;opacity:0;pointer-events:none';
+      doc.body.appendChild(ta);
+      ta.select();
+      var ok = false;
+      try { ok = doc.execCommand('copy'); } catch (e) {}
+      doc.body.removeChild(ta);
+      done(ok);
+    }
+  }
+
+  function bindCopy() {
+    /* 事件委托：data-copy 有值直接复制，为空则取同块内 code 文本 */
+    doc.addEventListener('click', function (ev) {
+      var btn = ev.target && ev.target.closest ? ev.target.closest('[data-copy]') : null;
+      if (!btn) return;
+      var source = btn.getAttribute('data-copy');
+      var text = source !== null && source !== ''
+        ? source
+        : (btn.closest('.cmd, .term-body, .mini-cmd') || doc).querySelector('code')?.textContent || '';
+      copyText(text.trim(), function (ok) {
+        var label = btn.querySelector('.copy-label');
+        var old = label ? label.textContent : '';
+        btn.classList.add('copied');
+        if (label) label.textContent = ok ? '已复制' : '复制失败';
+        var t = doc.querySelector('.toast');
+        if (t) {
+          t.classList.add('show');
+          clearTimeout(t._timer);
+          t._timer = setTimeout(function () { t.classList.remove('show'); }, 1600);
         }
-    </script>
+        setTimeout(function () {
+          btn.classList.remove('copied');
+          if (label) label.textContent = old || '复制';
+        }, 1600);
+      });
+    });
+  }
+
+  /* ---------- 跨服务卡片：每次加载随机轮换（排除当前页） ---------- */
+  var ICON_BOX = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>';
+  var ICON_IMAGE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>';
+  var CROSS_SERVICES = [
+    { key: 'docker', title: 'DockerHub 加速在这里', desc: 'Docker Hub 镜像加速同样可用，支持 Registry Mirror 全局加速与单次 Proxy 拉取。', go: '前往 DockerHub 加速', url: 'https://ikms.eu.org/docker/', icon: ICON_BOX },
+    { key: 'ghcr', title: 'ghcr.io 加速在这里', desc: 'GHCR.IO（GitHub Container Registry）镜像同样提供加速服务，替换域名即可使用。', go: '前往 GHCR 加速', url: 'https://ghcr.everyhub.top/', icon: ICON_BOX },
+    { key: 'github', title: 'GitHub 文件加速在这里', desc: 'GitHub Release / Archive / Raw 文件下载加速，粘贴链接一键生成加速地址。', go: '前往 GitHub 加速', url: 'https://git.everyhub.top/', icon: ICON_BOX },
+    { key: 'pixiv', title: 'Pixiv 图片代理在这里', desc: 'Pixiv 图片国内直连加速，将 i.pximg.net 替换为 pixiv.everyhub.top 即可。', go: '前往 Pixiv 代理', url: 'https://pixiv.everyhub.top/', icon: ICON_IMAGE },
+    { key: 'imgur', title: 'Imgur 图片代理在这里', desc: 'Imgur 图片国内直连加速，将 i.imgur.com 替换为 imgur.everyhub.top 即可。', go: '前往 Imgur 代理', url: 'https://ikms.eu.org/imgur/', icon: ICON_IMAGE }
+  ];
+  var CURRENT_SERVICE = 'ghcr';
+
+  function bindCrossCard() {
+    var card = doc.querySelector('.card.cross-card');
+    if (!card) return;
+    var pool = CROSS_SERVICES.filter(function (s) { return s.key !== CURRENT_SERVICE; });
+    var svc = pool[Math.floor(Math.random() * pool.length)];
+    card.setAttribute('href', svc.url);
+    card.setAttribute('target', '_blank');
+    card.setAttribute('rel', 'noopener noreferrer');
+    card.querySelector('.icon').innerHTML = svc.icon;
+    card.querySelector('h3').textContent = svc.title;
+    card.querySelector('.cc-body p').textContent = svc.desc;
+    var go = card.querySelector('.go');
+    if (go && go.firstChild) go.firstChild.textContent = svc.go + ' ';
+  }
+
+  /* ---------- reveal on scroll ---------- */
+  function bindReveal() {
+    var els = doc.querySelectorAll('.reveal');
+    if (!els.length) return;
+    if (!('IntersectionObserver' in window)) {
+      els.forEach(function (el) { el.classList.add('in'); });
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+    els.forEach(function (el) { io.observe(el); });
+  }
+
+  /* ---------- back to top ---------- */
+  function bindTop() {
+    var btn = doc.querySelector('.to-top');
+    if (!btn) return;
+    var ticking = false;
+    window.addEventListener('scroll', function () {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function () {
+        btn.classList.toggle('show', window.scrollY > 480);
+        ticking = false;
+      });
+    }, { passive: true });
+    btn.addEventListener('click', function () {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+
+  function init() {
+    bindThemeBtns();
+    bindNav();
+    bindCopy();
+    bindCrossCard();
+    bindReveal();
+    bindTop();
+  }
+
+  if (doc.readyState === 'loading') doc.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
+</script>
 </body>
 </html>

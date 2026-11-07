@@ -11,12 +11,10 @@
     root.setAttribute('data-theme', t);
     try { localStorage.setItem(THEME_KEY, t); } catch (e) {}
     try { document.cookie = THEME_KEY + '=' + t + ';path=/;max-age=31536000;samesite=lax'; } catch (e) {}
-    try { document.cookie = THEME_KEY + "=" + t + ";path=/;max-age=31536000;samesite=lax"; } catch (e) {}
   }
   var saved = null;
   try { saved = localStorage.getItem(THEME_KEY); } catch (e) {}
   if (saved !== 'dark' && saved !== 'light') { try { var m = document.cookie.match(/(?:^|; )ikms-theme=(dark|light)(?:;|$)/); if (m) saved = m[1]; } catch (e) {} }
-    if (saved !== "dark" && saved !== "light") { try { var m = document.cookie.match(/(?:^|; )ikms-theme=(dark|light)/); if (m) saved = m[1]; } catch (e) {} }
   applyTheme(saved || 'dark');
 
   function bindThemeBtns() {
@@ -273,6 +271,7 @@
 
     /* 页脚「投稿反馈」也改为打开弹窗（mailto 保留在兜底页） */
     doc.querySelectorAll('a[href^="mailto:' + CONTACT_EMAIL + '"]').forEach(function (a) {
+      if (a.closest('.contact-modal')) return;
       a.addEventListener('click', function (e) { e.preventDefault(); open(); });
     });
 

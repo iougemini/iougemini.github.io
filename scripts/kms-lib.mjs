@@ -109,11 +109,15 @@ export function saveData(data) {
         c.partial = !!old.partial;
       }
     }
-    /* 公开条目脱敏副本：真实地址与 IP 都不公开（IP 可反查服务器归属） */
+    /* 公开条目脱敏副本：真实地址与 IP 都不公开（IP 可反查服务器归属）。
+       除 host/port/ip 外，deepCheck 产生的 v4_ok/v6_ok/results/reason/output
+       同样含真实 IP，必须一并剥离。 */
     pubCandidates.push({
       ...c,
       host: undefined, port: undefined, ip: undefined,
       ips_ok: undefined, ip_lat: undefined,
+      v4_ok: undefined, v6_ok: undefined, results: undefined,
+      reason: undefined, error: undefined, output: undefined,
     });
   }
   /* 本地明文（开发用，gitignore） */

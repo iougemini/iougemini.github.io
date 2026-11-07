@@ -5,7 +5,7 @@
    Cloudflare 代理不支持 1688 端口的 TCP 转发）。 */
 import fs from 'node:fs';
 import dns from 'node:dns/promises';
-import { loadData, LAST_RUN_FILE } from './kms-lib.mjs';
+import { loadData, saveData, LAST_RUN_FILE } from './kms-lib.mjs';
 
 const TOKEN = process.env.CLOUDFLARE_API_TOKEN;
 const ZONE = process.env.CLOUDFLARE_ZONE_ID;
@@ -40,8 +40,8 @@ for (const host of hosts) {
 }
 pairs.sort((a, b) => a.latency - b.latency);
 const desired = pairs.slice(0, COUNT).map(p => p.ip);
-console.log(`[dns] 候选 IP（按延迟排序，取前 ${COUNT}）：`);
-for (const p of pairs.slice(0, COUNT)) console.log(`   ${p.ip.padEnd(16)} ${String(p.latency).padStart(5)} ms  (${p.host})`);
+/* 日志会随公开仓库的 Actions 公开展示：只输出数量，不打印 IP / 投稿域名 */
+console.log(`[dns] 可用 IP 共 ${pairs.length} 个（按延迟排序取前 ${COUNT}，明细不写入日志）`);
 
 if (!desired.length) {
   console.log('[dns] 没有在线服务器可写入，跳过（保留现有记录）');
@@ -70,13 +70,13 @@ for (const rec of cnameRecs) {
 
 for (const rec of existing) {
   if (!desired.includes(rec.content)) {
-    console.log(`[dns] ${dry ? '(dry)' : 'DELETE'} ${rec.content}（未入选）`);
+    console.log(`[dns] ${dry ? '(dry)' : 'DELETE'} 一条未入选的 A 记录（内容不写入日志）`);
     if (!dry) await api(`/${rec.id}`, { method: 'DELETE' });
   }
 }
 for (const ip of desired) {
   if (!existingIps.has(ip)) {
-    console.log(`[dns] ${dry ? '(dry)' : 'CREATE'} A ${MAIN_HOST} -> ${ip}`);
+    console.log(`[dns] ${dry ? '(dry)' : 'CREATE'} A 记录 ${MAIN_HOST} -> 入选 IP（内容不写入日志）`);
     if (!dry) await api('', {
       method: 'POST',
       body: JSON.stringify({ type: 'A', name: MAIN_HOST, content: ip, ttl: 300, proxied: false }),
@@ -86,16 +86,16 @@ for (const ip of desired) {
 /* 保留的记录若开了橙云代理，改为灰云：Cloudflare 代理不转发 1688 端口 */
 for (const rec of existing) {
   if (desired.includes(rec.content) && rec.proxied) {
-    console.log(`[dns] ${dry ? '(dry)' : 'PATCH'} ${rec.content} proxied -> false（1688 端口必须灰云直连）`);
+    console.log(`[dns] ${dry ? '(dry)' : 'PATCH'} 一条保留记录 proxied -> false（1688 端口必须灰云直连）`);
     if (!dry) await api(`/${rec.id}`, {
       method: 'PATCH',
       body: JSON.stringify({ proxied: false, ttl: 300 }),
     });
   }
 }
-console.log(`[dns] 完成：${MAIN_HOST} 现指向 ${desired.join(', ')}`);
+console.log(`[dns] 完成：${MAIN_HOST} 记录数 ${desired.length}（IP 明细不写入日志）`);
 
-/* 把当前择优结果写回 servers.json，供状态页展示 */
+/* 把当前择优结果写回 servers.json（走 saveData 脱敏写盘，公开文件不含真实 IP） */
 if (!dry) {
   const d2 = loadData();
   d2.main.current = pairs.slice(0, COUNT).map(p => ({
@@ -104,8 +104,7 @@ if (!dry) {
   }));
   d2.main.current_updated = new Date().toISOString();
   d2.main.balanced = true;
-  const fs = await import('node:fs');
-  fs.writeFileSync('data/servers.json', JSON.stringify(d2, null, 2) + '\n');
+  saveData(d2);
 }
 
 /* ---------- 失效线路 CNAME 替换 ----------
@@ -125,11 +124,11 @@ for (const line of linesNeeding) {
        否则 DNS 不允许 CNAME 与其他记录共存，会创建失败 */
     for (const rec of recs) {
       if (rec.type === 'CNAME' && rec.content === target) { correct = rec; continue; }
-      console.log(`[cname] ${dry ? '(dry)' : 'DELETE'} ${rec.type} ${line.host} -> ${rec.content}（为 CNAME 让位）`);
+      console.log(`[cname] ${dry ? '(dry)' : 'DELETE'} ${rec.type} ${line.host} 上的一条旧记录（内容不写入日志）`);
       if (!dry) await api(`/${rec.id}`, { method: 'DELETE' });
     }
     if (!correct) {
-      console.log(`[cname] ${dry ? '(dry)' : 'CREATE'} CNAME ${line.host} -> ${target}`);
+      console.log(`[cname] ${dry ? '(dry)' : 'CREATE'} CNAME ${line.host} -> 候选服务器域名（目标不写入日志）`);
       if (!dry) await api('', {
         method: 'POST',
         body: JSON.stringify({ type: 'CNAME', name: line.host, content: target, ttl: 300, proxied: false }),
@@ -141,7 +140,7 @@ for (const line of linesNeeding) {
         body: JSON.stringify({ proxied: false, ttl: 300 }),
       });
     } else {
-      console.log(`[cname] ${line.host} -> ${target} 已是最新，无需变更`);
+      console.log(`[cname] ${line.host} CNAME 已是最新，无需变更`);
     }
   } catch (err) {
     console.error(`[cname] ${line.host} CNAME 处理失败：${err.message}`);

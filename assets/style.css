@@ -1614,3 +1614,5 @@ html[data-theme="light"] .icon-moon { display: none; }
 .cm-turnstile > div { display: flex; justify-content: center; min-height: 65px; }
 .cm-turnstile iframe { max-width: 100%; }
 .cm-ts-hint { display: block; margin-top: 6px; text-align: center; font-size: 0.75rem; color: var(--warn); }
+/* 提示默认由 hidden 属性隐藏，避免 display:block 覆盖 [hidden] 的 UA 样式而常显 */
+.cm-ts-hint[hidden] { display: none; }
