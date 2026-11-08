@@ -535,6 +535,9 @@ async function handleRequest(request, env) {
           method: 'POST',
           headers: {
             'Accept': 'application/vnd.github+json',
+            /* GitHub REST API 强制要求 User-Agent，缺失会直接返回 403
+               （Request forbidden by administrative rules）；Workers 的 fetch 不会自动附带 */
+            'User-Agent': 'ikms-private-submit-worker',
             'Authorization': `Bearer ${env.GH_TOKEN}`,
             'Content-Type': 'application/json',
           },
