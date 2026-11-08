@@ -29,10 +29,12 @@ const hosts = [...new Set([...data.lines, ...data.candidates].filter(e => e.stat
 const pairs = [];
 for (const host of hosts) {
   const info = precise[host] || {};
-  const ipsOk = (info.v4_ok && info.v4_ok.length ? info.v4_ok : (info.ips_ok || []).filter(ip => !ip.includes(':'))) || (info.ip && !info.ip.includes(':') ? [info.ip] : []);
+  /* 只接受本轮实际验证通过、且有逐 IP 实测延迟的 IPv4：ips_ok 由本轮 deepCheck 产出，
+     lat 同步刷新；历史快照在巡检判 down 时会清空 ips_ok，不会进入这里。 */
+  const ipsOk = (info.ips_ok || []).filter(ip => !ip.includes(':') && typeof (info.lat && info.lat[ip]) === 'number');
   if (!ipsOk.length) continue;
   for (const ip of ipsOk) {
-    const latency = (info.lat && info.lat[ip]) ?? info.latency_ms ?? 1e9;
+    const latency = info.lat[ip];
     const old = pairs.find(p => p.ip === ip);
     if (old) { if (latency < old.latency) { old.latency = latency; old.host = host; } }
     else pairs.push({ ip, host, latency });

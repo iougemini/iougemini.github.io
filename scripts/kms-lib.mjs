@@ -196,9 +196,8 @@ export function vlmcsCheck(vlmcsBin, host, port, timeoutMs = 20000) {
 }
 
 /* ---------- check-host.net 多节点 TCP 拨测（免费、无需密钥） ----------
-   区域限制线路（仅国内可达）无法从海外 CI 直接验证，改由 check-host.net
-   的全球节点发起 TCP 连接测试，返回成功节点的最小连接时间作为延迟。
-   拨测完全失败时返回 ok:false，由调用方按 trusted 规则保持在线。 */
+   由 check-host.net 的多节点发起 TCP 连接测试，返回成功节点的最小连接时间作为延迟。
+   拨测完全失败时返回 ok:false，是否判失效由调用方决定（当前巡检已不再使用该豁免）。 */
 export async function checkHostTcpLatency(host, port = KMS_DEFAULT_PORT, maxNodes = 4, pollMs = 40000) {
   const H = { Accept: 'application/json' };
   const create = await fetch(
@@ -282,7 +281,7 @@ export async function deepCheck(vlmcsBin, host, port = KMS_DEFAULT_PORT, maxIps 
 }
 
 /* ---------- DNS 层双栈判定 ----------
-   线路域名是否同时存在 A 与 AAAA 记录（用于 trusted 线路的栈标签） */
+   线路域名是否同时存在 A 与 AAAA 记录（用于线路的栈标签） */
 export async function dnsStackTag(host) {
   const [r4, r6] = await Promise.all([
     dns.resolve4(host).then(a => a.length).catch(() => 0),

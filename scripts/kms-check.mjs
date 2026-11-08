@@ -3,7 +3,7 @@
    2. 连续失效达阈值的线路自动由最优候选池顶替
    3. 结果写入 data/servers.json，精确延迟写入 data/.last-run.json（供 DNS 负载均衡用，不提交） */
 import fs from 'node:fs';
-import { loadData, saveData, deepCheck, checkHostTcpLatency, dnsStackTag, mapLimit, nextCandidateKey, beijingDate, beijingISO, LAST_RUN_FILE, DATA_FILE } from './kms-lib.mjs';
+import { loadData, saveData, deepCheck, mapLimit, nextCandidateKey, beijingDate, beijingISO, LAST_RUN_FILE, DATA_FILE } from './kms-lib.mjs';
 
 const REPLACE_AFTER = 3;        // 连续失败 N 次判定为失效
 const PARALLEL = 6;
@@ -26,9 +26,8 @@ for (const c of data.candidates) {
   }
 }
 
-/* trusted（所有者担保）条目照常测量（延迟与状态照常进页面/DNS），
-   但验证失败不判失效、不计连续失败——部分线路仅对国内开放，
-   海外 CI 节点验证会产生假阴性，由所有者担保其真实性 */
+/* 全部条目（备用线路 + 候选池）一视同仁：每轮都实际解析、逐 IP 验证，
+   不因 trusted/initial 标记跳过检测或沿用历史快照。测不通即按正常流程判 down。 */
 
 /* 收集全部待检目标：
    - line：线路自身域名（未替换时）或 cname_target（已替换线路，监测真实目标健康度）
@@ -45,29 +44,8 @@ const targets = [
 
 await mapLimit(targets, PARALLEL, async t => {
   const e = t.ref;
-  e.last_checked = now;
-
-  /* trusted（所有者担保）线路：海外 CI 无法直连（区域限制），
-     改用 check-host.net 多节点 TCP 拨测（开放 API，无需密钥）取真实延迟；
-     拨测失败时保持在线（所有者担保），延迟保留上次数值 */
-  if (e.trusted) {
-    const ch = await checkHostTcpLatency(t.host, 1688).catch(err => ({ ok: false, reason: String(err).slice(0, 120) }));
-    if (ch.ok) {
-      e.state = 'ok';
-      e.consecutive_fail = 0;
-      e.error = undefined;
-      e.latency_ms = Math.round(ch.latency_ms / 5) * 5;
-      e.stack = await dnsStackTag(t.host);
-    } else {
-      e.state = 'ok';
-      e.consecutive_fail = 0;
-      e.error = 'check-host 拨测未成功（' + (ch.reason || '') + '），按所有者担保保持在线';
-    }
-    return;
-  }
 
   const r = await deepCheck(VLMCS_BIN, t.host, t.port);
-  const trusted = !!t.ref.trusted;
   e.last_checked = now;
   /* 已 CNAME 替换的线路：监测的是真实目标，把结果写回线路本身（状态页显示线路域名） */
   if (r.ok) {
@@ -84,11 +62,6 @@ await mapLimit(targets, PARALLEL, async t => {
     e.partial = r.ips_ok.length < r.ips_total;       // 存在未通过验证的 IP
     const rounded = Math.round(r.latency_ms / 5) * 5;   // 5ms 粒度，抑制抖动提交
     if (e.latency_ms == null || Math.abs(rounded - e.latency_ms) >= LATENCY_JITTER) e.latency_ms = rounded;
-  } else if (trusted) {
-    /* 区域限制线路：海外节点验证失败属预期假阴性，保持在线与既有延迟/可用 IP */
-    e.state = 'ok';
-    e.consecutive_fail = 0;
-    e.error = 'CI 海外节点验证未通过（按所有者担保保持在线）';
   } else {
     e.state = 'down';
     e.consecutive_fail = (e.consecutive_fail || 0) + 1;
@@ -127,7 +100,7 @@ for (const line of data.lines) {
       line.cname_target = best.host;                     // 由 update-dns.mjs 写入 CNAME 记录
       line.state = 'ok';
       line.source = best.source || 'cname';              // 线路当前由该投稿来源支撑
-      if (best.trusted) line.trusted = true;             // 继承信任标记：区域限制线路无法海外验证，防止状态震荡
+      line.trusted = false;                              // 不再有免检豁免：替换后的线路也按实检结果判定
       line.stack = best.stack;                           // 继承双栈标记
       line.v4_ok = best.v4_ok || best.ips_ok || [];
       line.v6_ok = best.v6_ok || [];
