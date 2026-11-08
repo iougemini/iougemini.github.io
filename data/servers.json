@@ -7,32 +7,32 @@
     "note": "主线路由 update-dns.mjs 从全部在线线路中按延迟择优写入 A 记录（需配置 Cloudflare 密钥）",
     "current": [
       {
+        "ip": "108.181.4.2",
+        "host": "kms.xuanlove.cn",
+        "latency_ms": 34
+      },
+      {
         "ip": "154.7.181.209",
         "host": "s10.ikms.eu.org",
-        "latency_ms": 34
+        "latency_ms": 35
       },
       {
         "ip": "162.223.90.90",
         "host": "s02.ikms.eu.org",
-        "latency_ms": 67
+        "latency_ms": 62
       },
       {
         "ip": "146.56.187.155",
         "host": "ikms.dpdns.org",
-        "latency_ms": 119
+        "latency_ms": 120
       },
       {
         "ip": "152.70.94.22",
         "host": "kms.jling.pp.ua",
         "latency_ms": 121
-      },
-      {
-        "ip": "185.213.174.199",
-        "host": "s02.ikms.eu.org",
-        "latency_ms": 138
       }
     ],
-    "current_updated": "2026-11-09T00:55:35+08:00",
+    "current_updated": "2026-11-09T04:55:53+08:00",
     "balanced": true
   },
   "lines": [
@@ -40,7 +40,7 @@
       "id": "s01",
       "host": "s01.ikms.eu.org",
       "state": "ok",
-      "latency_ms": 195,
+      "latency_ms": 180,
       "ip": "139.199.78.129",
       "last_checked": "2026-11-09",
       "consecutive_fail": 0,
@@ -50,7 +50,7 @@
       ],
       "ips_total": 2,
       "ip_lat": {
-        "139.199.78.129": 193
+        "139.199.78.129": 179
       },
       "partial": true,
       "v4_ok": [
@@ -76,10 +76,10 @@
       ],
       "ips_total": 6,
       "ip_lat": {
-        "158.178.234.166": 162,
-        "162.223.90.90": 67,
-        "107.189.14.253": 161,
-        "185.213.174.199": 138
+        "107.189.14.253": 160,
+        "162.223.90.90": 62,
+        "158.178.234.166": 169,
+        "185.213.174.199": 144
       },
       "partial": true,
       "trusted": true,
@@ -106,7 +106,7 @@
       ],
       "ips_total": 1,
       "ip_lat": {
-        "8.210.148.24": 140
+        "8.210.148.24": 141
       },
       "partial": false,
       "v4_ok": [
@@ -119,7 +119,7 @@
       "id": "s04",
       "host": "s04.ikms.eu.org",
       "state": "ok",
-      "latency_ms": 200,
+      "latency_ms": 180,
       "ip": "110.42.186.3",
       "last_checked": "2026-11-09",
       "consecutive_fail": 0,
@@ -129,7 +129,7 @@
       ],
       "ips_total": 2,
       "ip_lat": {
-        "110.42.186.3": 200
+        "110.42.186.3": 178
       },
       "partial": true,
       "v4_ok": [
@@ -152,7 +152,7 @@
       ],
       "ips_total": 2,
       "ip_lat": {
-        "119.29.100.23": 191
+        "119.29.100.23": 187
       },
       "partial": true,
       "v4_ok": [
@@ -198,7 +198,7 @@
       ],
       "ips_total": 1,
       "ip_lat": {
-        "121.40.68.253": 180
+        "121.40.68.253": 181
       },
       "partial": false,
       "v4_ok": [
@@ -211,7 +211,7 @@
       "id": "s08",
       "host": "s08.ikms.eu.org",
       "state": "ok",
-      "latency_ms": 185,
+      "latency_ms": 140,
       "ip": "153.101.161.27",
       "last_checked": "2026-11-09",
       "consecutive_fail": 0,
@@ -221,7 +221,7 @@
       ],
       "ips_total": 1,
       "ip_lat": {
-        "153.101.161.27": 186
+        "153.101.161.27": 138
       },
       "partial": false,
       "v4_ok": [
@@ -234,7 +234,7 @@
       "id": "s09",
       "host": "s09.ikms.eu.org",
       "state": "ok",
-      "latency_ms": 190,
+      "latency_ms": 220,
       "ip": "162.14.106.167",
       "last_checked": "2026-11-09",
       "consecutive_fail": 0,
@@ -250,7 +250,7 @@
       ],
       "v6_ok": [],
       "ip_lat": {
-        "162.14.106.167": 191
+        "162.14.106.167": 218
       },
       "partial": false
     },
@@ -268,7 +268,7 @@
       ],
       "ips_total": 1,
       "ip_lat": {
-        "154.7.181.209": 34
+        "154.7.181.209": 35
       },
       "partial": false,
       "v4_ok": [
@@ -281,7 +281,7 @@
       "id": "s11",
       "host": "s11.ikms.eu.org",
       "state": "ok",
-      "latency_ms": 190,
+      "latency_ms": 180,
       "ip": "139.199.78.129",
       "last_checked": "2026-11-09",
       "consecutive_fail": 0,
@@ -291,7 +291,7 @@
       ],
       "ips_total": 2,
       "ip_lat": {
-        "139.199.78.129": 190
+        "139.199.78.129": 180
       },
       "partial": true,
       "v4_ok": [
@@ -304,7 +304,7 @@
       "id": "s12",
       "host": "s12.ikms.eu.org",
       "state": "ok",
-      "latency_ms": 185,
+      "latency_ms": 175,
       "ip": "1.15.144.40",
       "last_checked": "2026-11-09",
       "consecutive_fail": 0,
@@ -314,7 +314,7 @@
       ],
       "ips_total": 1,
       "ip_lat": {
-        "1.15.144.40": 183
+        "1.15.144.40": 177
       },
       "partial": false,
       "v4_ok": [
@@ -327,7 +327,7 @@
       "id": "s13",
       "host": "s13.ikms.eu.org",
       "state": "ok",
-      "latency_ms": 165,
+      "latency_ms": 140,
       "ip": "152.70.94.22",
       "last_checked": "2026-11-09",
       "consecutive_fail": 0,
@@ -337,7 +337,7 @@
       ],
       "ips_total": 1,
       "ip_lat": {
-        "152.70.94.22": 166
+        "152.70.94.22": 140
       },
       "partial": false,
       "swapped_at": "2026-10-28",
@@ -361,7 +361,7 @@
       "consecutive_fail": 0,
       "source": "initial",
       "ip_lat": {
-        "119.29.100.23": 186
+        "119.29.100.23": 180
       },
       "partial": true,
       "v4_ok": [
@@ -388,10 +388,10 @@
     {
       "state": "down",
       "latency_ms": 910,
-      "ips_total": 1,
+      "ips_total": 2,
       "partial": true,
       "last_checked": "2026-11-09",
-      "consecutive_fail": 1,
+      "consecutive_fail": 2,
       "source": "issue #4",
       "added": "2026-10-26",
       "key": "c2",
@@ -453,7 +453,7 @@
       "latency_ms": null,
       "ips_total": 1,
       "partial": false,
-      "consecutive_fail": 1,
+      "consecutive_fail": 2,
       "source": "private submission",
       "added": "2026-11-08",
       "last_checked": "2026-11-09"
@@ -462,12 +462,14 @@
       "key": "c8",
       "state": "ok",
       "trusted": true,
-      "latency_ms": null,
-      "ips_total": null,
-      "partial": false,
+      "latency_ms": 35,
+      "ips_total": 2,
+      "partial": true,
       "consecutive_fail": 0,
       "source": "private submission",
-      "added": "2026-11-09"
+      "added": "2026-11-09",
+      "last_checked": "2026-11-09",
+      "stack": "v4"
     }
   ],
   "swaps": [
