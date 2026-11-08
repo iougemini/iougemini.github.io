@@ -135,6 +135,57 @@ async function run() {
     assert.equal(j.msg.includes('token-missing'), false);
   });
 
+  await check('投稿成功 → 发一次提醒邮件（收件人 admin@ikms.eu.org，不含投稿者 IP）', async () => {
+    const env2 = makeEnv();
+    upstreamCalls = [];
+    const res = await call(env2, '/api/submit', {
+      method: 'POST',
+      body: { host: 'notify.example.com', note: '机密备注', turnstile: 'tok' },
+      ip: '198.51.100.99',
+    });
+    assert.equal(res.status, 200);
+    const mail = upstreamCalls.filter(c => c.url.includes('api.resend.com'));
+    assert.equal(mail.length, 1);
+    const payload = JSON.parse(mail[0].opts.body);
+    assert.deepEqual(payload.to, ['admin@ikms.eu.org']);
+    assert.match(payload.text, /notify\.example\.com:1688/);
+    assert.match(payload.text, /\+08:00/);
+    assert.match(payload.text, /https:\/\/submit\.ikms\.eu\.org\/admin/);
+    assert.equal(payload.text.includes('198.51.100.99'), false);
+    assert.equal(payload.text.includes('机密备注'), false);
+  });
+
+  await check('邮件接口失败 → 投稿仍返回 200', async () => {
+    const env3 = makeEnv();
+    const realFetch = globalThis.fetch;
+    globalThis.fetch = async (url, opts = {}) => {
+      if (String(url).includes('api.resend.com')) return new Response('boom', { status: 500 });
+      return realFetch(url, opts);
+    };
+    const res = await call(env3, '/api/submit', {
+      method: 'POST',
+      body: { host: 'mailfail.example.com', turnstile: 'tok' },
+      ip: '198.51.100.100',
+    });
+    assert.equal(res.status, 200);
+    assert.equal((await res.json()).ok, true);
+    const list2 = await env3.KMS_SUBMISSIONS.list({ prefix: 'sub:' });
+    assert.equal(list2.keys.length, 1);
+    globalThis.fetch = realFetch;
+  });
+
+  await check('未配置 RESEND_API_KEY → 跳过发信且投稿 200', async () => {
+    const env4 = makeEnv({ RESEND_API_KEY: undefined });
+    upstreamCalls = [];
+    const res = await call(env4, '/api/submit', {
+      method: 'POST',
+      body: { host: 'nomail.example.com', turnstile: 'tok' },
+      ip: '198.51.100.101',
+    });
+    assert.equal(res.status, 200);
+    assert.equal(upstreamCalls.filter(c => c.url.includes('api.resend.com')).length, 0);
+  });
+
   await check('每日限流（校验通过后计数）→ 第 6 条 429 + Retry-After', async () => {
     for (let i = 0; i < 5; i++) {
       const res = await call(env, '/api/submit', {

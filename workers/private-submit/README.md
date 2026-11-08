@@ -5,6 +5,7 @@ Cloudflare Worker，为不愿公开服务器地址的投稿者提供私密投稿
 ## 功能
 
 - 投稿者提交服务器地址 → 存入 KV（仅管理员可见）→ 管理员登录 `/admin` 审核
+- 投稿成功后会向管理员发一封提醒邮件（复用 Resend；收件人取 `CONTACT_TO`，缺省 `admin@ikms.eu.org`；发信失败不影响投稿）
 - 审核通过后 Worker 自动触发 GitHub `repository_dispatch`（`kms-private-submit`）
 - CI 收录到加密候选池（`data/candidates.enc`），真实地址不公开
 - 站点留言弹窗：全站信封图标 → `/api/contact` → Resend 免费发信转发到 admin@ikms.eu.org
@@ -16,7 +17,7 @@ Cloudflare Worker，为不愿公开服务器地址的投稿者提供私密投稿
 - `worker.js`：Worker 源码（ES Module）
 - `wrangler.toml.example`：Wrangler 配置模板（复制为 `wrangler.toml` 并填写 KV id）
 - `.dev.vars.example`：本地开发变量模板（复制为 `.dev.vars`）
-- `test/smoke.mjs`：不依赖网络的最小冒烟测试（20 项）
+- `test/smoke.mjs`：不依赖网络的最小冒烟测试（23 项）
 - `package.json`：固定 `wrangler` 版本，提供 `npm test` / `npm run dry-run`
 
 ## 部署前检查清单

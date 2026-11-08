@@ -30,6 +30,8 @@ const RETENTION_TTL = 30 * 86400;           // 投稿保留 30 天后由 KV 自�
 const ADMIN_COOKIE = 'ikms_admin';
 const ADMIN_SESSION_MAX_AGE = 8 * 3600;     // 管理员会话 8 小时
 const DEFAULT_TURNSTILE_SITE_KEY = '0x4AAAAAAF0gJ7CCSk4QFOeM';
+const ADMIN_PAGE_URL = 'https://submit.ikms.eu.org/admin';   // 投稿提醒邮件里的审核入口
+const NOTIFY_TTL = 6 * 3600;                                // 同一 host:port 的提醒节流窗口（秒）
 
 /* ---------- 基础工具 ---------- */
 
@@ -76,6 +78,11 @@ function dayKey() {
   return new Date().toISOString().slice(0, 10);
 }
 
+/* 与仓库其余脚本（scripts/kms-lib.mjs）一致：北京时间 ISO 8601，带 +08:00 */
+function beijingISO(d = new Date()) {
+  return new Date(d.getTime() + 8 * 3600 * 1000).toISOString().slice(0, 19) + '+08:00';
+}
+
 function retryAfterSeconds() {
   const now = new Date();
   const next = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + 1);
@@ -105,6 +112,63 @@ async function fetchWithTimeout(url, opts = {}, timeoutMs = 8000, retries = 0) {
     }
   }
   throw lastErr || new Error('fetch failed');
+}
+
+/* ---------- 新投稿邮件提醒 ----------
+   仅在投稿已成功落库后调用，任何失败都只记日志，绝不影响投稿结果。
+   隐私：邮件只含服务器地址与时间，不含投稿者 IP、备注等可定位到个人的信息
+   （投稿者 IP 属于仓库此前定级要修复的隐私问题，不能出现在邮件里）。
+   同一 host:port 在 NOTIFY_TTL 内只提醒一次，避免重复投稿反复轰炸邮箱。 */
+async function notifyNewSubmission(env, sub, pendingCount) {
+  if (!env.RESEND_API_KEY) {
+    console.log('submit: RESEND_API_KEY not configured, skip notify');
+    return;
+  }
+  const throttleKey = `notify:${sub.host}:${sub.port}`;
+  try {
+    if (await env.KMS_SUBMISSIONS.get(throttleKey)) {
+      console.log('submit: notify throttled');
+      return;
+    }
+  } catch {
+    return;                                   /* KV 读取失败也不影响投稿 */
+  }
+
+  const subject = `[iKMS 投稿] ${sub.host}:${sub.port} 待审核`.replace(/[\r\n]+/g, ' ');
+  const text = [
+    '收到一条新的私密投稿，等待审核：',
+    '',
+    `服务器：${sub.host}:${sub.port}`,
+    `投稿时间：${beijingISO(new Date(sub.ts))}`,
+    `当前待审：${pendingCount} 条`,
+    '',
+    `审核页：${ADMIN_PAGE_URL}`,
+    '',
+    '（出于隐私，此邮件不含投稿者 IP 与备注内容；投稿记录 30 天后自动删除。）',
+  ].join('\n');
+
+  try {
+    const res = await fetchWithTimeout('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${env.RESEND_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        from: env.CONTACT_FROM || 'iKMS 留言 <noreply@subit.us.mw>',
+        to: [env.CONTACT_TO || 'admin@ikms.eu.org'],
+        subject,
+        text,
+      }),
+    }, 10000, 1);
+    if (!res.ok) {
+      console.error('submit: notify resend status', res.status);
+      return;
+    }
+    await env.KMS_SUBMISSIONS.put(throttleKey, '1', { expirationTtl: NOTIFY_TTL });
+  } catch {
+    console.error('submit: notify resend request failed');
+  }
 }
 
 /* ---------- 响应构造 ---------- */
@@ -351,6 +415,8 @@ async function handleRequest(request, env) {
     };
     await env.KMS_SUBMISSIONS.put('sub:' + sub.id, JSON.stringify(sub), { expirationTtl: RETENTION_TTL });
     await rateCommit(env, rate);
+    /* 邮件提醒管理员（含本条最新待审数）；函数内部吞掉所有错误，不影响投稿结果 */
+    await notifyNewSubmission(env, sub, existing.filter(s => s.status === 'pending').length + 1);
     return json({ ok: true, msg: '投稿已提交，等待管理员审核' });
   }
 
