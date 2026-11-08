@@ -457,6 +457,17 @@
       "source": "private submission",
       "added": "2026-11-08",
       "last_checked": "2026-11-09"
+    },
+    {
+      "key": "c8",
+      "state": "ok",
+      "trusted": true,
+      "latency_ms": null,
+      "ips_total": null,
+      "partial": false,
+      "consecutive_fail": 0,
+      "source": "private submission",
+      "added": "2026-11-09"
     }
   ],
   "swaps": [
