@@ -2,7 +2,7 @@
    验证格式后以 trusted 候选加入加密候选池（地址仅存私有存储，不公开）。
    payload: { host: "kms.example.com", port?: 1688, source?: string } */
 import fs from 'node:fs';
-import { loadData, saveData, normalizeHost, nextCandidateKey } from './kms-lib.mjs';
+import { loadData, saveData, normalizeHost, nextCandidateKey, beijingDate } from './kms-lib.mjs';
 
 const p = JSON.parse(process.env.PAYLOAD || '{}');
 const norm = normalizeHost(p.host);
@@ -31,7 +31,7 @@ data.candidates.push({
   ips_ok: [], ips_total: null, ip_lat: {}, partial: false,
   consecutive_fail: 0,
   source: p.source || 'private submission',
-  added: new Date().toISOString().slice(0, 10),
+  added: beijingDate(),
 });
 
 saveData(data);

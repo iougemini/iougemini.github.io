@@ -1,5 +1,9 @@
 name: KMS 投稿 Worker 校验
 
+# 运行时统一使用北京时间（Asia/Shanghai），便于日志时间与本地对齐
+env:
+  TZ: Asia/Shanghai
+
 on:
   push:
     paths:

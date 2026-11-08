@@ -5,7 +5,7 @@
    Cloudflare 代理不支持 1688 端口的 TCP 转发）。 */
 import fs from 'node:fs';
 import dns from 'node:dns/promises';
-import { loadData, saveData, LAST_RUN_FILE } from './kms-lib.mjs';
+import { loadData, saveData, beijingISO, LAST_RUN_FILE } from './kms-lib.mjs';
 
 const TOKEN = process.env.CLOUDFLARE_API_TOKEN;
 const ZONE = process.env.CLOUDFLARE_ZONE_ID;
@@ -102,7 +102,7 @@ if (!dry) {
     ip: p.ip, host: p.host,
     latency_ms: p.latency === 1e9 ? null : p.latency,
   }));
-  d2.main.current_updated = new Date().toISOString();
+  d2.main.current_updated = beijingISO();
   d2.main.balanced = true;
   saveData(d2);
 }

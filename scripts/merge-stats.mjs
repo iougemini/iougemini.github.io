@@ -2,10 +2,11 @@
    payload: { date?: "YYYY-MM-DD", requests: number, clients?: number }
    由自有 KMS 服务器每日统计 vlmcsd 日志后调用（配置方法见 README）。 */
 import fs from 'node:fs';
+import { beijingDate, beijingISO } from './kms-lib.mjs';
 
 const FILE = 'data/stats.json';
 const p = JSON.parse(process.env.PAYLOAD || '{}');
-const date = (p.date || new Date().toISOString().slice(0, 10));
+const date = (p.date || beijingDate());
 const requests = Math.max(0, Number(p.requests) || 0);
 const clients = Math.max(0, Number(p.clients) || 0);
 
@@ -24,6 +25,6 @@ else {
 s.daily = s.daily.slice(-60);                       // 保留 60 天
 s.total_requests = s.daily.reduce((a, x) => a + x.requests, 0);
 s.total_clients = s.daily.reduce((a, x) => a + x.clients, 0);
-s.updated_at = new Date().toISOString();
+s.updated_at = beijingISO();
 fs.writeFileSync(FILE, JSON.stringify(s, null, 2) + '\n');
 console.log(`[stats] 已记录 ${date}: requests=${requests} clients=${clients}，累计 ${s.total_requests}`);

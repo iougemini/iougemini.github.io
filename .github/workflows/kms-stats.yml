@@ -1,5 +1,9 @@
 name: KMS 请求统计接收
 
+# 运行时统一使用北京时间（Asia/Shanghai），脚本写入 data/*.json 的时间同步转换
+env:
+  TZ: Asia/Shanghai
+
 on:
   repository_dispatch:
     types: [kms-stats]

@@ -1,5 +1,9 @@
 name: KMS 私密投稿收录
 
+# 运行时统一使用北京时间（Asia/Shanghai），脚本写入 data/*.json 的时间同步转换
+env:
+  TZ: Asia/Shanghai
+
 on:
   repository_dispatch:
     types: [kms-private-submit]

@@ -1,7 +1,7 @@
 /* 处理 issue 投稿：解析服务器地址（支持多台，一行一个）→ 逐台 vlmcs 验证 → 通过的加入候选池 → 汇总表回复 */
 import fs from 'node:fs';
 import { execFileSync } from 'node:child_process';
-import { loadData, saveData, parseHosts, nextCandidateKey, deepCheck } from './kms-lib.mjs';
+import { loadData, saveData, parseHosts, nextCandidateKey, deepCheck, beijingDate } from './kms-lib.mjs';
 
 const ISSUE_NUMBER = process.env.ISSUE_NUMBER || '?';
 const body = process.env.ISSUE_BODY || '';
@@ -65,10 +65,10 @@ for (const { host, port } of hosts) {
       ips_total: r.ips_total,
       ip_lat: Object.fromEntries(r.results.filter(x => x.ok).map(x => [x.ip, x.latency_ms])),
       partial: r.ips_ok.length < r.ips_total,
-      last_checked: new Date().toISOString().slice(0, 10),
+      last_checked: beijingDate(),
       consecutive_fail: 0,
       source: `issue #${ISSUE_NUMBER}`,
-      added: new Date().toISOString().slice(0, 10),
+      added: beijingDate(),
     });
     results.push({ host, port, ok: true, r, summary: `✅ 通过（${r.ips_ok.length}/${r.ips_total} 个 IP）` });
   } else {

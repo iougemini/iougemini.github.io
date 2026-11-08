@@ -1,7 +1,15 @@
 name: KMS 线路巡检
 
+# 运行时统一使用北京时间（Asia/Shanghai），影响 date 命令、Node 的本地时间方法
+# 与 git 提交时间戳；脚本写入 data/*.json 的时间由 scripts/kms-lib.mjs 统一转换
+env:
+  TZ: Asia/Shanghai
+
 on:
   schedule:
+    # GitHub Actions 的 cron 固定按 UTC 解析（不受上面 TZ 影响）。
+    # */30 表示每 30 分钟触发，UTC 与北京（UTC+8）的分/时偏移为整 8 小时，
+    # 因此实际触发时刻在北京时间同样是每小时的 :00 与 :30。
     - cron: "*/30 * * * *"
   workflow_dispatch:
     inputs:

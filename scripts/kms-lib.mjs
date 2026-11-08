@@ -9,6 +9,19 @@ export const DATA_FILE = 'data/servers.json';
 export const LAST_RUN_FILE = 'data/.last-run.json';
 export const KMS_DEFAULT_PORT = 1688;
 
+/* ---------- 北京时间 ----------
+   巡检/检查时间统一按 Asia/Shanghai（UTC+8，无夏令时）输出，不受 runner 时区影响。
+   日期字段沿用仓库既有 YYYY-MM-DD 格式；完整时间戳输出 ISO 8601 带 +08:00 偏移。 */
+const BEIJING_OFFSET_MS = 8 * 3600 * 1000;
+
+export function beijingDate(d = new Date()) {
+  return new Date(d.getTime() + BEIJING_OFFSET_MS).toISOString().slice(0, 10);
+}
+
+export function beijingISO(d = new Date()) {
+  return new Date(d.getTime() + BEIJING_OFFSET_MS).toISOString().slice(0, 19) + '+08:00';
+}
+
 /* ---------- 数据 ----------
    servers.json 随网站公开，候选池只存脱敏条目（key/状态/延迟，不含投稿地址）。
    投稿服务器的真实地址加密存储在 data/candidates.enc（随仓库提交，AES-256-GCM，
@@ -83,7 +96,7 @@ export function loadData() {
 }
 
 export function saveData(data) {
-  data.updated_at = new Date().toISOString().slice(0, 10);
+  data.updated_at = beijingDate();
   /* 私有地址抽出到加密文件与本地明文文件。
      注意：不修改传入的 data 对象（后续步骤还依赖内存中的 ips_ok 等），
      servers.json 写入的是脱敏副本。 */

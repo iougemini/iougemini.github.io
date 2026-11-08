@@ -3,7 +3,7 @@
    2. 连续失效达阈值的线路自动由最优候选池顶替
    3. 结果写入 data/servers.json，精确延迟写入 data/.last-run.json（供 DNS 负载均衡用，不提交） */
 import fs from 'node:fs';
-import { loadData, saveData, deepCheck, checkHostTcpLatency, dnsStackTag, mapLimit, nextCandidateKey, LAST_RUN_FILE, DATA_FILE } from './kms-lib.mjs';
+import { loadData, saveData, deepCheck, checkHostTcpLatency, dnsStackTag, mapLimit, nextCandidateKey, beijingDate, beijingISO, LAST_RUN_FILE, DATA_FILE } from './kms-lib.mjs';
 
 const REPLACE_AFTER = 3;        // 连续失败 N 次判定为失效
 const PARALLEL = 6;
@@ -11,7 +11,7 @@ const LATENCY_JITTER = 10;      // 延迟变化小于该值不写回（避免每
 const VLMCS_BIN = process.env.VLMCS_BIN || 'vlmcs';
 
 const data = loadData();
-const now = new Date().toISOString().slice(0, 10);
+const now = beijingDate();
 
 /* 存量数据迁移：为没有 key 的候选池条目补 key（首次运行时自动迁移到私有文件体系） */
 for (const c of data.candidates) {
@@ -172,7 +172,7 @@ fs.writeFileSync(HIST_FILE, JSON.stringify(hist, null, 2) + '\n');
 /* 精确延迟快照 + CNAME 替换意向供 update-dns.mjs 使用（加入 .gitignore，不入库；
    cname 意向不写入 servers.json，避免投稿者地址通过网站静态数据泄露） */
 fs.writeFileSync(LAST_RUN_FILE, JSON.stringify({
-  at: new Date().toISOString(),
+  at: beijingISO(),
   cname: cnameIntents,
   latency: Object.fromEntries([
     ...data.lines.map(l => [l.host, {
