@@ -436,6 +436,17 @@
       "source": "issue #9",
       "added": "2026-10-28",
       "stack": "v4"
+    },
+    {
+      "key": "c7",
+      "state": "ok",
+      "trusted": true,
+      "latency_ms": null,
+      "ips_total": null,
+      "partial": false,
+      "consecutive_fail": 0,
+      "source": "private submission",
+      "added": "2026-11-08"
     }
   ],
   "swaps": [
