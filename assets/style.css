@@ -651,14 +651,17 @@ html[data-theme="light"] .icon-moon { display: none; }
   grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
   gap: 16px;
 }
-/* five nav cards sit evenly on wide screens */
-.grid.five {
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+/* 首页 6 张导航卡片：桌面固定 3 列 × 2 行 */
+.grid.six {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
+@media (max-width: 900px) { .grid.six { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .grid.six { grid-template-columns: minmax(0, 1fr); } }
 
 .card {
   position: relative;
   display: block;
+  min-width: 0;
   padding: 24px;
   border-radius: var(--r-lg);
   border: 1px solid var(--border);
@@ -711,11 +714,12 @@ html[data-theme="light"] .icon-moon { display: none; }
 /* ---------- Two-step quick guide (index) ---------- */
 .duo {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 16px;
 }
-@media (max-width: 760px) { .duo { grid-template-columns: 1fr; } }
+@media (max-width: 760px) { .duo { grid-template-columns: minmax(0, 1fr); } }
 .panel {
+  min-width: 0;
   padding: 26px;
   border-radius: var(--r-lg);
   border: 1px solid var(--border);
@@ -723,6 +727,7 @@ html[data-theme="light"] .icon-moon { display: none; }
 }
 .panel-head {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 12px;
   margin-bottom: 14px;
@@ -856,6 +861,8 @@ html[data-theme="light"] .icon-moon { display: none; }
 
 /* prose */
 .prose { min-width: 0; }
+/* 正文里的超长无空格串（镜像文件名、官方文档 URL）允许在必要时断行 */
+.prose :where(code, a) { overflow-wrap: anywhere; }
 .prose section { margin-bottom: 52px; scroll-margin-top: calc(var(--nav-h) + 24px); }
 .prose h2 {
   display: flex;
@@ -1186,7 +1193,7 @@ html[data-theme="light"] .icon-moon { display: none; }
   box-shadow: var(--shadow-md);
 }
 .step:nth-child(even) .s-num { color: var(--accent); }
-.step .s-body { padding-top: 8px; }
+.step .s-body { min-width: 0; padding-top: 8px; }
 .step .s-body h3 { margin: 0 0 8px; font-size: 1.05rem; font-weight: 700; }
 .step .s-body p { margin: 0 0 12px; color: var(--text-2); font-size: 0.95rem; }
 .step .s-body .mini-cmd { margin-bottom: 0; }

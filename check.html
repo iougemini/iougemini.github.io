@@ -11,8 +11,38 @@
 <link rel="stylesheet" href="./assets/style.css">
 <style>
 /* 复用现有设计令牌，仅补表单/结果所需的最小组件样式 */
-.pf-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
-.pf-field { display: flex; flex-direction: column; gap: 6px; }
+/* 本页容器单独加宽：只作用于 check.html，不改 assets/style.css 的全局 .wrap */
+body.check-page .nav > .wrap,
+body.check-page main.page { width: min(1240px, 100% - 48px); }
+@media (max-width: 640px) {
+  body.check-page .nav > .wrap,
+  body.check-page main.page { width: calc(100% - 36px); }
+}
+.check-section { max-width: 1080px; margin-inline: auto; }
+/* 本页区块（卡片）之间的间距整体收紧一档，仍保留清晰分组 */
+.check-page .check-section + .check-section { margin-top: 44px; }
+.check-sub {
+  margin-inline: auto;
+  max-width: none;
+  font-size: 0.84rem;
+  color: var(--text-3);
+  white-space: nowrap;
+}
+@media (max-width: 900px) {
+  .check-sub { white-space: normal; text-wrap: balance; font-size: 0.9rem; }
+}
+
+/* 表单：12 列网格，第一行 6/3/3，第二行 4/5/3；窄屏回落单列，避免横向溢出 */
+.pf-grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 16px; }
+.pf-span-6 { grid-column: span 6; }
+.pf-span-5 { grid-column: span 5; }
+.pf-span-4 { grid-column: span 4; }
+.pf-span-3 { grid-column: span 3; }
+@media (max-width: 900px) {
+  .pf-grid { grid-template-columns: minmax(0, 1fr); }
+  .pf-span-6, .pf-span-5, .pf-span-4, .pf-span-3 { grid-column: 1 / -1; }
+}
+.pf-field { display: flex; flex-direction: column; justify-content: flex-end; gap: 6px; min-width: 0; }
 .pf-field label { font-size: 0.86rem; font-weight: 600; color: var(--text-2); }
 .pf-field label span { font-weight: 400; color: var(--text-3); }
 .pf-field input, .pf-field select {
@@ -32,10 +62,10 @@
   box-shadow: 0 0 0 3px rgba(45, 212, 191, 0.12);
 }
 .pf-field input::placeholder { color: var(--text-3); }
-.pf-actions { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-top: 20px; }
-.pf-hint { font-size: 0.82rem; color: var(--text-3); line-height: 1.7; }
+.pf-submit-cell .btn { width: 100%; padding: 11px 18px; justify-content: center; }
+.pf-hint { display: block; margin-top: 14px; font-size: 0.82rem; color: var(--text-3); line-height: 1.7; }
 .pf-err { margin-top: 14px; font-size: 0.88rem; color: var(--danger); }
-.probe-result { margin-top: 18px; }
+.probe-result { margin-top: 14px; }
 .pr-hero { display: flex; align-items: center; gap: 14px; padding-bottom: 16px; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
 .pr-title { font-size: 1.15rem; font-weight: 800; margin: 0; }
 .pr-sub { margin: 0; font-size: 0.85rem; color: var(--text-3); }
@@ -44,9 +74,21 @@
 .pr-cell .k { font-size: 0.76rem; color: var(--text-3); }
 .pr-cell .v { font-family: var(--font-mono); font-size: 0.92rem; margin-top: 3px; word-break: break-all; }
 .pr-note { margin: 16px 0 0; font-size: 0.82rem; color: var(--text-3); line-height: 1.8; }
+/* 失败分类小卡片与说明列表：字号都比正文小一档 */
+.fail-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+@media (max-width: 900px) { .fail-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .fail-grid { grid-template-columns: minmax(0, 1fr); } }
+.fail-card { padding: 12px 14px; border-radius: var(--r-md); border: 1px solid var(--border); background: var(--bg-inset); }
+.fail-card h4 { margin: 0 0 4px; font-size: 0.88rem; font-weight: 700; color: var(--text); }
+.fail-card p { margin: 0; font-size: 0.8rem; line-height: 1.7; color: var(--text-3); }
+.check-list { margin: 0; padding-left: 18px; color: var(--text-2); font-size: 0.86rem; line-height: 1.9; }
+.check-list li + li { margin-top: 4px; }
+.check-subhead { margin: 18px 0 8px; font-size: 0.92rem; font-weight: 700; color: var(--text); }
+.check-foot { margin: 12px 0 0; font-size: 0.8rem; color: var(--text-3); line-height: 1.8; }
+.check-foot code, .check-list code { font-family: var(--font-mono); color: var(--text-2); }
 </style>
 </head>
-<body>
+<body class="check-page">
 
 <div class="ambient" aria-hidden="true"></div>
 
@@ -62,6 +104,7 @@
       <a href="./more.html">备用线路</a>
       <a href="./android.html">自建线路</a>
       <a href="./status.html">服务状态</a>
+      <a href="./check.html" class="active">线路检测</a>
       <a href="./img.html">激活演示</a>
     </div>
     <div class="nav-actions">
@@ -81,10 +124,10 @@
   <header class="page-head status-hero reveal">
     <span class="eyebrow" style="justify-content:center">Probe</span>
     <h1 class="page-title">KMS 地址在线检测</h1>
-    <p class="page-sub" style="margin-inline:auto;max-width:700px;text-wrap:balance">由 Cloudflare 边缘节点替你连到 1688 端口，做一次 TCP 连接与一次 MSRPC bind 握手，判断该地址是否跑着 KMS 端点，并给出延迟。</p>
+    <p class="page-sub check-sub">由 Cloudflare 边缘节点替你连到 1688 端口，做一次 TCP 连接与一次 MSRPC bind 握手，判断该地址是否跑着 KMS 端点，并给出延迟。</p>
   </header>
 
-  <section class="section" style="max-width:860px;margin-inline:auto">
+  <section class="section check-section">
     <div class="panel reveal">
       <div class="panel-head">
         <div class="icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#2dd4bf" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l2-6 4 12 2-6h6"/></svg></div>
@@ -94,15 +137,15 @@
 
       <form id="probe-form" class="probe-form" novalidate>
         <div class="pf-grid">
-          <div class="pf-field" style="grid-column:1/-1">
+          <div class="pf-field pf-span-5">
             <label for="pf-host">KMS 地址 <span>域名或公网 IPv4，不要带 http://</span></label>
             <input id="pf-host" name="host" type="text" inputmode="url" autocomplete="off" spellcheck="false" placeholder="例如 kms.example.com" maxlength="253" required>
           </div>
-          <div class="pf-field">
+          <div class="pf-field pf-span-3">
             <label for="pf-port">端口 <span>仅支持 1688</span></label>
             <input id="pf-port" name="port" type="text" inputmode="numeric" value="1688" maxlength="5" required>
           </div>
-          <div class="pf-field">
+          <div class="pf-field pf-span-4">
             <label for="pf-protocol">KMS 协议版本 <span>不是 IPv4 / IPv6</span></label>
             <select id="pf-protocol" name="protocol">
               <option value="6" selected>v6 — KMS 协议版本 6（默认）</option>
@@ -110,7 +153,7 @@
               <option value="4">v4 — KMS 协议版本 4</option>
             </select>
           </div>
-          <div class="pf-field">
+          <div class="pf-field pf-span-4">
             <label for="pf-family">产品族 <span>只用于筛选下面的产品列表</span></label>
             <select id="pf-family" name="family">
               <option value="server" selected>Windows Server</option>
@@ -118,21 +161,21 @@
               <option value="office">Office</option>
             </select>
           </div>
-          <div class="pf-field">
+          <div class="pf-field pf-span-5">
             <label for="pf-app">产品 <span>可选，仅用于标识/回显</span></label>
             <select id="pf-app" name="app">
               <option value="">不指定（只检测可达性）</option>
             </select>
           </div>
+          <div class="pf-field pf-submit-cell pf-span-3">
+            <button type="submit" class="btn btn-primary" id="pf-submit">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+              开始检测
+            </button>
+          </div>
         </div>
 
-        <div class="pf-actions">
-          <button type="submit" class="btn btn-primary" id="pf-submit" style="padding:11px 26px">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-            开始检测
-          </button>
-          <span class="pf-hint">同一地址 2 分钟内重复提交会命中缓存；每 IP 每分钟最多 5 次。产品选择仅作标识，不参与判定。</span>
-        </div>
+        <span class="pf-hint">同一地址 2 分钟内重复提交会命中缓存；每 IP 每分钟最多 5 次。产品选择仅作标识，不参与判定。</span>
 
         <p id="pf-err" class="pf-err" hidden></p>
       </form>
@@ -141,7 +184,43 @@
     </div>
   </section>
 
-  <section class="section" style="max-width:860px;margin-inline:auto">
+  <section class="section check-section">
+    <div class="panel reveal">
+      <div class="panel-head">
+        <div class="icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#f87171" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6M9 9l6 6"/></svg></div>
+        <h3>检测没通过？先对照这几种情况</h3>
+      </div>
+      <div class="fail-grid">
+        <div class="fail-card">
+          <h4>连接失败</h4>
+          <p>1688 端口连不上。常见原因：KMS 服务没启动、防火墙或安全组没放开 1688、端口被改过、路由器没做端口映射。远程访问时防火墙要对所有来源 IP 放通，只放行少数 IP 会时通时不通。</p>
+        </div>
+        <div class="fail-card">
+          <h4>非 KMS</h4>
+          <p>端口是通的，但对面回的不是 KMS 的 RPC 接口。多半是地址写错了，或者那台机器的 1688 上跑的是别的服务。</p>
+        </div>
+        <div class="fail-card">
+          <h4>超时</h4>
+          <p>4 秒内没完成连接或握手：链路丢包、跨境线路拥塞，或目标被网络策略拦掉。可以稍后重试，或换一条备用线路再测。</p>
+        </div>
+        <div class="fail-card">
+          <h4>域名解析失败</h4>
+          <p>域名拼错、还没有解析记录，或只写了主机名。本站按公网 IPv4 的 A 记录解析，解析不到就不会继续连。</p>
+        </div>
+        <div class="fail-card">
+          <h4>内网地址被拒</h4>
+          <p>填的是 10/8、172.16/12、192.168/16、127/8 这类私网或保留地址，或者域名解析到了这些网段。本站只测公网 IPv4，不做内网扫描。</p>
+        </div>
+        <div class="fail-card">
+          <h4>频率限制</h4>
+          <p>同一地址 2 分钟内重复提交会命中缓存；同一 IP 每分钟最多 5 次、每天 100 次，全站每天 500 次。超了就等一会儿再试。</p>
+        </div>
+      </div>
+      <p class="check-foot">用自己的 <code>telnet 主机 1688</code> 或 <code>nc -vz 主机 1688</code> 能连通、这里却一直超时，通常是 Cloudflare 边缘到目标那一段跨境链路的问题，可以过一会儿再试，或从页脚「投稿反馈」告诉我们。</p>
+    </div>
+  </section>
+
+  <section class="section check-section">
     <div class="panel reveal">
       <div class="panel-head">
         <div class="icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#fb923c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v5M12 16h.01"/></svg></div>
@@ -167,16 +246,23 @@
     </div>
   </section>
 
-  <section class="section" style="max-width:860px;margin-inline:auto">
+  <section class="section check-section">
     <div class="panel reveal">
       <div class="panel-head">
         <div class="icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
-        <h3>这个检测受什么限制</h3>
+        <h3>关于本检测：能做什么、不能做什么</h3>
       </div>
-      <ul style="margin:0;padding-left:20px;color:var(--text-2);font-size:0.92rem;line-height:2">
+      <ul class="check-list">
+        <li><b>能做的只有可达性</b>：1688 端口能否连上、对端是否响应 MSRPC bind、这次握手往返多久。这几项通过，只能说明该地址上像一个可用的 KMS 端点。</li>
+        <li><b>做不到「能否激活」的判定</b>：本检测不发送激活报文，所以无法确认服务器使用哪个协议版本（v4 / v5 / v6），也无法判断它能不能激活你手上的某个 Windows 或 Office 版本。结果只适合线路自查，不能当作激活成功的保证。</li>
+        <li><b>结果只代表这一瞬间</b>：KMS 服务重启、线路波动、防火墙策略调整都会改变结论；单次「可用」不等于长期稳定，反之亦然。</li>
+        <li><b>定位说明</b>：本站只做技术学习与线路排查，不搭建、不提供、不维护任何 KMS 主机或激活服务，页面里也不包含任何激活工具。是否使用、如何使用，请自行判断并承担后果，并支持正版授权。</li>
+      </ul>
+      <h4 class="check-subhead">边界与限制</h4>
+      <ul class="check-list">
         <li>只开放 1688 端口，其它端口一律拒绝，避免被当成端口扫描器。</li>
         <li>只允许解析到公网 IPv4 的地址；私网、回环、链路本地、CGNAT 等保留段直接拒绝。</li>
-        <li>接口只接受本站页面（<code style="font-family:var(--font-mono);color:var(--accent)">https://ikms.eu.org</code>）的跨域请求，其它来源会被服务端拒绝。</li>
+        <li>接口只接受本站页面（<code>https://ikms.eu.org</code>）的跨域请求，其它来源会被服务端拒绝。</li>
         <li>单次探测 4 秒硬超时，失败不重试；结果缓存 120 秒削峰。</li>
       </ul>
     </div>
@@ -192,11 +278,12 @@
       <a href="./img.html">激活演示</a>
       <a href="./more.html">备用线路</a>
       <a href="./android.html">自建线路</a>
+      <a href="./check.html">线路检测</a>
       <a href="./kms.html#mianze">免责声明</a>
       <a href="./">返回首页</a>
       <a href="mailto:admin@ikms.eu.org">投稿反馈</a>
     </div>
-    <div class="f-note">本站为纯公益型技术学习交流网站，不持有、不搭建、不提供、不维护任何 KMS 主机及激活服务。永久地址：https://ikms.eu.org</div>
+    <div class="f-note"><span class="f-disclaimer">本站为纯公益型技术学习交流网站，不持有、不搭建、不提供、不维护任何 KMS 主机，所有服务均来自互联网和网友投稿。</span>永久地址：https://ikms.eu.org</div>
   </div>
 </footer>
 

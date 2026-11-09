@@ -5,6 +5,16 @@
   var doc = document;
   var root = doc.documentElement;
 
+  /* ---------- footer disclaimer：全站单一文案源 ---------- */
+  /* 页面里 .f-note 中的 <span class="f-disclaimer"> 只作为无 JS / SEO 兜底；
+     DOM 就绪后由这里统一覆盖，避免多页各写一份导致文案走样。 */
+  var DISCLAIMER = '本站为纯公益型技术学习交流网站，不持有、不搭建、不提供、不维护任何 KMS 主机，所有服务均来自互联网和网友投稿。';
+  function applyDisclaimer() {
+    doc.querySelectorAll('.footer .f-note .f-disclaimer').forEach(function (el) {
+      el.textContent = DISCLAIMER;
+    });
+  }
+
   /* ---------- theme ---------- */
   var THEME_KEY = 'ikms-theme';
   function applyTheme(t) {
@@ -353,6 +363,7 @@
   }
 
   function init() {
+    applyDisclaimer();
     bindThemeBtns();
     bindNav();
     bindNotice();
