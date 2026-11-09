@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+<script>/* 主题预设：必须在首次渲染前执行，避免深色主题闪现 */(function(){function gt(){try{var t=localStorage.getItem('ikms-theme');if(t==='dark'||t==='light')return t}catch(e){}try{var m=document.cookie.match(/(?:^|; )ikms-theme=(dark|light)/);if(m)return m[1]}catch(e){}return 'dark'}document.documentElement.setAttribute('data-theme',gt())})();</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="iKMS 在线 KMS 地址检测：从 Cloudflare 边缘节点发起 TCP + MSRPC bind 握手，判断 1688 端口上的服务端点是否可用。">
+<title>KMS 地址在线检测 - iKMS</title>
+<link rel="shortcut icon" href="./img/ikmslogo.png">
+<link rel="bookmark" href="./img/ikmslogo.png">
+<link rel="stylesheet" href="./assets/style.css">
+<style>
+/* 复用现有设计令牌，仅补表单/结果所需的最小组件样式 */
+.pf-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
+.pf-field { display: flex; flex-direction: column; gap: 6px; }
+.pf-field label { font-size: 0.86rem; font-weight: 600; color: var(--text-2); }
+.pf-field label span { font-weight: 400; color: var(--text-3); }
+.pf-field input, .pf-field select {
+  width: 100%;
+  padding: 11px 13px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--border);
+  background: var(--bg-inset);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 0.94rem;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.pf-field input:focus, .pf-field select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(45, 212, 191, 0.12);
+}
+.pf-field input::placeholder { color: var(--text-3); }
+.pf-actions { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-top: 20px; }
+.pf-hint { font-size: 0.82rem; color: var(--text-3); line-height: 1.7; }
+.pf-err { margin-top: 14px; font-size: 0.88rem; color: var(--danger); }
+.probe-result { margin-top: 18px; }
+.pr-hero { display: flex; align-items: center; gap: 14px; padding-bottom: 16px; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+.pr-title { font-size: 1.15rem; font-weight: 800; margin: 0; }
+.pr-sub { margin: 0; font-size: 0.85rem; color: var(--text-3); }
+.pr-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-top: 16px; }
+.pr-cell { padding: 13px 15px; border-radius: var(--r-md); border: 1px solid var(--border); background: var(--bg-inset); }
+.pr-cell .k { font-size: 0.76rem; color: var(--text-3); }
+.pr-cell .v { font-family: var(--font-mono); font-size: 0.92rem; margin-top: 3px; word-break: break-all; }
+.pr-note { margin: 16px 0 0; font-size: 0.82rem; color: var(--text-3); line-height: 1.8; }
+</style>
+</head>
+<body>
+
+<div class="ambient" aria-hidden="true"></div>
+
+<nav class="nav">
+  <div class="wrap">
+    <a class="brand" href="./">
+      <img src="./img/ikmslogo.png" alt="iKMS logo">
+      <span>iKMS<span class="tld">.eu.org</span></span>
+    </a>
+    <div class="nav-links">
+      <a href="./">首页</a>
+      <a href="./kms.html">详细教程</a>
+      <a href="./more.html">备用线路</a>
+      <a href="./android.html">自建线路</a>
+      <a href="./status.html">服务状态</a>
+      <a href="./img.html">激活演示</a>
+    </div>
+    <div class="nav-actions">
+      <button class="icon-btn theme-toggle" aria-label="切换深浅色主题">
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+      </button>
+      <button class="icon-btn nav-burger" aria-label="打开菜单" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<main class="page wrap">
+
+  <header class="page-head status-hero reveal">
+    <span class="eyebrow" style="justify-content:center">Probe</span>
+    <h1 class="page-title">KMS 地址在线检测</h1>
+    <p class="page-sub" style="margin-inline:auto;max-width:700px;text-wrap:balance">由 Cloudflare 边缘节点替你连到 1688 端口，做一次 TCP 连接与一次 MSRPC bind 握手，判断该地址是否跑着 KMS 端点，并给出延迟。</p>
+  </header>
+
+  <section class="section" style="max-width:860px;margin-inline:auto">
+    <div class="panel reveal">
+      <div class="panel-head">
+        <div class="icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#2dd4bf" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l2-6 4 12 2-6h6"/></svg></div>
+        <h3>填写被测地址</h3>
+        <span class="tag">1688 only</span>
+      </div>
+
+      <form id="probe-form" class="probe-form" novalidate>
+        <div class="pf-grid">
+          <div class="pf-field" style="grid-column:1/-1">
+            <label for="pf-host">KMS 地址 <span>域名或公网 IPv4，不要带 http://</span></label>
+            <input id="pf-host" name="host" type="text" inputmode="url" autocomplete="off" spellcheck="false" placeholder="例如 kms.example.com" maxlength="253" required>
+          </div>
+          <div class="pf-field">
+            <label for="pf-port">端口 <span>仅支持 1688</span></label>
+            <input id="pf-port" name="port" type="text" inputmode="numeric" value="1688" maxlength="5" required>
+          </div>
+          <div class="pf-field">
+            <label for="pf-protocol">KMS 协议版本 <span>不是 IPv4 / IPv6</span></label>
+            <select id="pf-protocol" name="protocol">
+              <option value="6" selected>v6 — KMS 协议版本 6（默认）</option>
+              <option value="5">v5 — KMS 协议版本 5</option>
+              <option value="4">v4 — KMS 协议版本 4</option>
+            </select>
+          </div>
+          <div class="pf-field">
+            <label for="pf-family">产品族 <span>只用于筛选下面的产品列表</span></label>
+            <select id="pf-family" name="family">
+              <option value="server" selected>Windows Server</option>
+              <option value="windows">Windows</option>
+              <option value="office">Office</option>
+            </select>
+          </div>
+          <div class="pf-field">
+            <label for="pf-app">产品 <span>可选，仅用于标识/回显</span></label>
+            <select id="pf-app" name="app">
+              <option value="">不指定（只检测可达性）</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="pf-actions">
+          <button type="submit" class="btn btn-primary" id="pf-submit" style="padding:11px 26px">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+            开始检测
+          </button>
+          <span class="pf-hint">同一地址 2 分钟内重复提交会命中缓存；每 IP 每分钟最多 5 次。产品选择仅作标识，不参与判定。</span>
+        </div>
+
+        <p id="pf-err" class="pf-err" hidden></p>
+      </form>
+
+      <div id="pf-result" class="probe-result" hidden></div>
+    </div>
+  </section>
+
+  <section class="section" style="max-width:860px;margin-inline:auto">
+    <div class="panel reveal">
+      <div class="panel-head">
+        <div class="icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#fb923c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v5M12 16h.01"/></svg></div>
+        <h3>先看清楚：v4 / v5 / v6 是什么</h3>
+      </div>
+      <p style="margin:0 0 10px;color:var(--text-2);font-size:0.92rem;line-height:1.9">
+        <b>v4 / v5 / v6 是 KMS 激活协议的版本号</b>，与网络层的 <code style="font-family:var(--font-mono);color:var(--accent)">IPv4 / IPv6</code> 毫无关系——名字撞车纯属巧合，请不要因为看到 “v4” 就以为它和 IP 协议有关。
+      </p>
+      <p style="margin:0 0 10px;color:var(--text-2);font-size:0.92rem;line-height:1.9">
+        本页由服务端（Cloudflare Worker）代连，浏览器不直接连 1688。检测完成后你能看到：
+      </p>
+      <ol style="margin:0 0 10px;padding-left:20px;color:var(--text-2);font-size:0.92rem;line-height:2">
+        <li>TCP 是否能连上 1688；</li>
+        <li>对端是否响应 MSRPC bind（KMS 的 RPC 接口）；</li>
+        <li>这次握手的往返延迟，以及域名解析到的 IP。</li>
+      </ol>
+      <p style="margin:0 0 10px;color:var(--text-3);font-size:0.84rem;line-height:1.9">
+        产品下拉里的 202 项来自公开接口 <code style="font-family:var(--font-mono);color:var(--text-2)">kms.pub/api/kms/getkmsapplist</code> 的清单快照（2026-11-09 抓取，按 Windows / Windows Server / Office 分组）。<b>选择产品目前只用于标识与回显，不代表已验证可激活</b>——清单变大不等于检测能力变强，请不要据此认为本站能逐个验证这些产品。
+      </p>
+      <p style="margin:10px 0 0;color:var(--text-3);font-size:0.84rem;line-height:1.9">
+        当前版本<b>不做</b>激活报文（AES-CMAC / 产品密钥），所以无法回答「这个服务器能不能激活某个具体产品」，也无法真正验证 v4/v5/v6 哪一版生效——页面上这三项会显示“未验证”，不会用猜测冒充结论。
+      </p>
+    </div>
+  </section>
+
+  <section class="section" style="max-width:860px;margin-inline:auto">
+    <div class="panel reveal">
+      <div class="panel-head">
+        <div class="icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+        <h3>这个检测受什么限制</h3>
+      </div>
+      <ul style="margin:0;padding-left:20px;color:var(--text-2);font-size:0.92rem;line-height:2">
+        <li>只开放 1688 端口，其它端口一律拒绝，避免被当成端口扫描器。</li>
+        <li>只允许解析到公网 IPv4 的地址；私网、回环、链路本地、CGNAT 等保留段直接拒绝。</li>
+        <li>接口只接受本站页面（<code style="font-family:var(--font-mono);color:var(--accent)">https://ikms.eu.org</code>）的跨域请求，其它来源会被服务端拒绝。</li>
+        <li>单次探测 4 秒硬超时，失败不重试；结果缓存 120 秒削峰。</li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="f-brand"><img src="./img/ikmslogo.png" alt="">iKMS · 公益 KMS 激活</div>
+    <div class="f-links">
+      <a href="./kms.html">详细教程</a>
+      <a href="./img.html">激活演示</a>
+      <a href="./more.html">备用线路</a>
+      <a href="./android.html">自建线路</a>
+      <a href="./kms.html#mianze">免责声明</a>
+      <a href="./">返回首页</a>
+      <a href="mailto:admin@ikms.eu.org">投稿反馈</a>
+    </div>
+    <div class="f-note">本站为纯公益型技术学习交流网站，不持有、不搭建、不提供、不维护任何 KMS 主机及激活服务。永久地址：https://ikms.eu.org</div>
+  </div>
+</footer>
+
+<button class="to-top" aria-label="返回顶部"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg></button>
+
+<script src="./assets/main.js"></script>
+<script>
+(function () {
+  var API = 'https://probe.ikms.eu.org/';
+  var form = document.getElementById('probe-form');
+  var errEl = document.getElementById('pf-err');
+  var outEl = document.getElementById('pf-result');
+  var btn = document.getElementById('pf-submit');
+  var esc = function (s) {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  };
+
+  /* 产品清单快照：来源 https://www.kms.pub/api/kms/getkmsapplist?app_id=0（2026-11-09 抓取，202 项）
+     数组下标 + 1 即接口的 app_id；此处只用于下拉展示与提交标识，Worker 不做激活判定。 */
+  var PRODUCTS = [
+    "Windows Server 2019 ARM64", "Windows Server 2019 Azure Core", "Windows Server 2019 Datacenter", "Windows Server 2019 Essentials", "Windows Server 2019 Standard", "Windows Server 2019 Datacenter (Semi-Annual Channel)",
+    "Windows Server 2019 Standard (Semi-Annual Channel)", "Windows 10 Enterprise LTSC 2019", "Windows 10 Enterprise LTSC 2019 N", "Windows 10 Enterprise G", "Windows 10 Enterprise GN", "Windows 10 Enterprise 2016 LTSB",
+    "Windows 10 Enterprise 2016 LTSB N", "Windows 10 Home", "Windows 10 Home Country Specific", "Windows 10 Home N", "Windows 10 Home Single Language", "Windows 10 Education",
+    "Windows 10 Education N", "Windows 10 Enterprise", "Windows 10 Enterprise 2015 LTSB", "Windows 10 Enterprise 2015 LTSB N", "Windows 10 Enterprise N", "Windows 10 Professional Workstation",
+    "Windows 10 Professional Workstation N", "Windows 10 Professional", "Windows 10 Professional Education", "Windows 10 Professional Education N", "Windows 10 Professional N", "Windows 10 Professional Preview",
+    "Windows 10 Enterprise Preview", "Windows 10 Enterprise for Virtual Desktops", "Windows 10 Remote Server", "Windows 10 S (Lean)", "Windows 7 Enterprise", "Windows 7 Enterprise E",
+    "Windows 7 Enterprise N", "Windows 7 Professional", "Windows 7 Professional E", "Windows 7 Professional N", "Windows 7 Embedded POSReady", "Windows 7 Embedded Standard",
+    "Windows 7 ThinPC", "Windows 8 Core", "Windows 8 Core Country Specific", "Windows 8 Core N", "Windows 8 Core Single Language", "Windows 8 Professional WMC",
+    "Windows 8 Embedded Industry Professional", "Windows 8 Embedded Industry Enterprise", "Windows 8 Enterprise", "Windows 8 Enterprise N", "Windows 8 Professional", "Windows 8 Professional N",
+    "Windows 8.1 Core", "Windows 8.1 Core ARM", "Windows 8.1 Core Country Specific", "Windows 8.1 Core N", "Windows 8.1 Core Single Language", "Windows 8.1 Professional Student",
+    "Windows 8.1 Professional Student N", "Windows 8.1 Professional WMC", "Windows 8.1 Core Connected", "Windows 8.1 Core Connected Country Specific", "Windows 8.1 Core Connected N", "Windows 8.1 Core Connected Single Language",
+    "Windows 8.1 Enterprise", "Windows 8.1 Enterprise N", "Windows 8.1 Professional", "Windows 8.1 Professional N", "Windows 8.1 Embedded Industry Professional", "Windows 8.1 Embedded Industry Automotive",
+    "Windows 8.1 Embedded Industry Enterprise", "Windows 10 Enterprise Preview", "Windows 10 Professional Preview", "Windows 10 Professional WMC Preview", "Windows 8.x Preview", "Windows 8.x Preview ARM",
+    "Windows Server 2008 Web", "Windows Server 2008 Compute Cluster", "Windows Server 2008 Standard", "Windows Server 2008 Standard without Hyper-V", "Windows Server 2008 Enterprise", "Windows Server 2008 Enterprise without Hyper-V",
+    "Windows Server 2008 Datacenter", "Windows Server 2008 Datacenter without Hyper-V", "Windows Server 2008 for Itanium", "Windows MultiPoint Server 2010", "Windows Server 2008 R2 Web", "Windows Server 2008 R2 HPC Edition",
+    "Windows Server 2008 R2 Standard", "Windows Server 2008 R2 Enterprise", "Windows Server 2008 R2 Datacenter", "Windows Server 2008 R2 for Itanium Enterprise", "Windows Server 2012 Datacenter", "Windows Server 2012 MultiPoint Premium",
+    "Windows Server 2012 MultiPoint Standard", "Windows Server 2012 Standard", "Windows Server 2012 R2 Cloud Storage", "Windows Server 2012 R2 Datacenter", "Windows Server 2012 R2 Essentials", "Windows Server 2012 R2 Standard",
+    "Windows Server 2016 Azure Core", "Windows Server 2016 Cloud Storage", "Windows Server 2016 Datacenter", "Windows Server 2016 Essentials", "Windows Server 2016 Standard", "Windows Server 2016 ARM64",
+    "Windows Server 2016 Datacenter (Semi-Annual Channel)", "Windows Server 2016 Standard (Semi-Annual Channel)", "Windows Server 2016 Datacenter Preview", "Windows Vista Business", "Windows Vista Business N", "Windows Vista Enterprise",
+    "Windows Vista Enterprise N", "Office Access 2010", "Office Excel 2010", "Office Groove 2010", "Office InfoPath 2010", "Office Mondo 1 2010",
+    "Office Mondo 2 2010", "Office OneNote 2010", "Office OutLook 2010", "Office PowerPoint 2010", "Office Professional Plus 2010", "Office Project Pro 2010",
+    "Office Project Standard 2010", "Office Publisher 2010", "Office Small Business Basics 2010", "Office Standard 2010", "Office Visio Premium 2010", "Office Visio Pro 2010",
+    "Office Visio Standard 2010", "Office Word 2010", "Office Access 2013", "Office Excel 2013", "Office InfoPath 2013", "Office Lync 2013",
+    "Office Mondo 2013", "Office OneNote 2013", "Office OutLook 2013", "Office PowerPoint 2013", "Office Professional Plus 2013", "Office Project Pro 2013",
+    "Office Project Standard 2013", "Office Publisher 2013", "Office Standard 2013", "Office Visio Pro 2013", "Office Visio Standard 2013", "Office Word 2013",
+    "Office Access 2013 (Pre-Release)", "Office Excel 2013 (Pre-Release)", "Office Groove 2013 (Pre-Release)", "Office InfoPath 2013 (Pre-Release)", "Office Lync 2013 (Pre-Release)", "Office Mondo 2013 (Pre-Release)",
+    "Office OneNote 2013 (Pre-Release)", "Office Outlook 2013 (Pre-Release)", "Office PowerPoint 2013 (Pre-Release)", "Office Professional Plus 2013 (Pre-Release)", "Office Project Pro 2013 (Pre-Release)", "Office Project Standard 2013 (Pre-Release)",
+    "Office Publisher 2013 (Pre-Release)", "Office Visio Pro 2013 (Pre-Release)", "Office Visio Standard 2013 (Pre-Release)", "Office Word 2013 (Pre-Release)", "Office Access 2016", "Office Excel 2016",
+    "Office Mondo 2016", "Office Mondo R 2016", "Office OneNote 2016", "Office Outlook 2016", "Office Powerpoint 2016", "Office Professional Plus 2016",
+    "Office Project Pro 2016", "Office Project Pro 2016 C2R", "Office Project Standard 2016", "Office Project Standard 2016 C2R", "Office Publisher 2016", "Office Skype for Business 2016",
+    "Office Standard 2016", "Office Visio Pro 2016", "Office Visio Pro 2016 C2R", "Office Visio Standard 2016", "Office Visio Standard 2016 C2R", "Office Word 2016",
+    "Office Professional Plus 2019 C2R Preview", "Office Project Pro 2019 C2R Preview", "Office Visio Pro 2019 C2R Preview", "Office Access 2019", "Office Excel 2019", "Office Outlook 2019",
+    "Office Powerpoint 2019", "Office Professional Plus 2019", "Office Project Pro 2019", "Office Project Standard 2019", "Office Publisher 2019", "Office Skype for Business 2019",
+    "Office Standard 2019", "Office Visio Pro 2019", "Office Visio Standard 2019", "Office Word 2019"
+];
+  function productFamily(name) {
+    if (name.indexOf('Windows Server') === 0) return 'server';
+    if (name.indexOf('Windows') === 0) return 'windows';
+    if (name.indexOf('Office') === 0) return 'office';
+    return '';
+  }
+  function productName(id) {
+    var name = PRODUCTS[Number(id) - 1];
+    return name || ('#' + id);
+  }
+  function fillProducts(family) {
+    var sel = document.getElementById('pf-app');
+    var keep = sel.value;
+    var first = '<option value="">不指定（只检测可达性）</option>';
+    var html = '';
+    for (var i = 0; i < PRODUCTS.length; i++) {
+      if (family && productFamily(PRODUCTS[i]) !== family) continue;
+      html += '<option value="' + (i + 1) + '">' + esc(PRODUCTS[i]) + '</option>';
+    }
+    sel.innerHTML = first + html;
+    if (keep) {
+      for (var j = 0; j < sel.options.length; j++) {
+        if (sel.options[j].value === keep) { sel.value = keep; break; }
+      }
+    }
+  }
+  fillProducts(document.getElementById('pf-family').value);
+  document.getElementById('pf-family').addEventListener('change', function () {
+    document.getElementById('pf-app').value = '';
+    fillProducts(this.value);
+  });
+
+  var LABELS = {
+    kms_ok: ['可用', 'ok'],
+    non_kms: ['非 KMS', 'down'],
+    connect_failed: ['连接失败', 'down'],
+    timeout: ['超时', 'warn'],
+    dns_failed: ['域名解析失败', 'down'],
+    blocked_target: ['目标为内网/保留地址，已拒绝', 'warn'],
+    rate_limited: ['请求过于频繁', 'warn'],
+    origin_not_allowed: ['来源不被允许（仅限 ikms.eu.org 页面）', 'warn']
+  };
+
+  function showError(msg) {
+    errEl.hidden = false;
+    errEl.textContent = msg;
+  }
+  function clearError() {
+    errEl.hidden = true;
+    errEl.textContent = '';
+  }
+
+  function render(j) {
+    var label = LABELS[j.classify] || [j.classify || '未知结果', 'warn'];
+    var ok = j.kms_detected === true;
+    var cls = ok ? 'var(--ok)' : (label[1] === 'down' ? 'var(--danger)' : 'var(--warn)');
+    var title = ok ? 'KMS 端点可用' : '检测未通过：' + label[0];
+    var sub = ok
+      ? '1688 端口已接受 MSRPC bind，说明该地址上跑着 KMS/RPC 服务端点。'
+      : '详情见下方分类，原始响应不会展示。';
+
+    var cells = [
+      ['解析到的 IP', j.ip || '—'],
+      ['握手延迟', j.latency_ms == null ? '—' : j.latency_ms + ' ms'],
+      ['KMS 端点', j.kms_detected ? '已响应 bind' : '未响应 bind'],
+      ['KMS 协议版本', '未验证（请求 v' + esc(j.protocol_requested || '6') + '）'],
+      ['产品', j.app_requested ? esc(productName(j.app_requested)) + '（未验证）' : '未指定'],
+      ['本次探测 IP', (j.ips && j.ips.length ? j.ips.join(', ') : '—')]
+    ];
+
+    var html = ''
+      + '<div class="pr-hero">'
+      + '<span class="st-dot ' + (ok ? 'ok' : 'down') + '"></span>'
+      + '<div><p class="pr-title" style="color:' + cls + '">' + esc(title) + '</p>'
+      + '<p class="pr-sub">' + esc(sub) + '</p></div>'
+      + '</div>'
+      + '<div class="pr-grid">'
+      + cells.map(function (c) {
+        return '<div class="pr-cell"><div class="k">' + esc(c[0]) + '</div><div class="v">' + c[1] + '</div></div>';
+      }).join('')
+      + '</div>'
+      + '<p class="pr-note">检测时间：' + esc(j.at || '') + (j.cached ? '（命中缓存）' : '')
+      + '<br>本次只完成 TCP + MSRPC bind 握手，未发送激活报文，因此「协议版本」与「产品可激活」均未验证。</p>';
+
+    outEl.hidden = false;
+    outEl.innerHTML = html;
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    clearError();
+
+    var host = document.getElementById('pf-host').value.trim();
+    var port = document.getElementById('pf-port').value.trim();
+    var protocol = document.getElementById('pf-protocol').value;
+    var app = document.getElementById('pf-app').value;
+
+    if (!host) { showError('请填写 KMS 地址。'); return; }
+    if (port !== '1688') { showError('端口只能是 1688：本站只开放这一个检测端口。'); return; }
+
+    btn.disabled = true;
+    outEl.hidden = true;
+
+    var ctrl = new AbortController();
+    var timer = setTimeout(function () { ctrl.abort(); }, 10000);
+
+    fetch(API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ host: host, port: port, protocol: protocol, app: app || undefined }),
+      signal: ctrl.signal
+    }).then(function (r) {
+      return r.text().then(function (t) {
+        var j = null;
+        try { j = JSON.parse(t); } catch (e) {}
+        if (!j) throw new Error('bad_response');
+        return { status: r.status, body: j };
+      });
+    }).then(function (res) {
+      var j = res.body;
+      if (!j.ok) {
+        showError(j.message || ('检测失败：' + (j.error || 'unknown')));
+        return;
+      }
+      render(j);
+    }).catch(function (e) {
+      if (e && e.name === 'AbortError') showError('请求超时，请稍后重试。');
+      else if (e && e.message === 'bad_response') showError('检测服务返回了无法识别的响应（可能边缘节点无法连出，见部署自测）。');
+      else showError('无法连接检测服务（请确认页面是从 https://ikms.eu.org 打开，接口只允许该来源）。');
+    }).finally(function () {
+      clearTimeout(timer);
+      btn.disabled = false;
+    });
+  });
+})();
+</script>
+</body>
+</html>

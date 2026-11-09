@@ -5,3 +5,5 @@ zcode-context/
 .zcode/
 # 私密投稿 Worker 为自用代码，不纳入公开仓库（本地保留）
 workers/private-submit/
+# 在线检测 Worker 同样为自用代码，整目录不纳入公开仓库（本地保留，部署仍用 wrangler）
+workers/kms-probe/
