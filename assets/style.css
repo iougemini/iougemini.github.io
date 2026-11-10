@@ -318,12 +318,17 @@ html[data-theme="light"] .icon-moon { display: none; }
   color: var(--brand-1);
   margin-bottom: 14px;
 }
-.eyebrow::before {
+/* 标题上方的小标签：左右各一条等宽装饰线，文字居中夹在中间 */
+.eyebrow::before,
+.eyebrow::after {
   content: "";
+  flex: none;
   width: 22px; height: 2px;
   border-radius: 2px;
   background: var(--grad-brand);
 }
+/* 右侧线把渐变方向镜像一次，保证两侧视觉对称 */
+.eyebrow::after { transform: scaleX(-1); }
 .page-title {
   margin: 0 0 10px;
   font-size: clamp(1.7rem, 4vw, 2.5rem);
